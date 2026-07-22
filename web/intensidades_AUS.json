@@ -1,0 +1,169 @@
+{
+ "pais": "Australia",
+ "iso3": "AUS",
+ "moneda": "AUD",
+ "fuente": "Tabla IO 344 sectores PHYS5033 (Assignment 2), Q=CO2 kt",
+ "indicador": "CO2",
+ "nota": "kg de CO2 por AUD de gasto final; combustión directa aparte",
+ "combustion_directa": {
+  "gasolina": {
+   "kg_por_unidad": 2.31,
+   "unidad": "litro"
+  },
+  "gas": {
+   "kg_por_unidad": 3.0,
+   "unidad": "kg (gas LP)"
+  }
+ },
+ "categorias": {
+  "super": {
+   "nombre": "Súper y comida en casa",
+   "kg_co2_por_unidad_moneda": 1.1109,
+   "sectores": [
+    "Meat products",
+    "Fresh meat",
+    "Dairy products",
+    "Cheese",
+    "Vegetable products",
+    "Fruit products",
+    "Rice products",
+    "Breakfast foods",
+    "Food products",
+    "Fish"
+   ]
+  },
+  "restaurantes": {
+   "nombre": "Restaurantes y bares",
+   "kg_co2_por_unidad_moneda": 0.3532,
+   "sectores": [
+    "Hotels, clubs, restaurants and cafes"
+   ]
+  },
+  "renta": {
+   "nombre": "Renta / vivienda",
+   "kg_co2_por_unidad_moneda": 0.1223,
+   "sectores": [
+    "Real estate agent services"
+   ]
+  },
+  "electricidad": {
+   "nombre": "Electricidad",
+   "kg_co2_por_unidad_moneda": 5.7831,
+   "sectores": [
+    "Electricity supply"
+   ]
+  },
+  "gas": {
+   "nombre": "Gas (LP / natural)",
+   "kg_co2_por_unidad_moneda": 0.1397,
+   "sectores": [
+    "Gas supply"
+   ]
+  },
+  "gasolina": {
+   "nombre": "Gasolina",
+   "kg_co2_por_unidad_moneda": 0.3662,
+   "sectores": [
+    "Petrol and diesel"
+   ]
+  },
+  "transporte_pub": {
+   "nombre": "Transporte público",
+   "kg_co2_por_unidad_moneda": 1.9037,
+   "sectores": [
+    "Bus and tramway"
+   ]
+  },
+  "taxi": {
+   "nombre": "Taxi / apps de transporte",
+   "kg_co2_por_unidad_moneda": 1.3264,
+   "sectores": [
+    "Taxi and hire car"
+   ]
+  },
+  "vuelos": {
+   "nombre": "Vuelos",
+   "kg_co2_por_unidad_moneda": 0.5361,
+   "sectores": [
+    "Air and space transport"
+   ]
+  },
+  "ropa": {
+   "nombre": "Ropa y calzado",
+   "kg_co2_por_unidad_moneda": 0.4281,
+   "sectores": [
+    "Clothing",
+    "Footwear"
+   ]
+  },
+  "electronica": {
+   "nombre": "Electrónica y tecnología",
+   "kg_co2_por_unidad_moneda": 0.5264,
+   "sectores": [
+    "Electronic equipment"
+   ]
+  },
+  "muebles": {
+   "nombre": "Muebles y hogar",
+   "kg_co2_por_unidad_moneda": 0.4012,
+   "sectores": [
+    "Furniture",
+    "Mattresses"
+   ]
+  },
+  "salud": {
+   "nombre": "Salud",
+   "kg_co2_por_unidad_moneda": 0.1574,
+   "sectores": [
+    "Pharmaceutical goods for human use",
+    "GPs, dentists, optometrists, ambulance",
+    "Hospitals and nursing homes"
+   ]
+  },
+  "educacion": {
+   "nombre": "Educación",
+   "kg_co2_por_unidad_moneda": 0.0991,
+   "sectores": [
+    "Education"
+   ]
+  },
+  "telecom": {
+   "nombre": "Teléfono e internet",
+   "kg_co2_por_unidad_moneda": 0.1583,
+   "sectores": [
+    "Domestic telecommunication services"
+   ]
+  },
+  "entretenimiento": {
+   "nombre": "Entretenimiento",
+   "kg_co2_por_unidad_moneda": 0.2326,
+   "sectores": [
+    "Motion pictures",
+    "Music and theatre production",
+    "Sport and recreation services (incl horse and dog racing, sports grounds, services)"
+   ]
+  },
+  "hoteles": {
+   "nombre": "Hoteles y viajes",
+   "kg_co2_por_unidad_moneda": 0.3348,
+   "sectores": [
+    "Accommodation"
+   ]
+  },
+  "servicios": {
+   "nombre": "Servicios personales",
+   "kg_co2_por_unidad_moneda": 0.151,
+   "sectores": [
+    "Personal services"
+   ]
+  },
+  "banca": {
+   "nombre": "Banca y seguros",
+   "kg_co2_por_unidad_moneda": 0.0338,
+   "sectores": [
+    "Banking",
+    "Insurance"
+   ]
+  }
+ }
+}
