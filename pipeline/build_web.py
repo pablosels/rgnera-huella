@@ -12,7 +12,9 @@ DOCS.mkdir(exist_ok=True)
 datos = json.loads((ROOT / "web" / "intensidades_MEX.json").read_text(encoding="utf-8"))
 plantilla = (ROOT / "web" / "plantilla.html").read_text(encoding="utf-8")
 
-html = plantilla.replace("__DATOS__", json.dumps(datos, ensure_ascii=False))
+logo = (ROOT / "web" / "logo_b64.txt").read_text(encoding="utf-8").strip()
+html = plantilla.replace("__DATOS__", json.dumps(datos, ensure_ascii=False)) \
+                .replace("__LOGO__", logo)
 (DOCS / "index.html").write_text(html, encoding="utf-8")
 
 # transparencia: publicar también los datos y el CSV de sectores

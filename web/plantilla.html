@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calculadora de Huella Ambiental · RGNERA</title>
 <meta name="description" content="Mide tu huella de carbono personal mensual con datos oficiales de México (INEGI + INECC). Una herramienta gratuita de RGNERA.">
+<link rel="icon" type="image/png" href="__LOGO__">
 <style>
   :root{
     --olive:#475323; --ink:#20261A; --salvia:#8D9A88; --greige:#BFB4A0;
@@ -20,6 +21,7 @@
   }
   main{max-width:680px; margin:0 auto; padding:1.6rem 1rem 3rem}
   header{ text-align:center; padding:1.2rem 0 1.6rem}
+  .logo{display:block; margin:0 auto .55rem; width:76px; height:76px}
   .marca{letter-spacing:.28em; font-weight:700; color:var(--olive); font-size:.85rem}
   h1{font-family:Georgia,"Times New Roman",serif; font-weight:600; font-size:1.7rem;
      line-height:1.25; margin:.5rem 0 .4rem; text-wrap:balance}
@@ -33,7 +35,8 @@
   .cat label{flex:1 1 12rem; min-width:10rem}
   .cat label b{display:block; font-size:.95rem; font-weight:600}
   .cat label span{font-size:.78rem; color:#75705f}
-  .entrada{display:flex; align-items:center; gap:.35rem}
+  .entrada{display:flex; align-items:center; gap:.35rem; flex-wrap:wrap;
+           justify-content:flex-end}
   .entrada .pre{color:#75705f; font-size:.9rem}
   input[type=number]{
     width:6.4rem; padding:.5rem .55rem; border:1.5px solid var(--greige);
@@ -81,8 +84,17 @@
         color:var(--olive); font-variant-numeric:tabular-nums}
   .consejos{background:#EFF0E4; border-radius:10px; padding:1rem 1.1rem;
             margin:1.2rem 0; font-size:.9rem}
-  .consejos h3{font-family:Georgia,serif; font-size:1rem; margin-bottom:.5rem}
-  .consejos li{margin:.4rem 0 .4rem 1.1rem}
+  .consejos h3{font-family:Georgia,serif; font-size:1rem; margin-bottom:.6rem}
+  .consejo{background:var(--card); border:1px solid var(--line); border-radius:8px;
+           padding:.7rem .85rem; margin:.55rem 0}
+  .consejo .enc{display:flex; justify-content:space-between; gap:.6rem;
+                align-items:baseline; flex-wrap:wrap}
+  .consejo .enc b{font-size:.92rem}
+  .consejo .stats{font-size:.78rem; color:#75705f; font-variant-numeric:tabular-nums}
+  .consejo .stats .alto{color:var(--clay); font-weight:700}
+  .consejo .txt{margin-top:.35rem; color:#4c5545}
+  .consejo .ahorro{margin-top:.3rem; font-size:.82rem; color:var(--olive); font-weight:600}
+  .ahorro-total{margin-top:.7rem; font-weight:600; color:var(--ink)}
   /* metodología */
   details{margin:1.6rem 0; font-size:.85rem; color:#5c6553}
   summary{cursor:pointer; font-weight:600; color:var(--olive)}
@@ -102,6 +114,7 @@
 <body>
 <main>
   <header>
+    <img class="logo" src="__LOGO__" alt="RGNERA" width="76" height="76">
     <div class="marca">R G N E R A</div>
     <h1>¿Cuál es tu huella ambiental?</h1>
     <p class="sub">Escribe cuánto gastas al mes en cada rubro (ya pusimos el promedio
@@ -143,7 +156,8 @@
 
     <div class="consejos">
       <h3>💡 Por dónde empezar (según TU huella)</h3>
-      <ul id="consejos"></ul>
+      <div id="consejos"></div>
+      <p class="ahorro-total" id="ahorro-total"></p>
     </div>
 
     <details>
@@ -190,34 +204,42 @@ const GRUPOS = [
   ["✨ Servicios y estilo de vida", ["salud","farmacia","educacion","telecom","entretenimiento","hoteles","personales","otros"]],
 ];
 
-// tarifas CFE domésticas: precio efectivo aproximado por kWh (2026)
+// tarifas CFE: precio efectivo aproximado por kWh (2026, con IVA)
 const TARIFAS_CFE = {
-  "1":1.6, "1A":1.5, "1B":1.4, "1C":1.3, "1D":1.25, "1E":1.1, "1F":1.05, "DAC":6.6
+  "Hogar": {"1":1.6, "1A":1.5, "1B":1.4, "1C":1.3, "1D":1.25, "1E":1.1, "1F":1.05, "DAC":6.6},
+  "Negocio": {"PDBT":4.6, "GDBT":3.9, "GDMTO":2.9, "GDMTH":2.6},
 };
+const PRECIO_TARIFA = Object.assign({}, ...Object.values(TARIFAS_CFE));
 
 // factores físicos (modo pesos de HOY y modo unidades)
 const FIS = {
-  electricidad: {unidad:"kWh", kgU:0.444, precio:1.8},
+  electricidad: {unidad:"kWh", kgU:0.444, precio:1.6},    // precio = tarifa 1
   gasolina:     {unidad:"L",   kgU:2.93,  precio:24.0},   // 2.31 combustión + cadena
   gas:          {unidad:"L",   kgU:1.83,  precio:12.0},   // GLP 1.66 + cadena
 };
 const INFL = DATOS.inflacion_a_hoy;
 const PROMEDIO_MX = 5.1, META = 2.0;
 
-const CONSEJOS = {
-  vuelos:"✈️ Los vuelos son de lo más intenso que existe por peso gastado: junta viajes, prefiere rutas directas y considera trenes/autobús en distancias cortas.",
-  gasolina:"⛽ Comparte auto, revisa presión de llantas y planea rutas; cada litro que no quemas son 2.3 kg de CO₂ menos.",
-  electricidad:"💡 Cambia a LED, seca ropa al sol y revisa el consumo fantasma; en México cada kWh que ahorras evita ~0.44 kg de CO₂e.",
-  super:"🥩 La proteína animal (sobre todo res) domina la huella del súper: un día a la semana sin carne se nota más de lo que crees.",
-  taxi_apps:"🚕 Combina viajes de app con transporte público o bici en trayectos cortos.",
-  transporte_publico:"🚌 Ya usas transporte público: es de lo más eficiente por peso gastado. 👏",
-  gas:"🔥 Un calentador solar de agua puede recortar la mayor parte del gas de tu regadera.",
-  restaurantes:"🍽️ Al comer fuera, los platillos con res pesan hasta 5× más que los de pollo o vegetales.",
-  ropa:"👕 Compra menos y mejor: segunda mano y reparación le ganan por goleada al fast fashion.",
-  electronica:"📱 Alarga la vida de tus aparatos: la mayor parte de su huella se emitió al fabricarlos.",
-  hogar:"🛋️ Muebles duraderos y de segunda mano = huella dividida entre muchos años más.",
-  otros:"🛒 Revisa tus 'otros gastos': lo difuso también suma. Menos compras impulsivas, más experiencias de bajo impacto."
+// Acciones concretas por categoría: fracción típica de reducción de ESA
+// categoría si aplicas la acción (estimaciones conservadoras)
+const ACCIONES = {
+  vuelos:{e:"✈️",t:"Junta viajes y prefiere rutas directas; un vuelo evitado al año es de las decisiones individuales más grandes que existen.",f:0.25},
+  gasolina:{e:"⛽",t:"Comparte auto 2 días a la semana, mantén las llantas infladas y agrupa vueltas: cada litro no quemado son 2.3 kg de CO₂.",f:0.20},
+  electricidad:{e:"💡",t:"LED en toda la casa, matar el consumo fantasma con multicontactos y lavar con agua fría.",f:0.20},
+  gas:{e:"🔥",t:"Un calentador solar de agua recorta la mayor parte del gas de la regadera (se paga solo en 2-3 años).",f:0.55},
+  super:{e:"🥩",t:"La res domina la huella del súper: un día a la semana sin carne roja, y más pollo/leguminosas el resto.",f:0.12},
+  restaurantes:{e:"🍽️",t:"Al comer fuera, los platillos de res pesan hasta 5× más que los de pollo o vegetales: elige distinto, no menos.",f:0.20},
+  apps_comida:{e:"📦",t:"Agrupa pedidos (una entrega, no tres) o recoge tú mismo cuando esté cerca.",f:0.25},
+  taxi_apps:{e:"🚕",t:"Cambia los trayectos cortos de app a metro, camión o bici: mismo destino, fracción del costo y de la huella.",f:0.35},
+  ropa:{e:"👕",t:"Segunda mano, reparar y comprar menos-pero-mejor: el fast fashion emite la mayor parte antes de llegar a ti.",f:0.30},
+  electronica:{e:"📱",t:"Alarga un año más la vida de tus aparatos: casi toda su huella se emitió al fabricarlos.",f:0.30},
+  hogar:{e:"🛋️",t:"Muebles duraderos o de segunda mano: la misma huella dividida entre muchos más años de uso.",f:0.25},
+  hoteles:{e:"🏨",t:"Menos noches pero mejores, hospedajes con certificación ambiental, y destinos cercanos de vez en cuando.",f:0.15},
+  otros:{e:"🛒",t:"Lo difuso también suma: menos compras impulsivas y más experiencias de bajo impacto.",f:0.10},
+  transporte_publico:{e:"🚌",t:"Ya te mueves en transporte público: es de lo más eficiente que hay. Sigue así.",f:0},
 };
+// perfil del mexicano promedio (kg/mes por categoría, con los defaults)
+let PERFIL = {};
 
 function fmt(n, d=1){ return n.toLocaleString("es-MX", {minimumFractionDigits:d, maximumFractionDigits:d}); }
 
@@ -232,7 +254,9 @@ function construir(){
       const per = c.periodo === "anual" ? "año" : "mes";
       const tarifa = k === "electricidad"
         ? `<select class="uni" id="tarifa-cfe" aria-label="tarifa CFE" title="Tu recibo CFE dice tu tarifa arriba a la izquierda">
-             ${Object.keys(TARIFAS_CFE).map(t=>`<option value="${t}"${t==="1"?" selected":""}>Tarifa ${t}</option>`).join("")}
+             ${Object.entries(TARIFAS_CFE).map(([g, ts]) =>
+               `<optgroup label="${g}">${Object.keys(ts).map(t=>
+                 `<option value="${t}"${t==="1"?" selected":""}>Tarifa ${t}</option>`).join("")}</optgroup>`).join("")}
            </select>` : "";
       html += `<div class="cat">
         <label for="in-${k}"><b>${c.nombre}</b><span>${c.pregunta}</span></label>
@@ -258,7 +282,7 @@ function construir(){
   });
   cont.addEventListener("change", (e)=>{
     if (e.target.id === "tarifa-cfe"){
-      FIS.electricidad.precio = TARIFAS_CFE[e.target.value];
+      FIS.electricidad.precio = PRECIO_TARIFA[e.target.value];
       calcular();
       return;
     }
@@ -333,13 +357,43 @@ function calcular(){
   document.getElementById("e-vuelos").textContent  = fmt(kgAnual/250,0);
   document.getElementById("e-km").textContent      = fmt(kgAnual/0.19,0);
 
-  // consejos: top 3 categorías con consejo
-  const lista = document.getElementById("consejos");
-  lista.innerHTML = porCat.slice(0,6).map(([k])=>CONSEJOS[k]).filter(Boolean)
-    .slice(0,3).map(c=>`<li>${c}</li>`).join("");
+  // por dónde empezar: análisis de las categorías más pesadas del usuario
+  const cards = [];
+  let ahorroTotal = 0;
+  for (const [k, kg] of porCat){
+    const a = ACCIONES[k];
+    if (!a || cards.length >= 4 || kg < 5) continue;
+    const c = DATOS.categorias[k];
+    const pct = kg/tot*100;
+    const ref = PERFIL[k] || 0;
+    const ratio = ref > 1 ? kg/ref : 1;
+    let comp = "como el promedio nacional";
+    if (ratio >= 1.3) comp = `<span class="alto">${fmt(ratio,1)}× el promedio nacional</span>`;
+    else if (ratio <= 0.7) comp = `${fmt(ratio,1)}× el promedio (bien 👏)`;
+    const ahorro = kg * a.f * 12;
+    ahorroTotal += ahorro;
+    cards.push(`<div class="consejo">
+      <div class="enc"><b>${a.e} ${c.nombre}</b>
+        <span class="stats">${fmt(kg,0)} kg/mes · ${fmt(pct,0)}% de tu huella · ${comp}</span></div>
+      <div class="txt">${a.t}</div>
+      ${ahorro >= 10 ? `<div class="ahorro">→ ahorro estimado: ~${fmt(ahorro,0)} kg CO₂e al año</div>` : ""}
+    </div>`);
+  }
+  document.getElementById("consejos").innerHTML = cards.join("");
+  const at = document.getElementById("ahorro-total");
+  at.textContent = ahorroTotal >= 50
+    ? `Con estas acciones juntas podrías bajar ~${fmt(ahorroTotal/1000, ahorroTotal>=995?1:2)} t CO₂e al año (${fmt(ahorroTotal/(tot*12)*100,0)}% de tu huella). 🌱`
+    : "";
 }
 
 construir();
+// perfil promedio: kg/mes de cada categoría con los valores default
+for (const k in DATOS.categorias){
+  const c = DATOS.categorias[k];
+  const d = c.gasto_default_mxn;
+  if (FIS[k]) PERFIL[k] = d / FIS[k].precio * FIS[k].kgU;
+  else PERFIL[k] = (c.periodo === "anual" ? d/12 : d) / INFL * c.kg_co2e_por_mxn;
+}
 calcular();
 </script>
 </body>
