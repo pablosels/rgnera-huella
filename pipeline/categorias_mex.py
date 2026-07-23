@@ -49,6 +49,11 @@ CATEGORIAS = {
         "pregunta": "¿Cuánto gastas al mes en comer y beber fuera?",
         "sectores": ["722"],
     },
+    "apps_comida": {
+        "nombre": "Apps de comida (Uber Eats, DiDi Food, Rappi)",
+        "pregunta": "¿Cuánto gastas al mes en pedidos a domicilio?",
+        "sectores": ["722", "492"],
+    },
     "renta": {
         "nombre": "Renta o vivienda",
         "pregunta": "¿Cuánto pagas de renta al mes (o valor equivalente)?",
@@ -84,8 +89,9 @@ CATEGORIAS = {
     },
     "vuelos": {
         "nombre": "Vuelos",
-        "pregunta": "¿Cuánto gastas en vuelos al mes (promedia tu año)?",
+        "pregunta": "¿Cuánto gastas AL AÑO en vuelos?",
         "sectores": ["481"],
+        "periodo": "anual",
     },
     "ropa": {
         "nombre": "Ropa y calzado",
@@ -99,13 +105,20 @@ CATEGORIAS = {
     },
     "hogar": {
         "nombre": "Muebles y artículos del hogar",
-        "pregunta": "¿Cuánto gastas al mes en muebles, electrodomésticos, hogar?",
+        "pregunta": "¿Cuánto gastas AL AÑO en muebles, electrodomésticos, hogar?",
         "sectores": ["337", "335", "339"],
+        "periodo": "anual",
     },
     "salud": {
-        "nombre": "Salud y medicinas",
-        "pregunta": "¿Cuánto gastas al mes en médicos, hospital y farmacia?",
-        "sectores": ["621", "622", "623", "624", "325"],
+        "nombre": "Salud y médicos (sin farmacia)",
+        "pregunta": "¿Cuánto gastas AL AÑO en médicos, dentista, hospital?",
+        "sectores": ["621", "622", "623", "624"],
+        "periodo": "anual",
+    },
+    "farmacia": {
+        "nombre": "Farmacia y medicinas",
+        "pregunta": "¿Cuánto gastas al mes en farmacia?",
+        "sectores": ["325"],
     },
     "educacion": {
         "nombre": "Educación",
@@ -124,8 +137,9 @@ CATEGORIAS = {
     },
     "hoteles": {
         "nombre": "Hoteles y viajes",
-        "pregunta": "¿Cuánto gastas al mes en hospedaje y tours (promedia)?",
+        "pregunta": "¿Cuánto gastas AL AÑO en hospedaje y tours?",
         "sectores": ["721", "487"],
+        "periodo": "anual",
     },
     "personales": {
         "nombre": "Servicios personales",
@@ -196,16 +210,28 @@ def main():
         elif clave == "gas":
             precio_l_2018 = 10.0
             kg_por_mxn = (FISICOS["gas_lp"]["factor"] * 1.10) / precio_l_2018
+        elif clave == "apps_comida":
+            # pedido a domicilio ≈ 80% preparación de alimentos (722) +
+            # 20% logística de entrega (492 mensajería)
+            m722 = float(df.loc["722", "m_gCO2e_peso"]) / 1000
+            m492 = float(df.loc["492", "m_gCO2e_peso"]) / 1000
+            kg_por_mxn = 0.80 * m722 + 0.20 * m492
+            default_mes = 200.0   # gasto típico manual; CP de 722 ya está
+                                  # contado en 'restaurantes'
 
+        periodo = c.get("periodo", "mensual")
         salida["categorias"][clave] = {
             "nombre": c["nombre"],
             "pregunta": c["pregunta"],
             "kg_co2e_por_mxn": round(kg_por_mxn, 5),
             "fisico": c.get("fisico"),
+            "periodo": periodo,
             "sectores_scian": (sorted(sel.index.tolist())
                                if c["sectores"] == "RESTO"
                                else c["sectores"]),
-            "gasto_default_mxn_mes": round(default_mes, 0),
+            # el default se expresa en el periodo de captura
+            "gasto_default_mxn": round(default_mes * (12 if periodo == "anual"
+                                                      else 1), 0),
         }
         nom = c["nombre"][:34]
         print(f"{nom:36s} {kg_por_mxn*1000:7.1f} g/peso | "
@@ -218,8 +244,8 @@ def main():
     # sanity: huella de la persona "promedio" usando los defaults
     tot = 0.0
     for clave, cat in salida["categorias"].items():
-        gasto_2018 = cat["gasto_default_mxn_mes"] / INFLACION_2018_2026
-        tot += gasto_2018 * 12 * cat["kg_co2e_por_mxn"]
+        mens = cat["gasto_default_mxn"] / (12 if cat["periodo"] == "anual" else 1)
+        tot += mens / INFLACION_2018_2026 * 12 * cat["kg_co2e_por_mxn"]
     print(f"\n[sanity] persona promedio (defaults, vía IO): "
           f"{tot/1000:,.2f} t CO2e/año + directos (gasolina/gas ya en $ IO "
           f"aquí; en la web la parte física reemplaza al IO)")
