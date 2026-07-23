@@ -40,9 +40,16 @@ FISICOS = {
 
 CATEGORIAS = {
     "super": {
-        "nombre": "Súper y comida en casa",
-        "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa?",
+        "nombre": "Súper y comida en casa (sin carne roja)",
+        "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa, "
+                    "sin contar la carne roja?",
         "sectores": ["311", "312", "111", "112", "114"],
+    },
+    "carne": {
+        "nombre": "Carne roja (res y cerdo)",
+        "pregunta": "¿Cuánto gastas al mes en carne de res y cerdo "
+                    "(súper o carnicería)?",
+        "sectores": ["112", "311"],
     },
     "restaurantes": {
         "nombre": "Restaurantes, cafés y bares",
@@ -212,6 +219,15 @@ def main():
         elif clave == "gas":
             precio_l_2018 = 10.0
             kg_por_mxn = (FISICOS["gas_lp"]["factor"] * 1.10) / precio_l_2018
+        elif clave == "carne":
+            # Bottom-up del propio inventario INECC 2018:
+            #  res: bovino 3A1+3B1 = 89 Mt, ~65% asignado a carne (vs leche)
+            #       ÷ 1.98 Mt canal ÷ 0.75 rendimiento menudeo ≈ 39 kg CO2e/kg
+            #       ÷ ~150 MXN/kg (2018) ≈ 0.26 kg/MXN
+            #  cerdo: ~6.5 kg CO2e/kg ÷ ~90 MXN/kg ≈ 0.07 kg/MXN
+            #  mezcla de gasto res/cerdo ~55/45 => ~0.17 kg CO2e/MXN de 2018
+            kg_por_mxn = 0.17
+            default_mes = 400.0
         elif clave == "apps_comida":
             # pedido a domicilio ≈ 80% preparación de alimentos (722) +
             # 20% logística de entrega (492 mensajería)
@@ -238,6 +254,10 @@ def main():
         nom = c["nombre"][:34]
         print(f"{nom:36s} {kg_por_mxn*1000:7.1f} g/peso | "
               f"default {default_mes:8,.0f} MXN/mes | {len(sel)} sectores")
+
+    # la carne roja se captura aparte: se descuenta del default del súper
+    salida["categorias"]["super"]["gasto_default_mxn"] -= \
+        salida["categorias"]["carne"]["gasto_default_mxn"]
 
     out = ROOT / "web" / "intensidades_MEX.json"
     out.write_text(json.dumps(salida, ensure_ascii=False, indent=1),

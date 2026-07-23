@@ -29,8 +29,8 @@
  },
  "categorias": {
   "super": {
-   "nombre": "Súper y comida en casa",
-   "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa?",
+   "nombre": "Súper y comida en casa (sin carne roja)",
+   "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa, sin contar la carne roja?",
    "kg_co2e_por_mxn": 0.0517,
    "fisico": null,
    "periodo": "mensual",
@@ -41,7 +41,19 @@
     "112",
     "114"
    ],
-   "gasto_default_mxn": 2409.0
+   "gasto_default_mxn": 2009.0
+  },
+  "carne": {
+   "nombre": "Carne roja (res y cerdo)",
+   "pregunta": "¿Cuánto gastas al mes en carne de res y cerdo (súper o carnicería)?",
+   "kg_co2e_por_mxn": 0.17,
+   "fisico": null,
+   "periodo": "mensual",
+   "sectores_scian": [
+    "112",
+    "311"
+   ],
+   "gasto_default_mxn": 400.0
   },
   "restaurantes": {
    "nombre": "Restaurantes, cafés y bares",

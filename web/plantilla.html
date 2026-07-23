@@ -199,7 +199,7 @@ const DATOS = __DATOS__;
 const GRUPOS = [
   ["🏠 Tu hogar", ["renta","electricidad","gas","hogar"]],
   ["🚗 Tu transporte", ["gasolina","transporte_publico","taxi_apps","vuelos"]],
-  ["🍽️ Tu alimentación", ["super","restaurantes","apps_comida"]],
+  ["🍽️ Tu alimentación", ["super","carne","restaurantes","apps_comida"]],
   ["🛍️ Tus compras", ["ropa","electronica"]],
   ["✨ Servicios y estilo de vida", ["salud","farmacia","educacion","telecom","entretenimiento","hoteles","personales","otros"]],
 ];
@@ -227,7 +227,8 @@ const ACCIONES = {
   gasolina:{e:"⛽",t:"Comparte auto 2 días a la semana, mantén las llantas infladas y agrupa vueltas: cada litro no quemado son 2.3 kg de CO₂.",f:0.20},
   electricidad:{e:"💡",t:"LED en toda la casa, matar el consumo fantasma con multicontactos y lavar con agua fría.",f:0.20},
   gas:{e:"🔥",t:"Un calentador solar de agua recorta la mayor parte del gas de la regadera (se paga solo en 2-3 años).",f:0.55},
-  super:{e:"🥩",t:"La res domina la huella del súper: un día a la semana sin carne roja, y más pollo/leguminosas el resto.",f:0.12},
+  carne:{e:"🥩",t:"La res emite ~40 kg de CO₂e por kilo (rumia metano + estiércol). Un día a la semana sin carne roja, cortes de cerdo o pollo el resto, y res solo de ocasión.",f:0.30},
+  super:{e:"🛒",t:"Planea tus compras para no desperdiciar (en México se pierde ~un tercio de la comida) y prefiere producto local y de temporada.",f:0.10},
   restaurantes:{e:"🍽️",t:"Al comer fuera, los platillos de res pesan hasta 5× más que los de pollo o vegetales: elige distinto, no menos.",f:0.20},
   apps_comida:{e:"📦",t:"Agrupa pedidos (una entrega, no tres) o recoge tú mismo cuando esté cerca.",f:0.25},
   taxi_apps:{e:"🚕",t:"Cambia los trayectos cortos de app a metro, camión o bici: mismo destino, fracción del costo y de la huella.",f:0.35},
