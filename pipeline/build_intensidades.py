@@ -64,11 +64,12 @@ CATEGORIAS_AUS = {
     "super":          {"nombre": "Súper y comida en casa",
                        "sectores": [74, 75, 78, 80, 83, 84, 86, 91, 98, 101]},
     "restaurantes":   {"nombre": "Restaurantes y bares", "sectores": [258]},
-    "renta":          {"nombre": "Renta / vivienda", "sectores": [294]},
+    # 291 Ownership of dwellings (no 294 agentes inmobiliarios): auditoría 22-jul
+    "renta":          {"nombre": "Renta / vivienda", "sectores": [291]},
     "electricidad":   {"nombre": "Electricidad", "sectores": [240]},
     "gas":            {"nombre": "Gas (LP / natural)", "sectores": [241]},
     "gasolina":       {"nombre": "Gasolina", "sectores": [139]},
-    "transporte_pub": {"nombre": "Transporte público", "sectores": [261]},
+    "transporte_pub": {"nombre": "Transporte público", "sectores": [261, 264]},
     "taxi":           {"nombre": "Taxi / apps de transporte", "sectores": [262]},
     "vuelos":         {"nombre": "Vuelos", "sectores": [268]},
     "ropa":           {"nombre": "Ropa y calzado", "sectores": [118, 119]},
@@ -88,9 +89,13 @@ CATEGORIAS_AUS = {
 # (mejora del punto 5 del informe). Factores estándar IPCC; el precio por
 # unidad convierte $/mes -> unidades físicas y se suma a la parte indirecta.
 COMBUSTION_DIRECTA = {
-    # kg CO2 por unidad física, y precio típico por unidad en la moneda local
-    "gasolina": {"kg_por_unidad": 2.31, "unidad": "litro"},
-    "gas":      {"kg_por_unidad": 3.00, "unidad": "kg (gas LP)"},
+    # kg CO2 por unidad física + precio típico por unidad (moneda local)
+    "gasolina":    {"kg_por_unidad": 2.31, "unidad": "litro",
+                    "precio_default_aud": 1.70},
+    "gas_natural": {"kg_por_unidad": 0.0515, "unidad": "MJ",
+                    "precio_default_aud": 0.035},
+    "gas_lp":      {"kg_por_unidad": 2.98, "unidad": "kg",
+                    "precio_default_aud": 2.50},
 }
 
 
@@ -108,10 +113,14 @@ def exportar_aus():
     salida = {
         "pais": "Australia",
         "iso3": "AUS",
-        "moneda": "AUD",
-        "fuente": "Tabla IO 344 sectores PHYS5033 (Assignment 2), Q=CO2 kt",
-        "indicador": "CO2",
-        "nota": "kg de CO2 por AUD de gasto final; combustión directa aparte",
+        "moneda": "AUD (de ~2009: tabla ISA/USyd a precios básicos)",
+        "anio_tabla": "circa 2008-09",
+        "fuente": "Tabla IO 344 sectores PHYS5033 (Assignment 2), Q=CO2e kt",
+        "indicador": "CO2e",
+        "nota": "kg de CO2e por AUD a precios básicos ~2009. Uso: solo "
+                "referencia/validación del método; para gasto de consumidor "
+                "actual se requiere ajuste por inflación y márgenes. La "
+                "energía directa usa los factores físicos aparte.",
         "combustion_directa": COMBUSTION_DIRECTA,
         "categorias": cats,
     }

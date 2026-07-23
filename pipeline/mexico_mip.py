@@ -130,6 +130,7 @@ PUENTE = [
     # Agricultura
     ("[3A] Fermentación entérica",                           "112", 1.0),
     ("[3B] Gestión del estiércol",                           "112", 1.0),
+    ("[3B5] Emisiones indirectas de los N2O",                "112", 1.0),
     ("[3C] Cultivo del arroz",                               "111", 1.0),
     ("[3D1] Emisiones directas de los N2O",                  "111", 1.0),
     ("[3D2] Emisiones indirectas de los N2O",                "111", 1.0),

@@ -9,9 +9,9 @@
  "unidad_intensidad": "kg CO2e por MXN (de 2018)",
  "fisicos": {
   "electricidad": {
-   "factor": 0.435,
+   "factor": 0.444,
    "unidad": "kg CO2e por kWh",
-   "fuente": "Factor de emisión del Sistema Eléctrico Nacional (SEMARNAT/CRE), más reciente",
+   "fuente": "Aviso FESEN 2024, CRE/SEMARNAT (0.444 tCO2e/MWh)",
    "precio_default_mxn": 1.8
   },
   "gasolina": {
@@ -31,7 +31,7 @@
   "super": {
    "nombre": "Súper y comida en casa",
    "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa?",
-   "kg_co2e_por_mxn": 0.06759,
+   "kg_co2e_por_mxn": 0.0517,
    "fisico": null,
    "sectores_scian": [
     "311",
@@ -45,7 +45,7 @@
   "restaurantes": {
    "nombre": "Restaurantes, cafés y bares",
    "pregunta": "¿Cuánto gastas al mes en comer y beber fuera?",
-   "kg_co2e_por_mxn": 0.01753,
+   "kg_co2e_por_mxn": 0.01756,
    "fisico": null,
    "sectores_scian": [
     "722"
@@ -115,7 +115,7 @@
   "vuelos": {
    "nombre": "Vuelos",
    "pregunta": "¿Cuánto gastas en vuelos al mes (promedia tu año)?",
-   "kg_co2e_por_mxn": 0.09111,
+   "kg_co2e_por_mxn": 0.09112,
    "fisico": null,
    "sectores_scian": [
     "481"
@@ -125,7 +125,7 @@
   "ropa": {
    "nombre": "Ropa y calzado",
    "pregunta": "¿Cuánto gastas al mes en ropa y zapatos?",
-   "kg_co2e_por_mxn": 0.03642,
+   "kg_co2e_por_mxn": 0.0246,
    "fisico": null,
    "sectores_scian": [
     "315",
@@ -138,7 +138,7 @@
   "electronica": {
    "nombre": "Electrónica y tecnología",
    "pregunta": "¿Cuánto gastas al mes en celular, cómputo, gadgets?",
-   "kg_co2e_por_mxn": 0.04001,
+   "kg_co2e_por_mxn": 0.02806,
    "fisico": null,
    "sectores_scian": [
     "334"
@@ -148,7 +148,7 @@
   "hogar": {
    "nombre": "Muebles y artículos del hogar",
    "pregunta": "¿Cuánto gastas al mes en muebles, electrodomésticos, hogar?",
-   "kg_co2e_por_mxn": 0.03866,
+   "kg_co2e_por_mxn": 0.02725,
    "fisico": null,
    "sectores_scian": [
     "337",
@@ -197,7 +197,7 @@
   "entretenimiento": {
    "nombre": "Entretenimiento y deporte",
    "pregunta": "¿Cuánto gastas al mes en cine, conciertos, gym, deporte?",
-   "kg_co2e_por_mxn": 0.01466,
+   "kg_co2e_por_mxn": 0.01467,
    "fisico": null,
    "sectores_scian": [
     "711",
@@ -210,7 +210,7 @@
   "hoteles": {
    "nombre": "Hoteles y viajes",
    "pregunta": "¿Cuánto gastas al mes en hospedaje y tours (promedia)?",
-   "kg_co2e_por_mxn": 0.01548,
+   "kg_co2e_por_mxn": 0.0155,
    "fisico": null,
    "sectores_scian": [
     "721",
@@ -231,7 +231,7 @@
   "otros": {
    "nombre": "Otros gastos",
    "pregunta": "¿Cuánto más gastas al mes (aprox.) en todo lo demás?",
-   "kg_co2e_por_mxn": 0.01822,
+   "kg_co2e_por_mxn": 0.01823,
    "fisico": null,
    "sectores_scian": [
     "113",

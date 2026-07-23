@@ -1,18 +1,26 @@
 {
  "pais": "Australia",
  "iso3": "AUS",
- "moneda": "AUD",
- "fuente": "Tabla IO 344 sectores PHYS5033 (Assignment 2), Q=CO2 kt",
- "indicador": "CO2",
- "nota": "kg de CO2 por AUD de gasto final; combustión directa aparte",
+ "moneda": "AUD (de ~2009: tabla ISA/USyd a precios básicos)",
+ "anio_tabla": "circa 2008-09",
+ "fuente": "Tabla IO 344 sectores PHYS5033 (Assignment 2), Q=CO2e kt",
+ "indicador": "CO2e",
+ "nota": "kg de CO2e por AUD a precios básicos ~2009. Uso: solo referencia/validación del método; para gasto de consumidor actual se requiere ajuste por inflación y márgenes. La energía directa usa los factores físicos aparte.",
  "combustion_directa": {
   "gasolina": {
    "kg_por_unidad": 2.31,
-   "unidad": "litro"
+   "unidad": "litro",
+   "precio_default_aud": 1.7
   },
-  "gas": {
-   "kg_por_unidad": 3.0,
-   "unidad": "kg (gas LP)"
+  "gas_natural": {
+   "kg_por_unidad": 0.0515,
+   "unidad": "MJ",
+   "precio_default_aud": 0.035
+  },
+  "gas_lp": {
+   "kg_por_unidad": 2.98,
+   "unidad": "kg",
+   "precio_default_aud": 2.5
   }
  },
  "categorias": {
@@ -41,9 +49,9 @@
   },
   "renta": {
    "nombre": "Renta / vivienda",
-   "kg_co2_por_unidad_moneda": 0.1223,
+   "kg_co2_por_unidad_moneda": 0.0437,
    "sectores": [
-    "Real estate agent services"
+    "Ownership of dwellings"
    ]
   },
   "electricidad": {
@@ -69,9 +77,10 @@
   },
   "transporte_pub": {
    "nombre": "Transporte público",
-   "kg_co2_por_unidad_moneda": 1.9037,
+   "kg_co2_por_unidad_moneda": 1.2931,
    "sectores": [
-    "Bus and tramway"
+    "Bus and tramway",
+    "Railway passenger transport services"
    ]
   },
   "taxi": {

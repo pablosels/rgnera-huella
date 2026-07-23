@@ -26,9 +26,9 @@ INFLACION_2018_2026 = 1.47      # INPC aprox jul-2018 -> jul-2026; ajustable
 
 # Factores físicos de combustión directa (verificar en auditoría)
 FISICOS = {
-    "electricidad": {"factor": 0.435, "unidad": "kg CO2e por kWh",
-                     "fuente": "Factor de emisión del Sistema Eléctrico "
-                               "Nacional (SEMARNAT/CRE), más reciente",
+    "electricidad": {"factor": 0.444, "unidad": "kg CO2e por kWh",
+                     "fuente": "Aviso FESEN 2024, CRE/SEMARNAT (0.444 "
+                               "tCO2e/MWh)",
                      "precio_default_mxn": 1.8},
     "gasolina": {"factor": 2.31, "unidad": "kg CO2 por litro",
                  "fuente": "IPCC 2006 gasolina automotriz",
@@ -172,6 +172,17 @@ def main():
         default_mes = cp_total_mmxn * 1e6 / POB_2018 / 12 * INFLACION_2018_2026
 
         kg_por_mxn = inten_g_peso / 1000
+
+        # Bienes al menudeo: el usuario paga precio comprador (margen de
+        # comercio + IVA) pero m está a precios básicos del productor.
+        # Mezcla: (1-f)·m_producto + f·m_comercio_menudeo, con f aprox.
+        # de márgenes COU + IVA (afinable con la COU de INEGI).
+        MARGENES = {"super": 0.28, "ropa": 0.45,
+                    "electronica": 0.40, "hogar": 0.40}
+        if clave in MARGENES:
+            f = MARGENES[clave]
+            m461 = float(df.loc["461", "m_gCO2e_peso"]) / 1000
+            kg_por_mxn = (1 - f) * kg_por_mxn + f * m461
 
         # Combustibles: en modo pesos la intensidad correcta es
         # combustión física + cadena de producción, no el sector IO
