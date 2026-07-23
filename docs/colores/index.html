@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elige el color del banner · RGNERA</title>
+<style>
+  :root{--cream:#F5F1E6; --amber:#C58A2E; --sage:#AEB98C; --olive:#475323}
+  *{box-sizing:border-box; margin:0}
+  body{font-family:"Segoe UI",-apple-system,Roboto,sans-serif; background:#eceae2;
+       color:#20261A; padding:18px 14px 60px}
+  .head{max-width:640px; margin:0 auto 6px; text-align:center}
+  .head h1{font-family:Georgia,serif; font-size:1.5rem; margin-bottom:.3rem}
+  .head p{color:#5c6553; font-size:.95rem; max-width:34rem; margin:0 auto}
+  .opt{max-width:640px; margin:26px auto 0; border-radius:14px; overflow:hidden;
+       box-shadow:0 6px 20px rgba(0,0,0,.12); background:#fff}
+  .tag{display:flex; justify-content:space-between; align-items:center;
+       padding:.7rem 1rem; font-size:.9rem}
+  .tag b{font-size:1rem}
+  .rec{background:var(--amber); color:#231a0a; font-size:.7rem; font-weight:700;
+       text-transform:uppercase; letter-spacing:.08em; padding:.2rem .6rem; border-radius:999px}
+  /* franja "mar" para simular la transición */
+  .sea{height:70px; background:
+     linear-gradient(180deg,#5b93b8 0%, #3d7ba0 55%, #2f6d90 100%);
+     position:relative}
+  .sea::after{content:"↑ tu sección de mar (hero)"; position:absolute; left:12px; top:8px;
+     color:#eaf3fb; font-size:.72rem; opacity:.85}
+  /* el banner */
+  .ban{padding:1.6rem 1.2rem; text-align:center; color:var(--cream)}
+  .ban .eyebrow{text-transform:uppercase; letter-spacing:.18em; font-size:.66rem;
+     font-weight:700; opacity:.85; margin-bottom:.5rem}
+  .ban h2{font-family:Georgia,serif; font-weight:600; font-size:1.55rem; line-height:1.14;
+     margin-bottom:.55rem}
+  .ban h2 em{font-style:normal}
+  .ban p{font-size:.9rem; line-height:1.4; max-width:30rem; margin:0 auto .9rem; opacity:.92}
+  .btn{display:inline-flex; align-items:center; gap:.4rem; background:var(--amber);
+     color:#231a0a; font-weight:700; padding:.7rem 1.5rem; border-radius:999px;
+     text-decoration:none; font-size:.98rem; box-shadow:0 5px 14px rgba(0,0,0,.22)}
+
+  /* --- Opción A: TEAL (verde-mar, puente) --- */
+  .teal{background:radial-gradient(130% 130% at 82% 8%,#1c7367 0%,#155a51 48%,#0e3f39 100%)}
+  .teal .eyebrow{color:#a9ddd1}
+  .teal h2 em{color:#f0d79b}
+  /* --- Opción B: AZUL OCÉANO --- */
+  .ocean{background:radial-gradient(130% 130% at 82% 8%,#255f8a 0%,#1a4a72 48%,#123653 100%)}
+  .ocean .eyebrow{color:#a9cde6}
+  .ocean h2 em{color:#f0d79b}
+  /* --- Opción C: CREMA (claro) --- */
+  .crema{background:#f3ecdb; color:#3a3d2f}
+  .crema .eyebrow{color:#8a7a3f}
+  .crema h2{color:var(--olive)}
+  .crema h2 em{color:#7a6a20}
+  .crema p{color:#5c5943; opacity:1}
+  /* --- Opción D: OLIVO (actual) --- */
+  .olivo{background:radial-gradient(130% 130% at 82% 8%,#52602c 0%,#475323 48%,#39481c 100%)}
+  .olivo .eyebrow{color:var(--sage)}
+  .olivo h2 em{color:#e9cb8d}
+
+  .pick{text-align:center; padding:.8rem; font-size:.85rem; color:#5c6553;
+    background:#f7f5ef; border-top:1px solid #e3dccb}
+</style>
+</head>
+<body>
+  <div class="head">
+    <h1>Elige el color del banner</h1>
+    <p>Cada opción muestra el banner justo debajo de una franja azul “mar”,
+       para que veas la transición. Dime cuál te late (A, B, C o D).</p>
+  </div>
+
+  <div class="opt">
+    <div class="tag"><b>A · Verde-mar (teal)</b><span class="rec">Recomendado</span></div>
+    <div class="sea"></div>
+    <div class="ban teal">
+      <div class="eyebrow">RGNERA · Herramienta gratuita</div>
+      <h2>¿Cuánto pesa tu estilo de vida? <em>Mide tu huella ambiental.</em></h2>
+      <p>Un tono entre el azul del mar y el verde de tu marca: hace de puente.</p>
+      <a class="btn" href="#">Calcular mi huella →</a>
+    </div>
+    <div class="pick">Puente natural entre el mar (azul) y RGNERA (verde). El más armónico.</div>
+  </div>
+
+  <div class="opt">
+    <div class="tag"><b>B · Azul océano</b></div>
+    <div class="sea"></div>
+    <div class="ban ocean">
+      <div class="eyebrow">RGNERA · Herramienta gratuita</div>
+      <h2>¿Cuánto pesa tu estilo de vida? <em>Mide tu huella ambiental.</em></h2>
+      <p>Sigue la línea del mar; se funde con el hero sin salto de color.</p>
+      <a class="btn" href="#">Calcular mi huella →</a>
+    </div>
+    <div class="pick">Máxima continuidad con el mar, pero se aleja del verde de la marca.</div>
+  </div>
+
+  <div class="opt">
+    <div class="tag"><b>C · Crema (claro)</b></div>
+    <div class="sea"></div>
+    <div class="ban crema">
+      <div class="eyebrow">RGNERA · Herramienta gratuita</div>
+      <h2>¿Cuánto pesa tu estilo de vida? <em>Mide tu huella ambiental.</em></h2>
+      <p>Fondo claro con acentos olivo y ámbar: suave, no compite con nada.</p>
+      <a class="btn" href="#">Calcular mi huella →</a>
+    </div>
+    <div class="pick">Elegante y neutro; “respira” entre secciones y no choca con el azul.</div>
+  </div>
+
+  <div class="opt">
+    <div class="tag"><b>D · Olivo (el actual)</b></div>
+    <div class="sea"></div>
+    <div class="ban olivo">
+      <div class="eyebrow">RGNERA · Herramienta gratuita</div>
+      <h2>¿Cuánto pesa tu estilo de vida? <em>Mide tu huella ambiental.</em></h2>
+      <p>El verde de tu marca, pero es el que sientes que “salta” desde el mar.</p>
+      <a class="btn" href="#">Calcular mi huella →</a>
+    </div>
+    <div class="pick">100% de marca, pero es el salto azul→verde que no te convence.</div>
+  </div>
+</body>
+</html>
