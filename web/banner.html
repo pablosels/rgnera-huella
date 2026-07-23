@@ -25,9 +25,11 @@
   h1{font-family:Georgia,"Times New Roman",serif; font-weight:600;
      font-size:clamp(1.3rem,5vw,1.7rem); line-height:1.14; text-wrap:balance}
   h1 em{color:#e9cb8d; font-style:normal}
-  /* párrafo corto en celular; el largo solo aparece en pantallas anchas */
-  p{font-size:.9rem; color:#e7e6d8; line-height:1.4; max-width:32rem}
+  /* en celular se ocultan párrafo y nota: solo logo+título+botón (~170px,
+     imposible que se corte o salga scroll sea cual sea el alto del recuadro) */
+  p{font-size:.9rem; color:#e7e6d8; line-height:1.4; max-width:32rem; display:none}
   p .full{display:none}
+  .meta{display:none}
   .btn{
     display:inline-flex; align-items:center; gap:.45rem; white-space:nowrap;
     margin-top:.15rem; background:var(--amber); color:#231a0a; text-decoration:none;
@@ -45,11 +47,11 @@
     .logo{width:60px; height:60px}
     .eyebrow{font-size:.72rem}
     h1{font-size:2rem}
-    p{font-size:1.02rem; line-height:1.5}
+    p{display:block; font-size:1.02rem; line-height:1.5}
     p .short{display:none}
     p .full{display:inline}
     .btn{font-size:1.05rem; padding:.85rem 1.9rem; margin-top:.3rem}
-    .meta{font-size:.78rem}
+    .meta{display:block; font-size:.78rem}
   }
 </style>
 </head>
