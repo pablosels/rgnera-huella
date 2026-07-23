@@ -1,0 +1,283 @@
+{
+ "pais": "México",
+ "iso3": "MEX",
+ "moneda": "MXN",
+ "anio_base": 2018,
+ "poblacion": 125327797,
+ "inflacion_a_hoy": 1.47,
+ "fuente": "MIP 2018 INEGI (78 subsectores SCIAN, precios básicos) + INEGyCEI 2018 INECC (tCO2e). Metodología Leontief EEIO; véase pipeline/.",
+ "unidad_intensidad": "kg CO2e por MXN (de 2018)",
+ "fisicos": {
+  "electricidad": {
+   "factor": 0.444,
+   "unidad": "kg CO2e por kWh",
+   "fuente": "Aviso FESEN 2024, CRE/SEMARNAT (0.444 tCO2e/MWh)",
+   "precio_default_mxn": 1.8
+  },
+  "gasolina": {
+   "factor": 2.31,
+   "unidad": "kg CO2 por litro",
+   "fuente": "IPCC 2006 gasolina automotriz",
+   "precio_default_mxn": 24.0
+  },
+  "gas_lp": {
+   "factor": 1.66,
+   "unidad": "kg CO2 por litro",
+   "fuente": "IPCC 2006 GLP (2.98 kg/kg, densidad 0.54)",
+   "precio_default_mxn": 12.0
+  }
+ },
+ "categorias": {
+  "super": {
+   "nombre": "Súper y comida en casa",
+   "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa?",
+   "kg_co2e_por_mxn": 0.0517,
+   "fisico": null,
+   "sectores_scian": [
+    "311",
+    "312",
+    "111",
+    "112",
+    "114"
+   ],
+   "gasto_default_mxn_mes": 2409.0
+  },
+  "restaurantes": {
+   "nombre": "Restaurantes, cafés y bares",
+   "pregunta": "¿Cuánto gastas al mes en comer y beber fuera?",
+   "kg_co2e_por_mxn": 0.01756,
+   "fisico": null,
+   "sectores_scian": [
+    "722"
+   ],
+   "gasto_default_mxn_mes": 481.0
+  },
+  "renta": {
+   "nombre": "Renta o vivienda",
+   "pregunta": "¿Cuánto pagas de renta al mes (o valor equivalente)?",
+   "kg_co2e_por_mxn": 0.00574,
+   "fisico": null,
+   "sectores_scian": [
+    "531"
+   ],
+   "gasto_default_mxn_mes": 1791.0
+  },
+  "electricidad": {
+   "nombre": "Electricidad (recibo CFE)",
+   "pregunta": "¿De cuánto es tu recibo de luz mensual (o kWh)?",
+   "kg_co2e_por_mxn": 0.25372,
+   "fisico": "electricidad",
+   "sectores_scian": [
+    "221"
+   ],
+   "gasto_default_mxn_mes": 284.0
+  },
+  "gasolina": {
+   "nombre": "Gasolina",
+   "pregunta": "¿Cuánto gastas de gasolina al mes?",
+   "kg_co2e_por_mxn": 0.14907,
+   "fisico": "gasolina",
+   "sectores_scian": [
+    "324"
+   ],
+   "gasto_default_mxn_mes": 446.0
+  },
+  "gas": {
+   "nombre": "Gas LP / natural",
+   "pregunta": "¿Cuánto gastas de gas al mes?",
+   "kg_co2e_por_mxn": 0.1826,
+   "fisico": "gas_lp",
+   "sectores_scian": [
+    "221"
+   ],
+   "gasto_default_mxn_mes": 284.0
+  },
+  "transporte_publico": {
+   "nombre": "Transporte público",
+   "pregunta": "¿Cuánto gastas al mes en metro, camión, combi?",
+   "kg_co2e_por_mxn": 0.07608,
+   "fisico": null,
+   "sectores_scian": [
+    "485"
+   ],
+   "gasto_default_mxn_mes": 692.0
+  },
+  "taxi_apps": {
+   "nombre": "Taxi y apps (Uber, Didi)",
+   "pregunta": "¿Cuánto gastas al mes en taxis o apps de transporte?",
+   "kg_co2e_por_mxn": 0.07608,
+   "fisico": null,
+   "sectores_scian": [
+    "485"
+   ],
+   "gasto_default_mxn_mes": 692.0
+  },
+  "vuelos": {
+   "nombre": "Vuelos",
+   "pregunta": "¿Cuánto gastas en vuelos al mes (promedia tu año)?",
+   "kg_co2e_por_mxn": 0.09112,
+   "fisico": null,
+   "sectores_scian": [
+    "481"
+   ],
+   "gasto_default_mxn_mes": 184.0
+  },
+  "ropa": {
+   "nombre": "Ropa y calzado",
+   "pregunta": "¿Cuánto gastas al mes en ropa y zapatos?",
+   "kg_co2e_por_mxn": 0.0246,
+   "fisico": null,
+   "sectores_scian": [
+    "315",
+    "316",
+    "313",
+    "314"
+   ],
+   "gasto_default_mxn_mes": 263.0
+  },
+  "electronica": {
+   "nombre": "Electrónica y tecnología",
+   "pregunta": "¿Cuánto gastas al mes en celular, cómputo, gadgets?",
+   "kg_co2e_por_mxn": 0.02806,
+   "fisico": null,
+   "sectores_scian": [
+    "334"
+   ],
+   "gasto_default_mxn_mes": 265.0
+  },
+  "hogar": {
+   "nombre": "Muebles y artículos del hogar",
+   "pregunta": "¿Cuánto gastas al mes en muebles, electrodomésticos, hogar?",
+   "kg_co2e_por_mxn": 0.02725,
+   "fisico": null,
+   "sectores_scian": [
+    "337",
+    "335",
+    "339"
+   ],
+   "gasto_default_mxn_mes": 321.0
+  },
+  "salud": {
+   "nombre": "Salud y medicinas",
+   "pregunta": "¿Cuánto gastas al mes en médicos, hospital y farmacia?",
+   "kg_co2e_por_mxn": 0.03567,
+   "fisico": null,
+   "sectores_scian": [
+    "621",
+    "622",
+    "623",
+    "624",
+    "325"
+   ],
+   "gasto_default_mxn_mes": 757.0
+  },
+  "educacion": {
+   "nombre": "Educación",
+   "pregunta": "¿Cuánto gastas al mes en colegiaturas y cursos?",
+   "kg_co2e_por_mxn": 0.00686,
+   "fisico": null,
+   "sectores_scian": [
+    "611"
+   ],
+   "gasto_default_mxn_mes": 246.0
+  },
+  "telecom": {
+   "nombre": "Teléfono, internet y streaming",
+   "pregunta": "¿Cuánto gastas al mes en celular, internet y plataformas?",
+   "kg_co2e_por_mxn": 0.02241,
+   "fisico": null,
+   "sectores_scian": [
+    "517",
+    "518",
+    "515",
+    "519"
+   ],
+   "gasto_default_mxn_mes": 379.0
+  },
+  "entretenimiento": {
+   "nombre": "Entretenimiento y deporte",
+   "pregunta": "¿Cuánto gastas al mes en cine, conciertos, gym, deporte?",
+   "kg_co2e_por_mxn": 0.01467,
+   "fisico": null,
+   "sectores_scian": [
+    "711",
+    "712",
+    "713",
+    "512"
+   ],
+   "gasto_default_mxn_mes": 213.0
+  },
+  "hoteles": {
+   "nombre": "Hoteles y viajes",
+   "pregunta": "¿Cuánto gastas al mes en hospedaje y tours (promedia)?",
+   "kg_co2e_por_mxn": 0.0155,
+   "fisico": null,
+   "sectores_scian": [
+    "721",
+    "487"
+   ],
+   "gasto_default_mxn_mes": 379.0
+  },
+  "personales": {
+   "nombre": "Servicios personales",
+   "pregunta": "¿Cuánto gastas al mes en estética, tintorería, etc.?",
+   "kg_co2e_por_mxn": 0.01026,
+   "fisico": null,
+   "sectores_scian": [
+    "812"
+   ],
+   "gasto_default_mxn_mes": 209.0
+  },
+  "otros": {
+   "nombre": "Otros gastos",
+   "pregunta": "¿Cuánto más gastas al mes (aprox.) en todo lo demás?",
+   "kg_co2e_por_mxn": 0.01823,
+   "fisico": null,
+   "sectores_scian": [
+    "113",
+    "115",
+    "211",
+    "212",
+    "213",
+    "236",
+    "237",
+    "238",
+    "321",
+    "322",
+    "323",
+    "326",
+    "327",
+    "331",
+    "332",
+    "333",
+    "336",
+    "431",
+    "461",
+    "482",
+    "483",
+    "484",
+    "486",
+    "488",
+    "491",
+    "492",
+    "493",
+    "511",
+    "521",
+    "522",
+    "523",
+    "524",
+    "532",
+    "533",
+    "541",
+    "551",
+    "561",
+    "562",
+    "811",
+    "813",
+    "814",
+    "931"
+   ],
+   "gasto_default_mxn_mes": 5901.0
+  }
+ }
+}

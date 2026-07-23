@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de Huella Ambiental · RGNERA</title>
+<meta name="description" content="Mide tu huella de carbono personal mensual con datos oficiales de México (INEGI + INECC). Una herramienta gratuita de RGNERA.">
+<style>
+  :root{
+    --olive:#475323; --ink:#20261A; --salvia:#8D9A88; --greige:#BFB4A0;
+    --cream:#F5F1E6; --amber:#C58A2E; --clay:#B5765A; --sage:#AEB98C;
+    --card:#FFFFFF; --line:#E3DCCB;
+  }
+  *{box-sizing:border-box; margin:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream); color:var(--ink);
+    font-family:"Segoe UI", -apple-system, Roboto, "Helvetica Neue", sans-serif;
+    line-height:1.55; padding-bottom:84px;
+  }
+  main{max-width:680px; margin:0 auto; padding:1.6rem 1rem 3rem}
+  header{ text-align:center; padding:1.2rem 0 1.6rem}
+  .marca{letter-spacing:.28em; font-weight:700; color:var(--olive); font-size:.85rem}
+  h1{font-family:Georgia,"Times New Roman",serif; font-weight:600; font-size:1.7rem;
+     line-height:1.25; margin:.5rem 0 .4rem; text-wrap:balance}
+  .sub{color:#5c6553; font-size:.95rem; max-width:34rem; margin:0 auto}
+  h2{font-family:Georgia,serif; font-size:1.15rem; margin:1.8rem 0 .7rem;
+     display:flex; align-items:center; gap:.5rem}
+  h2 .em{font-size:1.15rem}
+  .cat{background:var(--card); border:1px solid var(--line); border-radius:10px;
+       padding:.8rem .9rem; margin:.55rem 0; display:flex; align-items:center;
+       gap:.7rem; flex-wrap:wrap}
+  .cat label{flex:1 1 12rem; min-width:10rem}
+  .cat label b{display:block; font-size:.95rem; font-weight:600}
+  .cat label span{font-size:.78rem; color:#75705f}
+  .entrada{display:flex; align-items:center; gap:.35rem}
+  .entrada .pre{color:#75705f; font-size:.9rem}
+  input[type=number]{
+    width:6.4rem; padding:.5rem .55rem; border:1.5px solid var(--greige);
+    border-radius:8px; font-size:1rem; text-align:right; background:#FDFCF8;
+    color:var(--ink); font-variant-numeric:tabular-nums;
+  }
+  input[type=number]:focus{outline:2px solid var(--olive); border-color:var(--olive)}
+  .uni{border:1.5px solid var(--greige); background:#FDFCF8; border-radius:8px;
+       padding:.45rem .5rem; font-size:.85rem; color:var(--ink)}
+  .kg{flex-basis:100%; font-size:.75rem; color:var(--salvia); text-align:right;
+      font-variant-numeric:tabular-nums; min-height:1em}
+  /* resultados */
+  #resultados{margin-top:2.4rem; border-top:2px solid var(--olive); padding-top:1.4rem}
+  .hero{background:var(--olive); color:var(--cream); border-radius:14px;
+        padding:1.4rem 1.2rem; text-align:center}
+  .hero .num{font-family:Georgia,serif; font-size:3rem; line-height:1;
+             font-variant-numeric:tabular-nums}
+  .hero .um{font-size:1rem; color:var(--sage)}
+  .hero .mes{margin-top:.45rem; font-size:.9rem; color:var(--sage)}
+  .contexto{font-size:.9rem; margin:.9rem 0 0; color:#5c6553; text-align:center}
+  /* comparativa */
+  .comp{margin:1.5rem 0}
+  .fila-comp{display:grid; grid-template-columns:7.2rem 1fr 3.4rem; gap:.55rem;
+             align-items:center; margin:.5rem 0; font-size:.85rem}
+  .fila-comp .nom{text-align:right; color:#5c6553}
+  .pista{background:#EAE4D4; border-radius:4px; height:14px; position:relative}
+  .barra{height:14px; border-radius:3px 4px 4px 3px; background:var(--salvia);
+         min-width:2px; transition:width .5s ease}
+  .barra.tu{background:var(--amber)}
+  .fila-comp .val{font-variant-numeric:tabular-nums; color:var(--ink); font-weight:600}
+  /* desglose */
+  .fila-des{display:grid; grid-template-columns:11.5rem 1fr 4.4rem; gap:.5rem;
+            align-items:center; margin:.4rem 0; font-size:.83rem}
+  .fila-des .nom{text-align:right; color:#5c6553; overflow:hidden;
+                 text-overflow:ellipsis; white-space:nowrap}
+  .fila-des .barra{background:var(--olive); height:12px}
+  .fila-des .val{font-variant-numeric:tabular-nums; color:#5c6553}
+  .fila-des.top .nom, .fila-des.top .val{font-weight:700; color:var(--ink)}
+  .fila-des:hover .barra{background:var(--amber)}
+  /* equivalencias y consejos */
+  .equiv{display:flex; gap:.6rem; flex-wrap:wrap; margin:1.3rem 0}
+  .eq{flex:1 1 9.5rem; background:var(--card); border:1px solid var(--line);
+      border-radius:10px; padding:.75rem .8rem; font-size:.82rem; color:#5c6553}
+  .eq b{display:block; font-family:Georgia,serif; font-size:1.25rem;
+        color:var(--olive); font-variant-numeric:tabular-nums}
+  .consejos{background:#EFF0E4; border-radius:10px; padding:1rem 1.1rem;
+            margin:1.2rem 0; font-size:.9rem}
+  .consejos h3{font-family:Georgia,serif; font-size:1rem; margin-bottom:.5rem}
+  .consejos li{margin:.4rem 0 .4rem 1.1rem}
+  /* metodología */
+  details{margin:1.6rem 0; font-size:.85rem; color:#5c6553}
+  summary{cursor:pointer; font-weight:600; color:var(--olive)}
+  details p{margin:.6rem 0}
+  footer{text-align:center; font-size:.8rem; color:var(--salvia); margin-top:2rem}
+  footer a{color:var(--olive)}
+  /* barra fija inferior */
+  #vivo{position:fixed; left:0; right:0; bottom:0; background:var(--ink);
+        color:var(--cream); padding:.65rem 1rem; display:flex; gap:1rem;
+        align-items:center; justify-content:center; font-size:.95rem; z-index:5}
+  #vivo b{font-variant-numeric:tabular-nums; font-family:Georgia,serif;
+          font-size:1.25rem; color:#fff}
+  #vivo a{color:var(--sage); font-size:.8rem}
+  @media (prefers-reduced-motion: reduce){ .barra{transition:none} }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="marca">R G N E R A</div>
+    <h1>¿Cuál es tu huella ambiental?</h1>
+    <p class="sub">Escribe cuánto gastas al mes en cada rubro (ya pusimos el promedio
+    nacional de arranque) y calcula las toneladas de CO₂e que genera tu estilo de vida.
+    Hecha con datos oficiales de México: INEGI e INECC.</p>
+  </header>
+
+  <div id="formulario"></div>
+
+  <section id="resultados" aria-live="polite">
+    <div class="hero">
+      <div class="num" id="r-anual">–</div>
+      <div class="um">toneladas de CO₂e al año</div>
+      <div class="mes" id="r-mes"></div>
+    </div>
+    <p class="contexto" id="r-contexto"></p>
+
+    <div class="comp">
+      <h2><span class="em">📊</span> ¿Cómo te comparas?</h2>
+      <div class="fila-comp"><span class="nom">Tú</span>
+        <div class="pista"><div class="barra tu" id="b-tu"></div></div>
+        <span class="val" id="v-tu"></span></div>
+      <div class="fila-comp"><span class="nom">Promedio México</span>
+        <div class="pista"><div class="barra" id="b-mx"></div></div>
+        <span class="val">5.1 t</span></div>
+      <div class="fila-comp"><span class="nom">Meta climática</span>
+        <div class="pista"><div class="barra" id="b-meta"></div></div>
+        <span class="val">2.0 t</span></div>
+    </div>
+
+    <h2><span class="em">🌱</span> Tu desglose</h2>
+    <div id="desglose"></div>
+
+    <div class="equiv">
+      <div class="eq"><b id="e-arboles">–</b>árboles trabajando un año entero para absorber tu huella</div>
+      <div class="eq"><b id="e-vuelos">–</b>vuelos CDMX–Cancún (ida) equivalen a tu año</div>
+      <div class="eq"><b id="e-km">–</b>km en auto equivalen a tu huella anual</div>
+    </div>
+
+    <div class="consejos">
+      <h3>💡 Por dónde empezar (según TU huella)</h3>
+      <ul id="consejos"></ul>
+    </div>
+
+    <details>
+      <summary>Metodología, fuentes y limitaciones</summary>
+      <p>Esta calculadora usa <b>análisis insumo-producto ambientalmente extendido
+      (EEIO, modelo de Leontief)</b>: cada peso que gastas activa una cadena de
+      producción completa, y las emisiones de toda esa cadena se atribuyen a tu
+      consumo. Intensidades calculadas con la <b>Matriz de Insumo-Producto 2018 de
+      INEGI</b> (78 subsectores SCIAN, precios básicos) y el <b>Inventario Nacional
+      de Emisiones de Gases y Compuestos de Efecto Invernadero (INECC)</b>, con
+      ajuste por márgenes de comercio e inflación. La energía directa usa factores
+      físicos: electricidad 0.444 kg CO₂e/kWh (Aviso FESEN 2024, CRE/SEMARNAT),
+      gasolina 2.31 kg CO₂/L de combustión más su cadena de producción, y gas LP.</p>
+      <p><b>Limitaciones:</b> es un estimado educativo con intensidades promedio por
+      sector — no distingue marcas ni hábitos específicos (100 pesos de pollo y 100
+      de res pesan igual dentro de "súper"). Los resultados son orientativos y
+      sirven para ver órdenes de magnitud y prioridades, no para contabilidad
+      oficial. Metodología abierta:
+      <a href="https://github.com/pablosels/rgnera-huella" rel="noopener">github.com/pablosels/rgnera-huella</a>.</p>
+    </details>
+  </footer>
+  <footer>
+    Hecho con 💚 por <a href="https://www.rgnera.com" rel="noopener">RGNERA</a> —
+    biblioteca digital de sustentabilidad · <a href="https://www.instagram.com/rgnera/" rel="noopener">@rgnera</a>
+  </footer>
+</main>
+
+<div id="vivo">
+  <span>Tu huella:</span> <b id="v-live">–</b> <span>t CO₂e/año</span>
+  <a href="#resultados">ver detalle ↓</a>
+</div>
+
+<script>
+const DATOS = {"pais": "México", "iso3": "MEX", "moneda": "MXN", "anio_base": 2018, "poblacion": 125327797, "inflacion_a_hoy": 1.47, "fuente": "MIP 2018 INEGI (78 subsectores SCIAN, precios básicos) + INEGyCEI 2018 INECC (tCO2e). Metodología Leontief EEIO; véase pipeline/.", "unidad_intensidad": "kg CO2e por MXN (de 2018)", "fisicos": {"electricidad": {"factor": 0.444, "unidad": "kg CO2e por kWh", "fuente": "Aviso FESEN 2024, CRE/SEMARNAT (0.444 tCO2e/MWh)", "precio_default_mxn": 1.8}, "gasolina": {"factor": 2.31, "unidad": "kg CO2 por litro", "fuente": "IPCC 2006 gasolina automotriz", "precio_default_mxn": 24.0}, "gas_lp": {"factor": 1.66, "unidad": "kg CO2 por litro", "fuente": "IPCC 2006 GLP (2.98 kg/kg, densidad 0.54)", "precio_default_mxn": 12.0}}, "categorias": {"super": {"nombre": "Súper y comida en casa", "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa?", "kg_co2e_por_mxn": 0.0517, "fisico": null, "sectores_scian": ["311", "312", "111", "112", "114"], "gasto_default_mxn_mes": 2409.0}, "restaurantes": {"nombre": "Restaurantes, cafés y bares", "pregunta": "¿Cuánto gastas al mes en comer y beber fuera?", "kg_co2e_por_mxn": 0.01756, "fisico": null, "sectores_scian": ["722"], "gasto_default_mxn_mes": 481.0}, "renta": {"nombre": "Renta o vivienda", "pregunta": "¿Cuánto pagas de renta al mes (o valor equivalente)?", "kg_co2e_por_mxn": 0.00574, "fisico": null, "sectores_scian": ["531"], "gasto_default_mxn_mes": 1791.0}, "electricidad": {"nombre": "Electricidad (recibo CFE)", "pregunta": "¿De cuánto es tu recibo de luz mensual (o kWh)?", "kg_co2e_por_mxn": 0.25372, "fisico": "electricidad", "sectores_scian": ["221"], "gasto_default_mxn_mes": 284.0}, "gasolina": {"nombre": "Gasolina", "pregunta": "¿Cuánto gastas de gasolina al mes?", "kg_co2e_por_mxn": 0.14907, "fisico": "gasolina", "sectores_scian": ["324"], "gasto_default_mxn_mes": 446.0}, "gas": {"nombre": "Gas LP / natural", "pregunta": "¿Cuánto gastas de gas al mes?", "kg_co2e_por_mxn": 0.1826, "fisico": "gas_lp", "sectores_scian": ["221"], "gasto_default_mxn_mes": 284.0}, "transporte_publico": {"nombre": "Transporte público", "pregunta": "¿Cuánto gastas al mes en metro, camión, combi?", "kg_co2e_por_mxn": 0.07608, "fisico": null, "sectores_scian": ["485"], "gasto_default_mxn_mes": 692.0}, "taxi_apps": {"nombre": "Taxi y apps (Uber, Didi)", "pregunta": "¿Cuánto gastas al mes en taxis o apps de transporte?", "kg_co2e_por_mxn": 0.07608, "fisico": null, "sectores_scian": ["485"], "gasto_default_mxn_mes": 692.0}, "vuelos": {"nombre": "Vuelos", "pregunta": "¿Cuánto gastas en vuelos al mes (promedia tu año)?", "kg_co2e_por_mxn": 0.09112, "fisico": null, "sectores_scian": ["481"], "gasto_default_mxn_mes": 184.0}, "ropa": {"nombre": "Ropa y calzado", "pregunta": "¿Cuánto gastas al mes en ropa y zapatos?", "kg_co2e_por_mxn": 0.0246, "fisico": null, "sectores_scian": ["315", "316", "313", "314"], "gasto_default_mxn_mes": 263.0}, "electronica": {"nombre": "Electrónica y tecnología", "pregunta": "¿Cuánto gastas al mes en celular, cómputo, gadgets?", "kg_co2e_por_mxn": 0.02806, "fisico": null, "sectores_scian": ["334"], "gasto_default_mxn_mes": 265.0}, "hogar": {"nombre": "Muebles y artículos del hogar", "pregunta": "¿Cuánto gastas al mes en muebles, electrodomésticos, hogar?", "kg_co2e_por_mxn": 0.02725, "fisico": null, "sectores_scian": ["337", "335", "339"], "gasto_default_mxn_mes": 321.0}, "salud": {"nombre": "Salud y medicinas", "pregunta": "¿Cuánto gastas al mes en médicos, hospital y farmacia?", "kg_co2e_por_mxn": 0.03567, "fisico": null, "sectores_scian": ["621", "622", "623", "624", "325"], "gasto_default_mxn_mes": 757.0}, "educacion": {"nombre": "Educación", "pregunta": "¿Cuánto gastas al mes en colegiaturas y cursos?", "kg_co2e_por_mxn": 0.00686, "fisico": null, "sectores_scian": ["611"], "gasto_default_mxn_mes": 246.0}, "telecom": {"nombre": "Teléfono, internet y streaming", "pregunta": "¿Cuánto gastas al mes en celular, internet y plataformas?", "kg_co2e_por_mxn": 0.02241, "fisico": null, "sectores_scian": ["517", "518", "515", "519"], "gasto_default_mxn_mes": 379.0}, "entretenimiento": {"nombre": "Entretenimiento y deporte", "pregunta": "¿Cuánto gastas al mes en cine, conciertos, gym, deporte?", "kg_co2e_por_mxn": 0.01467, "fisico": null, "sectores_scian": ["711", "712", "713", "512"], "gasto_default_mxn_mes": 213.0}, "hoteles": {"nombre": "Hoteles y viajes", "pregunta": "¿Cuánto gastas al mes en hospedaje y tours (promedia)?", "kg_co2e_por_mxn": 0.0155, "fisico": null, "sectores_scian": ["721", "487"], "gasto_default_mxn_mes": 379.0}, "personales": {"nombre": "Servicios personales", "pregunta": "¿Cuánto gastas al mes en estética, tintorería, etc.?", "kg_co2e_por_mxn": 0.01026, "fisico": null, "sectores_scian": ["812"], "gasto_default_mxn_mes": 209.0}, "otros": {"nombre": "Otros gastos", "pregunta": "¿Cuánto más gastas al mes (aprox.) en todo lo demás?", "kg_co2e_por_mxn": 0.01823, "fisico": null, "sectores_scian": ["113", "115", "211", "212", "213", "236", "237", "238", "321", "322", "323", "326", "327", "331", "332", "333", "336", "431", "461", "482", "483", "484", "486", "488", "491", "492", "493", "511", "521", "522", "523", "524", "532", "533", "541", "551", "561", "562", "811", "813", "814", "931"], "gasto_default_mxn_mes": 5901.0}}};
+
+const GRUPOS = [
+  ["🏠 Tu hogar", ["renta","electricidad","gas","hogar"]],
+  ["🚗 Tu transporte", ["gasolina","transporte_publico","taxi_apps","vuelos"]],
+  ["🍽️ Tu alimentación", ["super","restaurantes"]],
+  ["🛍️ Tus compras", ["ropa","electronica"]],
+  ["✨ Servicios y estilo de vida", ["salud","educacion","telecom","entretenimiento","hoteles","personales","otros"]],
+];
+
+// factores físicos (modo pesos de HOY y modo unidades)
+const FIS = {
+  electricidad: {unidad:"kWh", kgU:0.444, precio:1.8},
+  gasolina:     {unidad:"L",   kgU:2.93,  precio:24.0},   // 2.31 combustión + cadena
+  gas:          {unidad:"L",   kgU:1.83,  precio:12.0},   // GLP 1.66 + cadena
+};
+const INFL = DATOS.inflacion_a_hoy;
+const PROMEDIO_MX = 5.1, META = 2.0;
+
+const CONSEJOS = {
+  vuelos:"✈️ Los vuelos son de lo más intenso que existe por peso gastado: junta viajes, prefiere rutas directas y considera trenes/autobús en distancias cortas.",
+  gasolina:"⛽ Comparte auto, revisa presión de llantas y planea rutas; cada litro que no quemas son 2.3 kg de CO₂ menos.",
+  electricidad:"💡 Cambia a LED, seca ropa al sol y revisa el consumo fantasma; en México cada kWh que ahorras evita ~0.44 kg de CO₂e.",
+  super:"🥩 La proteína animal (sobre todo res) domina la huella del súper: un día a la semana sin carne se nota más de lo que crees.",
+  taxi_apps:"🚕 Combina viajes de app con transporte público o bici en trayectos cortos.",
+  transporte_publico:"🚌 Ya usas transporte público: es de lo más eficiente por peso gastado. 👏",
+  gas:"🔥 Un calentador solar de agua puede recortar la mayor parte del gas de tu regadera.",
+  restaurantes:"🍽️ Al comer fuera, los platillos con res pesan hasta 5× más que los de pollo o vegetales.",
+  ropa:"👕 Compra menos y mejor: segunda mano y reparación le ganan por goleada al fast fashion.",
+  electronica:"📱 Alarga la vida de tus aparatos: la mayor parte de su huella se emitió al fabricarlos.",
+  hogar:"🛋️ Muebles duraderos y de segunda mano = huella dividida entre muchos años más.",
+  otros:"🛒 Revisa tus 'otros gastos': lo difuso también suma. Menos compras impulsivas, más experiencias de bajo impacto."
+};
+
+function fmt(n, d=1){ return n.toLocaleString("es-MX", {minimumFractionDigits:d, maximumFractionDigits:d}); }
+
+function construir(){
+  const cont = document.getElementById("formulario");
+  let html = "";
+  for (const [titulo, claves] of GRUPOS){
+    html += `<h2><span class="em">${titulo.split(" ")[0]}</span>${titulo.slice(titulo.indexOf(" "))}</h2>`;
+    for (const k of claves){
+      const c = DATOS.categorias[k];
+      const f = FIS[k];
+      html += `<div class="cat">
+        <label for="in-${k}"><b>${c.nombre}</b><span>${c.pregunta}</span></label>
+        <div class="entrada">
+          <span class="pre" id="pre-${k}">$</span>
+          <input type="number" id="in-${k}" min="0" step="10"
+                 value="${Math.round(c.gasto_default_mxn_mes)}" inputmode="decimal">
+          ${f ? `<select class="uni" id="uni-${k}" aria-label="unidad">
+                   <option value="mxn">$/mes</option>
+                   <option value="fis">${f.unidad}/mes</option>
+                 </select>` : `<span class="pre">/mes</span>`}
+        </div>
+        <div class="kg" id="kg-${k}"></div>
+      </div>`;
+    }
+  }
+  cont.innerHTML = html;
+  cont.addEventListener("input", calcular);
+  cont.addEventListener("change", (e)=>{
+    const m = e.target.id.match(/^uni-(.+)$/);
+    if (m){
+      const k = m[1], f = FIS[k];
+      const inp = document.getElementById("in-"+k);
+      const aFis = e.target.value === "fis";
+      const v = parseFloat(inp.value) || 0;
+      inp.value = Math.round(aFis ? v/f.precio : v*f.precio);
+      document.getElementById("pre-"+k).textContent = aFis ? "" : "$";
+      calcular();
+    }
+  });
+}
+
+function kgMes(k){
+  const c = DATOS.categorias[k];
+  const v = parseFloat(document.getElementById("in-"+k).value) || 0;
+  const f = FIS[k];
+  if (f){
+    const sel = document.getElementById("uni-"+k);
+    const unidades = (sel && sel.value==="fis") ? v : v / f.precio;
+    return unidades * f.kgU;
+  }
+  return (v / INFL) * c.kg_co2e_por_mxn;
+}
+
+function calcular(){
+  let tot = 0; const porCat = [];
+  for (const k in DATOS.categorias){
+    const kg = kgMes(k);
+    tot += kg;
+    porCat.push([k, kg]);
+    const el = document.getElementById("kg-"+k);
+    if (el) el.textContent = kg > 0.5 ? `≈ ${fmt(kg,0)} kg CO₂e/mes` : "";
+  }
+  const anual = tot*12/1000;
+  document.getElementById("r-anual").textContent = fmt(anual, anual<10?1:0);
+  document.getElementById("r-mes").textContent = `${fmt(tot,0)} kg CO₂e al mes`;
+  document.getElementById("v-live").textContent = fmt(anual,1);
+  document.getElementById("v-tu").textContent = fmt(anual,1)+" t";
+
+  const maxb = Math.max(anual, PROMEDIO_MX)*1.08;
+  document.getElementById("b-tu").style.width  = (anual/maxb*100)+"%";
+  document.getElementById("b-mx").style.width  = (PROMEDIO_MX/maxb*100)+"%";
+  document.getElementById("b-meta").style.width= (META/maxb*100)+"%";
+
+  const ctx = document.getElementById("r-contexto");
+  if (anual < META*1.1) ctx.textContent = "Increíble: estás en zona de meta climática mundial. 🌍";
+  else if (anual < PROMEDIO_MX) ctx.textContent = `Estás ${fmt((1-anual/PROMEDIO_MX)*100,0)}% abajo del promedio nacional — y la meta climática es ~2 t por persona.`;
+  else ctx.textContent = `Estás ${fmt((anual/PROMEDIO_MX-1)*100,0)}% arriba del promedio nacional (5.1 t). La buena noticia: tu desglose te dice exactamente dónde recortar.`;
+
+  // desglose
+  porCat.sort((a,b)=>b[1]-a[1]);
+  const maxc = porCat[0][1] || 1;
+  document.getElementById("desglose").innerHTML = porCat
+    .filter(([,kg])=>kg>0.5)
+    .map(([k,kg],i)=>`<div class="fila-des${i===0?" top":""}" title="${DATOS.categorias[k].nombre}: ${fmt(kg,0)} kg CO₂e/mes">
+      <span class="nom">${DATOS.categorias[k].nombre}</span>
+      <div class="pista"><div class="barra" style="width:${kg/maxc*100}%"></div></div>
+      <span class="val">${fmt(kg,0)} kg</span></div>`).join("");
+
+  // equivalencias
+  const kgAnual = tot*12;
+  document.getElementById("e-arboles").textContent = fmt(kgAnual/22,0);
+  document.getElementById("e-vuelos").textContent  = fmt(kgAnual/250,0);
+  document.getElementById("e-km").textContent      = fmt(kgAnual/0.19,0);
+
+  // consejos: top 3 categorías con consejo
+  const lista = document.getElementById("consejos");
+  lista.innerHTML = porCat.slice(0,6).map(([k])=>CONSEJOS[k]).filter(Boolean)
+    .slice(0,3).map(c=>`<li>${c}</li>`).join("");
+}
+
+construir();
+calcular();
+</script>
+</body>
+</html>
