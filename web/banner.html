@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mide tu huella · RGNERA</title>
+<style>
+  :root{--olive:#475323; --olive2:#3a4a1c; --cream:#F5F1E6; --amber:#C58A2E;
+        --sage:#AEB98C; --ink:#20261A}
+  *{box-sizing:border-box; margin:0}
+  html,body{height:100%}
+  body{
+    font-family:"Segoe UI",-apple-system,Roboto,"Helvetica Neue",sans-serif;
+    background:
+      radial-gradient(140% 120% at 85% 10%, #52602c 0%, var(--olive) 45%, var(--olive2) 100%);
+    color:var(--cream); display:flex; align-items:center; justify-content:center;
+    padding:2rem 1.25rem; min-height:100%;
+  }
+  .wrap{max-width:640px; text-align:center; display:flex; flex-direction:column;
+        align-items:center; gap:.9rem}
+  img.logo{width:64px; height:64px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.25))}
+  .eyebrow{text-transform:uppercase; letter-spacing:.2em; font-size:.72rem;
+           font-weight:700; color:var(--sage)}
+  h1{font-family:Georgia,"Times New Roman",serif; font-weight:600;
+     font-size:clamp(1.5rem, 5vw, 2.2rem); line-height:1.2; text-wrap:balance}
+  h1 em{color:#e8c98c; font-style:normal}
+  p{color:#e7e6d8; font-size:clamp(.95rem,2.6vw,1.05rem); max-width:34rem;
+    line-height:1.5}
+  a.btn{
+    display:inline-flex; align-items:center; gap:.5rem; margin-top:.3rem;
+    background:var(--amber); color:#231a0a; text-decoration:none;
+    font-weight:700; font-size:1.05rem; padding:.85rem 1.8rem; border-radius:999px;
+    box-shadow:0 6px 18px rgba(0,0,0,.28); transition:transform .15s, box-shadow .15s;
+  }
+  a.btn:hover{transform:translateY(-2px); box-shadow:0 9px 24px rgba(0,0,0,.34)}
+  a.btn:focus-visible{outline:3px solid var(--cream); outline-offset:3px}
+  .nota{font-size:.78rem; color:var(--sage); margin-top:.15rem}
+  @media (prefers-reduced-motion:reduce){a.btn{transition:none}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <img class="logo" src="__LOGO__" alt="RGNERA">
+    <div class="eyebrow">Herramienta gratuita</div>
+    <h1>¿Cuánto pesa tu estilo de vida? <em>Mide tu huella ambiental.</em></h1>
+    <p>Con datos oficiales de México (INEGI + INECC) calcula en 2 minutos las
+       toneladas de CO₂e que genera tu vida al año — y descubre por dónde empezar
+       a bajarlas.</p>
+    <a class="btn" href="https://www.rgnera.com/calculadora" target="_top"
+       rel="noopener">Calcular mi huella →</a>
+    <div class="nota">Gratis · sin registro · resultado al instante</div>
+  </div>
+</body>
+</html>
