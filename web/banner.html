@@ -18,12 +18,15 @@
     width:100%; max-width:620px; display:flex; flex-direction:column;
     align-items:center; text-align:center; gap:.5rem;
   }
-  .logo{width:44px; height:44px}
+  /* CELULAR (base): solo el título "Mide tu huella ambiental" + botón,
+     para que el botón SIEMPRE quepa aunque el recuadro sea bajito */
+  .logo{width:44px; height:44px; display:none}
   .eyebrow{text-transform:uppercase; letter-spacing:.18em; font-size:.66rem;
-           font-weight:700; color:var(--sage)}
+           font-weight:700; color:var(--sage); display:none}
   h1{font-family:Georgia,"Times New Roman",serif; font-weight:600;
-     font-size:clamp(1.3rem,5vw,1.7rem); line-height:1.14; text-wrap:balance}
+     font-size:clamp(1.35rem,5.5vw,1.7rem); line-height:1.15; text-wrap:balance}
   h1 em{color:#e9cb8d; font-style:normal}
+  h1 .q{display:none}
   /* en celular se ocultan párrafo y nota: solo logo+título+botón (~170px,
      imposible que se corte o salga scroll sea cual sea el alto del recuadro) */
   p{font-size:.9rem; color:#e7e6d8; line-height:1.4; max-width:32rem; display:none}
@@ -43,9 +46,10 @@
   @media (min-width:620px){
     body{padding:2rem 1.5rem}
     .wrap{gap:.9rem}
-    .logo{width:60px; height:60px}
-    .eyebrow{font-size:.72rem}
+    .logo{display:block; width:60px; height:60px}
+    .eyebrow{display:block; font-size:.72rem}
     h1{font-size:2rem}
+    h1 .q{display:inline}
     p{display:block; font-size:1.02rem; line-height:1.5}
     p .short{display:none}
     p .full{display:inline}
@@ -58,7 +62,7 @@
   <div class="wrap">
     <img class="logo" src="__LOGO__" alt="RGNERA">
     <div class="eyebrow">RGNERA · Herramienta gratuita</div>
-    <h1>¿Cuánto pesa tu estilo de vida? <em>Mide tu huella ambiental.</em></h1>
+    <h1><span class="q">¿Cuánto pesa tu estilo de vida? </span><em>Mide tu huella ambiental.</em></h1>
     <p>
       <span class="short">Tu CO₂ mensual con datos oficiales de México, en 2 minutos.</span>
       <span class="full">Con datos oficiales de México (INEGI + INECC) calcula en 2 minutos
