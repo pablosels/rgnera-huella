@@ -8,59 +8,64 @@
   :root{--olive:#475323; --olive2:#39481c; --cream:#F5F1E6; --amber:#C58A2E;
         --sage:#AEB98C}
   *{box-sizing:border-box; margin:0}
-  html,body{height:100%; overflow:hidden}          /* nunca scrollbar */
+  html,body{height:100%; overflow:hidden}          /* nunca aparece scrollbar */
   body{
     font-family:"Segoe UI",-apple-system,Roboto,"Helvetica Neue",sans-serif;
     background:radial-gradient(130% 130% at 82% 8%, #52602c 0%, var(--olive) 48%, var(--olive2) 100%);
     color:var(--cream); display:flex; align-items:center; justify-content:center;
-    padding:1rem 1.15rem;
+    padding:1.1rem 1.15rem;
   }
   .wrap{
-    width:100%; max-width:860px; display:flex; flex-direction:column;
-    align-items:center; text-align:center; gap:.55rem;
+    width:100%; max-width:620px; display:flex; flex-direction:column;
+    align-items:center; text-align:center; gap:.5rem;
   }
-  .logo{width:40px; height:40px; flex-shrink:0}
+  .logo{width:44px; height:44px}
   .eyebrow{text-transform:uppercase; letter-spacing:.18em; font-size:.66rem;
            font-weight:700; color:var(--sage)}
   h1{font-family:Georgia,"Times New Roman",serif; font-weight:600;
-     font-size:clamp(1.25rem,4.4vw,1.85rem); line-height:1.12; text-wrap:balance}
+     font-size:clamp(1.3rem,5vw,1.7rem); line-height:1.14; text-wrap:balance}
   h1 em{color:#e9cb8d; font-style:normal}
-  p{font-size:clamp(.82rem,2.3vw,.98rem); color:#e7e6d8; line-height:1.35;
-    max-width:34rem}
+  /* párrafo corto en celular; el largo solo aparece en pantallas anchas */
+  p{font-size:.9rem; color:#e7e6d8; line-height:1.4; max-width:32rem}
+  p .full{display:none}
   .btn{
     display:inline-flex; align-items:center; gap:.45rem; white-space:nowrap;
-    background:var(--amber); color:#231a0a; text-decoration:none; font-weight:700;
-    font-size:clamp(.95rem,2.4vw,1.05rem); padding:.72rem 1.5rem; border-radius:999px;
+    margin-top:.15rem; background:var(--amber); color:#231a0a; text-decoration:none;
+    font-weight:700; font-size:1rem; padding:.72rem 1.6rem; border-radius:999px;
     box-shadow:0 5px 16px rgba(0,0,0,.26); transition:transform .15s, box-shadow .15s;
   }
   .btn:hover{transform:translateY(-2px); box-shadow:0 8px 22px rgba(0,0,0,.32)}
   .btn:focus-visible{outline:3px solid var(--cream); outline-offset:3px}
-  .meta{font-size:.7rem; color:var(--sage); letter-spacing:.02em}
+  .meta{font-size:.7rem; color:var(--sage)}
 
-  /* Pantallas anchas: fila compacta (logo | texto | botón) = muy bajito */
+  /* Pantallas anchas: más aire y texto completo para llenar bien la franja */
   @media (min-width:620px){
-    .wrap{flex-direction:row; text-align:left; gap:1.3rem; justify-content:center}
-    .logo{width:56px; height:56px}
-    .txt{flex:0 1 auto}
-    .btn-col{display:flex; flex-direction:column; align-items:center; gap:.3rem; flex-shrink:0}
-    h1{font-size:clamp(1.4rem,2.6vw,1.9rem)}
+    body{padding:2rem 1.5rem}
+    .wrap{gap:.9rem}
+    .logo{width:60px; height:60px}
+    .eyebrow{font-size:.72rem}
+    h1{font-size:2rem}
+    p{font-size:1.02rem; line-height:1.5}
+    p .short{display:none}
+    p .full{display:inline}
+    .btn{font-size:1.05rem; padding:.85rem 1.9rem; margin-top:.3rem}
+    .meta{font-size:.78rem}
   }
-  @media (prefers-reduced-motion:reduce){.btn{transition:none}}
 </style>
 </head>
 <body>
   <div class="wrap">
     <img class="logo" src="__LOGO__" alt="RGNERA">
-    <div class="txt">
-      <div class="eyebrow">RGNERA · Herramienta gratuita</div>
-      <h1>Mide tu <em>huella ambiental</em></h1>
-      <p>Tu CO₂ mensual con datos oficiales de México, en 2 minutos.</p>
-    </div>
-    <div class="btn-col">
-      <a class="btn" href="https://www.rgnera.com/calculadora" target="_top"
-         rel="noopener">Calcular mi huella →</a>
-      <span class="meta">Gratis · sin registro</span>
-    </div>
+    <div class="eyebrow">RGNERA · Herramienta gratuita</div>
+    <h1>¿Cuánto pesa tu estilo de vida? <em>Mide tu huella ambiental.</em></h1>
+    <p>
+      <span class="short">Tu CO₂ mensual con datos oficiales de México, en 2 minutos.</span>
+      <span class="full">Con datos oficiales de México (INEGI + INECC) calcula en 2 minutos
+      las toneladas de CO₂e que genera tu vida al año, y descubre por dónde empezar a bajarlas.</span>
+    </p>
+    <a class="btn" href="https://www.rgnera.com/calculadora" target="_top"
+       rel="noopener">Calcular mi huella →</a>
+    <div class="meta">Gratis · sin registro · resultado al instante</div>
   </div>
 </body>
 </html>
