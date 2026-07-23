@@ -148,7 +148,9 @@ CATEGORIAS = {
     },
     "otros": {
         "nombre": "Otros gastos",
-        "pregunta": "¿Cuánto más gastas al mes (aprox.) en todo lo demás?",
+        "pregunta": "Auto o moto (compra y mantenimiento), bancos y seguros, "
+                    "envíos y paquetería, trabajadores del hogar, cuotas y "
+                    "donativos, regalos, papelería y demás compras del mes",
         "sectores": "RESTO",   # promedio CP-ponderado de sectores no cubiertos
     },
 }
