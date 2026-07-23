@@ -6,6 +6,7 @@
 <title>Calculadora de Huella Ambiental · RGNERA</title>
 <meta name="description" content="Mide tu huella de carbono personal mensual con datos oficiales de México (INEGI + INECC). Una herramienta gratuita de RGNERA.">
 <link rel="icon" type="image/png" href="__LOGO__">
+<script>if(window.self!==window.top)document.documentElement.className="embed";</script>
 <style>
   :root{
     --olive:#475323; --ink:#20261A; --salvia:#8D9A88; --greige:#BFB4A0;
@@ -108,6 +109,12 @@
   #vivo b{font-variant-numeric:tabular-nums; font-family:Georgia,serif;
           font-size:1.25rem; color:#fff}
   #vivo a{color:var(--sage); font-size:.8rem}
+  /* modo embebido (dentro de un iframe, p.ej. Wix): la barra no flota,
+     se vuelve un resumen normal al final y no tapa el contenido */
+  .embed body{padding-bottom:0}
+  .embed #vivo{position:static; margin:1.5rem 1rem 0; border-radius:12px;
+               max-width:680px; margin-left:auto; margin-right:auto}
+  .embed #vivo a{display:none}
   @media (prefers-reduced-motion: reduce){ .barra{transition:none} }
 </style>
 </head>
@@ -181,7 +188,7 @@
       oficial. Metodología abierta:
       <a href="https://github.com/pablosels/rgnera-huella" rel="noopener">github.com/pablosels/rgnera-huella</a>.</p>
     </details>
-  </footer>
+  </section>
   <footer>
     Hecho con 💚 por <a href="https://www.rgnera.com" rel="noopener">RGNERA</a> —
     biblioteca digital de sustentabilidad · <a href="https://www.instagram.com/rgnera/" rel="noopener">@rgnera</a>
