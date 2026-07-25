@@ -7,6 +7,9 @@
 <meta name="description" content="Mide tu huella de carbono personal mensual con datos oficiales de México (INEGI + INECC). Una herramienta gratuita de RGNERA.">
 <link rel="icon" type="image/png" href="__LOGO__">
 <script>if(window.self!==window.top)document.documentElement.className="embed";</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --olive:#475323; --ink:#20261A; --salvia:#8D9A88; --greige:#BFB4A0;
@@ -17,17 +20,17 @@
   html{scroll-behavior:smooth}
   body{
     background:var(--cream); color:var(--ink);
-    font-family:"Segoe UI", -apple-system, Roboto, "Helvetica Neue", sans-serif;
+    font-family:"Poppins","Segoe UI",-apple-system,Roboto,"Helvetica Neue",sans-serif;
     line-height:1.55; padding-bottom:84px;
   }
   main{max-width:680px; margin:0 auto; padding:1.6rem 1rem 3rem}
   header{ text-align:center; padding:1.2rem 0 1.6rem}
   .logo{display:block; margin:0 auto .55rem; width:76px; height:76px}
   .marca{letter-spacing:.28em; font-weight:700; color:var(--olive); font-size:.85rem}
-  h1{font-family:Georgia,"Times New Roman",serif; font-weight:600; font-size:1.7rem;
+  h1{font-family:"Playfair Display",Georgia,"Times New Roman",serif; font-weight:600; font-size:1.7rem;
      line-height:1.25; margin:.5rem 0 .4rem; text-wrap:balance}
   .sub{color:#5c6553; font-size:.95rem; max-width:34rem; margin:0 auto}
-  h2{font-family:Georgia,serif; font-size:1.15rem; margin:1.8rem 0 .7rem;
+  h2{font-family:"Playfair Display",Georgia,serif; font-size:1.15rem; margin:1.8rem 0 .7rem;
      display:flex; align-items:center; gap:.5rem}
   h2 .em{font-size:1.15rem}
   .cat{background:var(--card); border:1px solid var(--line); border-radius:10px;
@@ -53,7 +56,7 @@
   #resultados{margin-top:2.4rem; border-top:2px solid var(--olive); padding-top:1.4rem}
   .hero{background:var(--olive); color:var(--cream); border-radius:14px;
         padding:1.4rem 1.2rem; text-align:center}
-  .hero .num{font-family:Georgia,serif; font-size:3rem; line-height:1;
+  .hero .num{font-family:"Playfair Display",Georgia,serif; font-size:3rem; line-height:1;
              font-variant-numeric:tabular-nums}
   .hero .um{font-size:1rem; color:var(--sage)}
   .hero .mes{margin-top:.45rem; font-size:.9rem; color:var(--sage)}
@@ -81,11 +84,11 @@
   .equiv{display:flex; gap:.6rem; flex-wrap:wrap; margin:1.3rem 0}
   .eq{flex:1 1 9.5rem; background:var(--card); border:1px solid var(--line);
       border-radius:10px; padding:.75rem .8rem; font-size:.82rem; color:#5c6553}
-  .eq b{display:block; font-family:Georgia,serif; font-size:1.25rem;
+  .eq b{display:block; font-family:"Playfair Display",Georgia,serif; font-size:1.25rem;
         color:var(--olive); font-variant-numeric:tabular-nums}
   .consejos{background:#EFF0E4; border-radius:10px; padding:1rem 1.1rem;
             margin:1.2rem 0; font-size:.9rem}
-  .consejos h3{font-family:Georgia,serif; font-size:1rem; margin-bottom:.6rem}
+  .consejos h3{font-family:"Playfair Display",Georgia,serif; font-size:1rem; margin-bottom:.6rem}
   .consejo{background:var(--card); border:1px solid var(--line); border-radius:8px;
            padding:.7rem .85rem; margin:.55rem 0}
   .consejo .enc{display:flex; justify-content:space-between; gap:.6rem;
@@ -106,7 +109,7 @@
   #vivo{position:fixed; left:0; right:0; bottom:0; background:var(--ink);
         color:var(--cream); padding:.65rem 1rem; display:flex; gap:1rem;
         align-items:center; justify-content:center; font-size:.95rem; z-index:5}
-  #vivo b{font-variant-numeric:tabular-nums; font-family:Georgia,serif;
+  #vivo b{font-variant-numeric:tabular-nums; font-family:"Playfair Display",Georgia,serif;
           font-size:1.25rem; color:#fff}
   #vivo a{color:var(--sage); font-size:.8rem}
   /* modo embebido (dentro de un iframe, p.ej. Wix): la barra no flota,
