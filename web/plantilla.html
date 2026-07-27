@@ -99,6 +99,26 @@
   .consejo .txt{margin-top:.35rem; color:#4c5545}
   .consejo .ahorro{margin-top:.3rem; font-size:.82rem; color:var(--olive); font-weight:600}
   .ahorro-total{margin-top:.7rem; font-weight:600; color:var(--ink)}
+  /* tarjeta de correo */
+  .correo-card{background:var(--card); border:2px solid var(--olive); border-radius:12px;
+               padding:1.1rem 1.2rem; margin:1.4rem 0}
+  .correo-card h3{font-family:"Playfair Display",Georgia,serif; font-size:1.05rem;
+                  color:var(--olive); margin-bottom:.3rem}
+  .correo-sub{font-size:.88rem; color:#5c6553; margin-bottom:.8rem}
+  .correo-fila{display:flex; gap:.5rem; flex-wrap:wrap}
+  #correo-email{flex:1 1 12rem; padding:.6rem .7rem; border:1.5px solid var(--greige);
+                border-radius:8px; font-size:1rem; background:#FDFCF8; color:var(--ink)}
+  #correo-email:focus{outline:2px solid var(--olive); border-color:var(--olive)}
+  #correo-btn{background:var(--amber); color:#3d2907; border:none; border-radius:8px;
+              font-weight:700; font-size:.92rem; padding:.6rem 1rem; cursor:pointer}
+  #correo-btn:hover{filter:brightness(1.05)}
+  #correo-btn:disabled{opacity:.6; cursor:wait}
+  .correo-check{display:flex; gap:.5rem; align-items:flex-start; font-size:.82rem;
+                color:var(--ink); margin-top:.7rem; cursor:pointer}
+  .correo-check input{margin-top:.15rem; accent-color:var(--olive)}
+  .correo-legal{font-size:.72rem; color:var(--salvia); margin-top:.5rem}
+  #correo-ok{color:var(--olive); font-weight:600; font-size:.95rem}
+  #correo-error{color:var(--clay); font-weight:600; font-size:.9rem}
   /* metodología */
   details{margin:1.6rem 0; font-size:.85rem; color:#5c6553}
   summary{cursor:pointer; font-weight:600; color:var(--olive)}
@@ -168,6 +188,29 @@
       <h3>💡 Por dónde empezar (según TU huella)</h3>
       <div id="consejos"></div>
       <p class="ahorro-total" id="ahorro-total"></p>
+    </div>
+
+    <div class="correo-card" id="correo-card">
+      <h3>📩 Llévate tus resultados</h3>
+      <p class="correo-sub">Te mandamos tu desglose completo con consejos
+      personalizados a tu correo, para que no se te pierda.</p>
+      <form id="correo-form">
+        <div class="correo-fila">
+          <input type="email" id="correo-email" required placeholder="tu@correo.com"
+                 aria-label="Tu correo electrónico">
+          <button type="submit" id="correo-btn">Enviarme mis resultados</button>
+        </div>
+        <label class="correo-check">
+          <input type="checkbox" id="correo-boletin">
+          También quiero recibir el newsletter de RGNERA (artículos de sustentabilidad, sin spam)
+        </label>
+        <p class="correo-legal">Solo usamos tu correo para enviarte esto.
+        No te suscribimos a nada sin tu permiso.</p>
+      </form>
+      <p id="correo-ok" hidden>✅ ¡Enviado! Revisa tu bandeja (y el spam la
+      primera vez, por si acaso). 💚</p>
+      <p id="correo-error" hidden>No se pudo enviar. Revisa tu conexión e
+      intenta de nuevo.</p>
     </div>
 
     <details>
@@ -395,7 +438,45 @@ function calcular(){
   at.textContent = ahorroTotal >= 50
     ? `Con estas acciones juntas podrías bajar ~${fmt(ahorroTotal/1000, ahorroTotal>=995?1:2)} t CO₂e al año (${fmt(ahorroTotal/(tot*12)*100,0)}% de tu huella). 🌱`
     : "";
+
+  // estado para el envío por correo
+  ULTIMO = {
+    anual_t: fmt(anual, anual<10?1:0),
+    mensual_kg: fmt(tot,0),
+    vs_promedio_pct: Math.round((anual/PROMEDIO_MX - 1)*100),
+    top: porCat.filter(([,kg])=>kg>0.5).slice(0,3)
+      .map(([k,kg])=>({nombre: DATOS.categorias[k].nombre, kg: Math.round(kg)})),
+    consejos: porCat.filter(([k,kg])=>ACCIONES[k] && kg>=5).slice(0,3)
+      .map(([k,kg])=>({titulo: ACCIONES[k].t, ahorro: Math.round(kg*ACCIONES[k].f)}))
+  };
 }
+
+/* ---- envío de resultados por correo ---- */
+let ULTIMO = null;
+const CORREO_URL = "https://script.google.com/macros/s/AKfycbwONGrFr5vpK-ku_Z2u3qXyroY9bmS-ifTq1orGSaj7EVAI7ZF9_My6DdEmdCX-1yZQFA/exec";
+
+document.getElementById("correo-form").addEventListener("submit", async function(ev){
+  ev.preventDefault();
+  const btn = document.getElementById("correo-btn");
+  const email = document.getElementById("correo-email").value.trim();
+  if (!email || !ULTIMO) return;
+  btn.disabled = true; btn.textContent = "Enviando…";
+  document.getElementById("correo-error").hidden = true;
+  try {
+    const r = await fetch(CORREO_URL, {
+      method: "POST",
+      body: JSON.stringify(Object.assign({email: email,
+        boletin: document.getElementById("correo-boletin").checked}, ULTIMO))
+    });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || "error");
+    document.getElementById("correo-form").hidden = true;
+    document.getElementById("correo-ok").hidden = false;
+  } catch (e) {
+    document.getElementById("correo-error").hidden = false;
+    btn.disabled = false; btn.textContent = "Enviarme mis resultados";
+  }
+});
 
 construir();
 // perfil promedio: kg/mes de cada categoría con los valores default
