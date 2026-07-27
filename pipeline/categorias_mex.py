@@ -36,6 +36,11 @@ FISICOS = {
     "gas_lp": {"factor": 1.66, "unidad": "kg CO2 por litro",
                "fuente": "IPCC 2006 GLP (2.98 kg/kg, densidad 0.54)",
                "precio_default_mxn": 12.0},
+    "vuelo": {"factor": 90.0, "unidad": "kg CO2e por hora de vuelo",
+              "fuente": "Clase económica: ~0.11 kg CO2e/pasajero-km × "
+                        "~800 km/h de crucero; solo combustión (sin efectos "
+                        "no-CO2 de altura, que podrían duplicarlo)",
+              "precio_default_mxn": 1300.0},  # MXN por hora de vuelo aprox
 }
 
 CATEGORIAS = {
@@ -96,9 +101,11 @@ CATEGORIAS = {
     },
     "vuelos": {
         "nombre": "Vuelos",
-        "pregunta": "¿Cuánto gastas AL AÑO en vuelos?",
+        "pregunta": "¿Cuántas horas de vuelo haces al año? (cada tramo "
+                    "cuenta; puedes cambiar a $ si no las sabes)",
         "sectores": ["481"],
         "periodo": "anual",
+        "fisico": "vuelo",
     },
     "ropa": {
         "nombre": "Ropa y calzado",

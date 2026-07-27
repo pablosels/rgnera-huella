@@ -226,7 +226,11 @@
       gasolina 2.31 kg CO₂/L de combustión más su cadena de producción, y gas LP.
       Los precios por kWh según tarifa CFE (1, 1A–1F, DAC) son promedios
       aproximados; para máxima precisión cambia la unidad a kWh y captura los
-      kilowatts-hora de tu recibo.</p>
+      kilowatts-hora de tu recibo. Los vuelos se capturan en <b>horas voladas</b>
+      (~90 kg CO₂e por hora en clase económica): la emisión depende del tiempo
+      en el aire, no del precio del boleto — una aerolínea barata emite lo mismo
+      que una cara en la misma ruta. No incluye los efectos no-CO₂ de volar a
+      gran altura (estelas), que podrían hasta duplicar el impacto climático.</p>
       <p><b>Limitaciones:</b> es un estimado educativo con intensidades promedio por
       sector — no distingue marcas ni hábitos específicos (100 pesos de pollo y 100
       de res pesan igual dentro de "súper"). Los resultados son orientativos y
@@ -269,6 +273,9 @@ const FIS = {
   electricidad: {unidad:"kWh", kgU:0.444, precio:1.6},    // precio = tarifa 1
   gasolina:     {unidad:"L",   kgU:2.93,  precio:24.0},   // 2.31 combustión + cadena
   gas:          {unidad:"L",   kgU:1.83,  precio:12.0},   // GLP 1.66 + cadena
+  vuelos:       {unidad:"h",   kgU:90,    precio:1300, pref:"fis"},
+  // 90 kg CO2e por hora volada (económica): la emisión depende de las horas
+  // en el aire, no del precio del boleto (low-cost emite igual que premium)
 };
 const INFL = DATOS.inflacion_a_hoy;
 const PROMEDIO_MX = 5.1, META = 2.0;
@@ -312,15 +319,19 @@ function construir(){
                `<optgroup label="${g}">${Object.keys(ts).map(t=>
                  `<option value="${t}"${t==="1"?" selected":""}>Tarifa ${t}</option>`).join("")}</optgroup>`).join("")}
            </select>` : "";
+      const modoFis = !!(f && f.pref === "fis");
+      const valorIni = modoFis
+        ? Math.max(1, Math.round(c.gasto_default_mxn / f.precio))
+        : Math.round(c.gasto_default_mxn);
       html += `<div class="cat">
         <label for="in-${k}"><b>${c.nombre}</b><span>${c.pregunta}</span></label>
         <div class="entrada">
-          <span class="pre" id="pre-${k}">$</span>
-          <input type="number" id="in-${k}" min="0" step="10"
-                 value="${Math.round(c.gasto_default_mxn)}" inputmode="decimal">
+          <span class="pre" id="pre-${k}">${modoFis ? "" : "$"}</span>
+          <input type="number" id="in-${k}" min="0" step="${modoFis ? 1 : 10}"
+                 value="${valorIni}" inputmode="decimal">
           ${f ? `<select class="uni" id="uni-${k}" aria-label="unidad">
-                   <option value="mxn">$/mes</option>
-                   <option value="fis">${f.unidad}/mes</option>
+                   <option value="mxn"${modoFis ? "" : " selected"}>$/${per}</option>
+                   <option value="fis"${modoFis ? " selected" : ""}>${f.unidad}/${per}</option>
                  </select>${tarifa}` : `<span class="pre">/${per}</span>`}
         </div>
         <div class="kg" id="kg-${k}"></div>
@@ -364,7 +375,8 @@ function kgMes(k){
   if (f){
     const sel = document.getElementById("uni-"+k);
     const unidades = (sel && sel.value==="fis") ? v : v / f.precio;
-    return unidades * f.kgU;
+    const uMes = c.periodo === "anual" ? unidades/12 : unidades;
+    return uMes * f.kgU;
   }
   const vMes = c.periodo === "anual" ? v/12 : v;
   return (vMes / INFL) * c.kg_co2e_por_mxn;
@@ -408,7 +420,7 @@ function calcular(){
   // equivalencias
   const kgAnual = tot*12;
   document.getElementById("e-arboles").textContent = fmt(kgAnual/22,0);
-  document.getElementById("e-vuelos").textContent  = fmt(kgAnual/250,0);
+  document.getElementById("e-vuelos").textContent  = fmt(kgAnual/200,0);
   document.getElementById("e-km").textContent      = fmt(kgAnual/0.19,0);
 
   // por dónde empezar: análisis de las categorías más pesadas del usuario
@@ -482,9 +494,9 @@ construir();
 // perfil promedio: kg/mes de cada categoría con los valores default
 for (const k in DATOS.categorias){
   const c = DATOS.categorias[k];
-  const d = c.gasto_default_mxn;
+  const d = c.periodo === "anual" ? c.gasto_default_mxn/12 : c.gasto_default_mxn;
   if (FIS[k]) PERFIL[k] = d / FIS[k].precio * FIS[k].kgU;
-  else PERFIL[k] = (c.periodo === "anual" ? d/12 : d) / INFL * c.kg_co2e_por_mxn;
+  else PERFIL[k] = d / INFL * c.kg_co2e_por_mxn;
 }
 calcular();
 </script>

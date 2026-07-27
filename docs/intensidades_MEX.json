@@ -25,6 +25,12 @@
    "unidad": "kg CO2 por litro",
    "fuente": "IPCC 2006 GLP (2.98 kg/kg, densidad 0.54)",
    "precio_default_mxn": 12.0
+  },
+  "vuelo": {
+   "factor": 90.0,
+   "unidad": "kg CO2e por hora de vuelo",
+   "fuente": "Clase económica: ~0.11 kg CO2e/pasajero-km × ~800 km/h de crucero; solo combustión (sin efectos no-CO2 de altura, que podrían duplicarlo)",
+   "precio_default_mxn": 1300.0
   }
  },
  "categorias": {
@@ -146,9 +152,9 @@
   },
   "vuelos": {
    "nombre": "Vuelos",
-   "pregunta": "¿Cuánto gastas AL AÑO en vuelos?",
+   "pregunta": "¿Cuántas horas de vuelo haces al año? (cada tramo cuenta; puedes cambiar a $ si no las sabes)",
    "kg_co2e_por_mxn": 0.09112,
-   "fisico": null,
+   "fisico": "vuelo",
    "periodo": "anual",
    "sectores_scian": [
     "481"
