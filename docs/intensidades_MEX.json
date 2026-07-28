@@ -31,6 +31,12 @@
    "unidad": "kg CO2e por hora de vuelo",
    "fuente": "Clase económica: ~0.11 kg CO2e/pasajero-km × ~800 km/h de crucero; solo combustión (sin efectos no-CO2 de altura, que podrían duplicarlo)",
    "precio_default_mxn": 1300.0
+  },
+  "carne_roja": {
+   "factor": 21.0,
+   "unidad": "kg CO2e por kg de carne",
+   "fuente": "Mezcla res/cerdo del consumo MX (~15 kg res, ~20 kg cerdo per cápita/año): res ~40 kg CO2e/kg (bovino INECC 89 Mt), cerdo ~6.5 kg CO2e/kg",
+   "precio_default_mxn": 170.0
   }
  },
  "categorias": {
@@ -51,9 +57,9 @@
   },
   "carne": {
    "nombre": "Carne roja (res y cerdo)",
-   "pregunta": "¿Cuánto gastas al mes en carne de res y cerdo (súper o carnicería)?",
+   "pregunta": "¿Cuántos kilos de res y cerdo comes al mes? (cambia a $ si no los sabes)",
    "kg_co2e_por_mxn": 0.17,
-   "fisico": null,
+   "fisico": "carne_roja",
    "periodo": "mensual",
    "sectores_scian": [
     "112",

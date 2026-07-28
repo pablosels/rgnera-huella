@@ -276,6 +276,9 @@ const FIS = {
   vuelos:       {unidad:"h",   kgU:90,    precio:1300, pref:"fis"},
   // 90 kg CO2e por hora volada (económica): la emisión depende de las horas
   // en el aire, no del precio del boleto (low-cost emite igual que premium)
+  carne:        {unidad:"kg",  kgU:21,    precio:170,  pref:"fis"},
+  // mezcla res/cerdo del consumo mexicano (~40 kg CO2e/kg la res,
+  // ~6.5 el cerdo); depende de los kilos comidos, no del precio del corte
 };
 const INFL = DATOS.inflacion_a_hoy;
 const PROMEDIO_MX = 5.1, META = 2.0;
