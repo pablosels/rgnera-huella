@@ -29,9 +29,9 @@ shutil.copy(ROOT / "web" / "intensidades_MEX.json", DOCS / "intensidades_MEX.jso
 shutil.copy(ROOT / "pipeline" / "sectores_MEX_2018_mip.csv", DOCS / "sectores_MEX_2018_mip.csv")
 print(f"[ok] {DOCS/'index.html'} ({len(html):,} bytes)")
 
-# sincronizar la copia que sirve rgnera.com/huella/ (sitio nuevo, repo
-# rgnera-web): ahí queda pendiente `git commit + push` para publicarla
-RGNERA_WEB = Path(r"C:\Users\minis\rgnera-web") / "docs" / "huella"
-if RGNERA_WEB.exists():
-    shutil.copy(DOCS / "index.html", RGNERA_WEB / "index.html")
-    print(f"[sync] copiado a {RGNERA_WEB} — falta commit+push en rgnera-web")
+# rgnera.com/huella/ (sitio nuevo, repo rgnera-web) sirve una COPIA de este
+# build: su build.py la toma de aquí e inyecta el canonical. Tras cambiar la
+# calculadora: correr `python build.py` en rgnera-web y republicar gh-pages.
+if Path(r"C:\Users\minis\rgnera-web").exists():
+    print("[nota] recuerda: en rgnera-web corre build.py y republica gh-pages "
+          "para actualizar rgnera.com/huella/")
