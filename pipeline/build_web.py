@@ -27,6 +27,8 @@ print(f"[ok] {DOCS/'banner'/'index.html'} ({len(banner):,} bytes)")
 # transparencia: publicar también los datos y el CSV de sectores
 shutil.copy(ROOT / "web" / "intensidades_MEX.json", DOCS / "intensidades_MEX.json")
 shutil.copy(ROOT / "pipeline" / "sectores_MEX_2018_mip.csv", DOCS / "sectores_MEX_2018_mip.csv")
+if (ROOT / "web" / "og.png").exists():
+    shutil.copy(ROOT / "web" / "og.png", DOCS / "og.png")
 print(f"[ok] {DOCS/'index.html'} ({len(html):,} bytes)")
 
 # rgnera.com/huella/ (sitio nuevo, repo rgnera-web) sirve una COPIA de este
