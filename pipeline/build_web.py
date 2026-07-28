@@ -28,3 +28,10 @@ print(f"[ok] {DOCS/'banner'/'index.html'} ({len(banner):,} bytes)")
 shutil.copy(ROOT / "web" / "intensidades_MEX.json", DOCS / "intensidades_MEX.json")
 shutil.copy(ROOT / "pipeline" / "sectores_MEX_2018_mip.csv", DOCS / "sectores_MEX_2018_mip.csv")
 print(f"[ok] {DOCS/'index.html'} ({len(html):,} bytes)")
+
+# sincronizar la copia que sirve rgnera.com/huella/ (sitio nuevo, repo
+# rgnera-web): ahí queda pendiente `git commit + push` para publicarla
+RGNERA_WEB = Path(r"C:\Users\minis\rgnera-web") / "docs" / "huella"
+if RGNERA_WEB.exists():
+    shutil.copy(DOCS / "index.html", RGNERA_WEB / "index.html")
+    print(f"[sync] copiado a {RGNERA_WEB} — falta commit+push en rgnera-web")
