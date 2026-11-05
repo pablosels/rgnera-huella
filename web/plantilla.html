@@ -295,15 +295,18 @@
       kilowatts-hora de tu recibo. Los vuelos se capturan en <b>horas voladas</b>
       (~90 kg CO₂e por hora en clase económica): la emisión depende del tiempo
       en el aire, no del precio del boleto — una aerolínea barata emite lo mismo
-      que una cara en la misma ruta. No incluye los efectos no-CO₂ de volar a
-      gran altura (estelas), que podrían hasta duplicar el impacto climático.</p>
+      que una cara en la misma ruta. Los ~90 kg por hora (~0.11 kg por
+      pasajero-km) coinciden con el factor del gobierno británico (DESNZ 2025) que
+      ya incluye los efectos no-CO₂ de volar a gran altura, como las estelas, con
+      su multiplicador central de 1.7; contando solo el CO₂ serían ~55 kg por hora.</p>
       <p><b>Limitaciones:</b> es un estimado educativo con intensidades promedio por
       sector — no distingue marcas ni hábitos específicos (100 pesos de pollo y 100
-      de res pesan igual dentro de "súper"). Los resultados son orientativos y
+      de frijol pesan igual en "súper", y un platillo de res y uno de verdura,
+      igual en "restaurantes"). Los resultados son orientativos y
       sirven para ver órdenes de magnitud y prioridades, no para contabilidad
-      oficial. Los ahorros de cada consejo son supuestos conservadores (qué parte
-      del rubro toca la acción × cuánto la reduce); sus cuentas y fuentes están en
-      el código. Metodología abierta:
+      oficial. Los ahorros de cada consejo son estimados prudentes: qué parte del
+      rubro toca la acción × cuánto la reduce, menos lo que sube en otro rubro. Sus
+      cuentas, fuentes y supuestos están en el código. Metodología abierta:
       <a href="https://github.com/pablosels/rgnera-huella" rel="noopener">github.com/pablosels/rgnera-huella</a>.</p>
     </details>
   </section>
@@ -353,13 +356,16 @@ const PROMEDIO_MX = 5.1, META = 2.0;
 
 // Acciones concretas por categoría: fracción en que baja ESA categoría si
 // aplicas la acción. Cada f = parte del rubro que toca la acción × cuánto la
-// reduce, neto de lo que se suma en otro rubro, en el extremo conservador.
-// Auditadas el 5-nov-2026 (cuentas y fuentes en los comentarios).
+// reduce, neto de lo que se suma en otro rubro, sin redondear hacia arriba.
+// Auditadas el 5-nov-2026 y revisadas el mismo día por escépticos que trataron de
+// refutar cada cifra (cuentas y fuentes en los comentarios).
 const ACCIONES = {
   // vuelos: juntar o evitar 1 de cada 5 viajes (20%) + directo en vez de escala
-  // en ~1/3 de itinerarios con ~15% menos (conexiones: hasta +32%, Fernández
-  // Astudillo 2018) ≈ 25%. Redondo transatlántico = 1.6 t CO2e (Wynes y Nicholas
-  // 2017); CDMX–Europa ~22 h × 90 kg/h ≈ 2 t con los factores de esta calculadora.
+  // en ~1/3 de itinerarios con ~15% menos horas (conexiones: hasta +32%, máximo
+  // modelado, Astudillo y AzariJafari 2018, Int J LCA) ≈ 24-25% (supuestos de
+  // comportamiento). Redondo transatlántico = 1.6 t CO2e (Wynes y Nicholas 2017);
+  // CDMX–Madrid/París redondo 22.7-23.1 h (FlightStats) × 90 kg/h ≈ 2.0-2.1 t; DESNZ
+  // 2025 con RF 1.7 da 2.1 t (solo CO2: 1.25 t).
   vuelos:{e:"✈️",t:"Junta viajes y elige vuelos directos: cada escala suma un despegue extra. Un viaje redondo a Europa son casi 2 t de CO₂e; evitarlo es de las decisiones individuales más grandes que existen.",f:0.25},
   // gasolina: ~50% de los km son ir y volver del trabajo (EOD 2017, supuesto en
   // km) × 2/5 días × 1/2 = 10% + llantas 0.6% (fueleconomy.gov) + agrupar vueltas
@@ -367,16 +373,23 @@ const ACCIONES = {
   gasolina:{e:"⛽",t:"Comparte auto 2 días a la semana, mantén las llantas infladas y agrupa vueltas: cada litro no quemado son 2.3 kg de CO₂.",f:0.12},
   // electricidad: iluminación ~6-7% del recibo (ENCEVI 2018: 72% LFC, 12% LED)
   // × ~45% al pasar a LED lo que falta ≈ 3% + espera ~8% (LBNL: 3-12%) × 1/2 que
-  // se puede cortar ≈ 4% + empaque del refri ~1% ≈ 8%. Antes 0.20 con "lavar con
-  // agua fría", que casi no ahorra luz: las lavadoras en México no calientan agua.
-  electricidad:{e:"💡",t:"Cambia a LED los focos que te falten, apaga con multicontacto la tele, el decodificador y la consola (en espera gastan las 24 horas) y revisa que el empaque del refri selle bien.",f:0.08},
+  // se puede cortar ≈ 4% → 0.07. El clima (24-26 °C, CONUEE 2025) no se cuenta en
+  // f porque casi no hay en la zona templada (ENCEVI 2018: 1.3% de viviendas;
+  // 48% en la cálida extrema, donde es lo que más pesa). Antes 0.20 con "lavar con
+  // agua fría", que casi no ahorra luz: casi ninguna lavadora en México calienta
+  // agua (ENCEVI 2018: 2% de carga frontal en ciudades); el agua caliente es gas.
+  electricidad:{e:"💡",t:"Pon LED donde te falte y apaga con multicontacto la tele, el decodificador y la consola (en espera gastan todo el día). Si tienes clima, déjalo entre 24 y 26 °C: suele ser lo que más gasta.",f:0.07},
   // gas: ~54% del gas de los hogares calienta agua (GIZ 2011, p. 85, citado por
-  // FAMERAC en gob.mx: gob.mx/cms/uploads/attachment/file/103194/Aportaci_n_FAMERAC.pdf)
-  // × ~65% del agua caliente que cubre el sol (extremo bajo del 60-80% usual)
-  // ≈ 35% del rubro. La UAEH (abr-2026) habla de "hasta 40%" del gasto de gas.
-  // Antes era 0.55: imposible, porque cocinar también gasta gas. Recuperación de
-  // 2 a 4 años según FAMERAC (fabricantes). Piloto 113 kg LP/año: CONUEE 2025.
-  gas:{e:"🔥",t:"Un calentador solar de agua hace con el sol la mayor parte del agua caliente y deja tu boiler de respaldo (se paga solo en 2 a 4 años). Y si tu boiler tiene piloto, la pura flamita quema ~113 kg de gas LP al año.",f:0.35},
+  // FAMERAC en gob.mx: gob.mx/cms/uploads/attachment/file/103194/Aportaci_n_FAMERAC.pdf;
+  // promedia viviendas sin boiler, así que en una con boiler pesa más) × ~65% del
+  // agua caliente que cubre el sol (extremo bajo del 60-80%) ≈ 35% del rubro, SI
+  // el respaldo queda sin piloto: el piloto quema ~113 kg LP/año (CONUEE 2025) y el
+  // sol no lo quita. Sin quitar el piloto saldría ~0.25 (prueba DTESTV de CONUEE,
+  // 2011). Recuperación: equipo de 150 L ~$7,700-8,600 (Home Depot MX) + instalación
+  // $1,900-3,400, gas LP $20.73/kg (CNE, oct-2026): una familia con ~$600/mes de gas
+  // lo paga en ~4-5 años (1-2 personas con ~$300/mes: ~8-10). FAMERAC (fabricantes)
+  // decía 2-4 años. Antes 0.55: imposible, porque cocinar también gasta gas.
+  gas:{e:"🔥",t:"Un calentador solar hace con el sol la mayor parte del agua caliente; deja de respaldo un boiler sin piloto o apágale la flamita, que sola quema ~113 kg de gas LP al año. En familia se paga en ~4 a 5 años.",f:0.35},
   // carne: en la mezcla de 21 kg/kg la res es 43% de los kilos y 82% de las
   // emisiones. Un día sin carne roja (−1/7, menos el pollo que sube en "súper")
   // ≈ −9% + res de 43% a 25% de los kilos (a cerdo/pollo) ≈ −24% → ~33%; se deja
@@ -384,40 +397,50 @@ const ACCIONES = {
   // FAO GLEAM: entérico 43%, pastos y alimento ~36%, deforestación ~1/3 (LatAm).
   carne:{e:"🥩",t:"La res emite ~40 kg de CO₂e por kilo o más (metano de su digestión, pastos y deforestación). Un día a la semana sin carne roja, cerdo o pollo el resto, y res solo de ocasión.",f:0.30},
   // súper: hogares en México tiran ~105 kg/persona/año con partes no comestibles
-  // (FWI 2024, base ODS de la ONU); ~50 kg evitables de ~365 kg comprados ≈ 14%,
-  // planear recorta ~1/3 → 3-4% + local ~1-2% (transporte ≈ 6% de la huella de la
-  // comida, OWID) ≈ 5%. Antes 0.10. El "un tercio" (Banco Mundial 2017) es de toda
-  // la cadena, no del hogar.
-  super:{e:"🛒",t:"Planea tus compras y usa las sobras: en casa, cada persona en México tira ~100 kg de comida al año (con cáscaras). Comprar local ayuda menos de lo que parece: el transporte es ~6% de la huella de la comida.",f:0.05},
-  // restaurantes: por platillo (120 g de carne + guarnición) la res ≈ 3× pollo y
-  // ≈ 7× frijol con los factores de la calculadora (más con OWID). La res es una
-  // parte del rubro (~10-40% según cuánto la pidas) → ~10%. Antes 0.20 con un
-  // "hasta 5×" sin fuente por platillo.
-  restaurantes:{e:"🍽️",t:"Al comer fuera, un platillo de res emite 3 o más veces lo de uno de pollo, y aún más que uno de frijol o verdura: elige distinto, no menos.",f:0.10},
-  // apps de comida: la entrega es ~1/10 del pedido (DiDi ~5 km por pedido, moto
-  // ~0.07-0.11 kg/km); agrupar y recoger ≈ 5%. Elegir distinto, como en
-  // restaurantes, ≈ 0.10 × 0.9 → total ~14%; se deja 0.10. Antes 0.25 solo con
+  // (FWI 2024, base ODS de la ONU). Comestible ~1/3 en países de ingreso medio
+  // alto (FWI 2024, tabla 19: Brasil 31%, Indonesia 34%) → ~35 kg de ~365 kg
+  // comprados ≈ 10% en masa, ~7% en emisiones (lo que se tira es fruta, verdura y
+  // tortilla, supuesto ×0.7) × ~1/3 que recorta planear (supuesto; Jobson et al.
+  // 2024: efecto inconsistente) ≈ 2%. "Comprar local" no se cuenta: la tarjeta no
+  // lo pide (transporte ≈ 6% de la huella de la comida, OWID). Antes 0.10. El "un
+  // tercio" (Banco Mundial 2017) es de toda la cadena, no del hogar.
+  super:{e:"🛒",t:"Planea tus compras y usa las sobras: en casa, cada persona en México tira ~100 kg de comida al año (con cáscaras). Comprar local ayuda menos de lo que parece: el transporte es ~6% de la huella de la comida.",f:0.02},
+  // restaurantes: por platillo (120 g de carne + guarnición) la res ≈ 2.6-8× pollo
+  // según sea de hato lechero o de carne (OWID), ≈ 3× con los factores de la
+  // calculadora; un menú publicado (Wahaca, Reino Unido) da 1.3-2.6×, así que "3 o
+  // más" no es piso universal. La res es una parte del rubro (~10-40% según cuánto
+  // la pidas) → ~10%. Antes 0.20 con un "hasta 5×" sin fuente por platillo.
+  restaurantes:{e:"🍽️",t:"Al comer fuera, un platillo de res suele emitir varias veces lo de uno de pollo (a menudo 3 o más) y mucho más que uno de frijol o verdura: elige distinto, no menos.",f:0.10},
+  // apps de comida: la entrega es ~1/10 a 1/6 del pedido (DiDi ~5 km por pedido
+  // × moto ~0.085 kg/km, Allen et al. 2021 ≈ 0.43 kg; comida ~2.55 kg, Lohmann et
+  // al. 2024; empaque ~0.2 kg); agrupar y recoger ≈ 5%. Elegir distinto, como en
+  // restaurantes, ≈ 0.10 × 0.85 → total ~13%; se deja 0.10. Antes 0.25 solo con
   // agrupar, que suponía que la moto era más de 1/3 del pedido.
-  apps_comida:{e:"📦",t:"Lo que pides pesa más que la moto (~1/10 del pedido): elige pollo, frijol o verdura antes que res, y agrupa pedidos o recoge tú si está cerca.",f:0.10},
+  apps_comida:{e:"📦",t:"Lo que pides pesa más que la moto (la entrega es ~1/10 a 1/6 del pedido): elige pollo, frijol o verdura antes que res, y agrupa pedidos o recoge tú a pie si está cerca.",f:0.10},
   // taxi y apps: ~1/3 del gasto son trayectos cortos con alternativa (supuesto)
   // × ~80% menos huella por trayecto (auto de app ~380 g/pasajero-km con km en
   // vacío, UCS 2020; camión/BRT 12-28 g a capacidad, CEMDA 2021) ≈ 27% → 0.25,
   // neto de lo que sube "transporte público". Antes 0.35.
   taxi_apps:{e:"🚕",t:"Cambia los trayectos cortos de app a metro, camión o bici: mismo destino, fracción del costo y de la huella.",f:0.25},
-  // ropa: 1 de cada 4 prendas de segunda mano y ~10% más vida por reparar →
-  // compras nuevas × 0.75/1.10 ≈ −30%. Producción ≈ 80% de la huella de los
-  // textiles (EEA 2022).
-  ropa:{e:"👕",t:"Segunda mano, reparar y comprar menos-pero-mejor: el fast fashion emite la mayor parte antes de llegar a ti.",f:0.30},
-  // electrónica (solo la compra; la luz va en "electricidad"): celular 26 meses
-  // (The CIU 2026) → 1 − 2.17/3.17 = 32%; laptop 4.5 años → 18%; otros 3 → 25%;
-  // mezcla 50/30/20 ≈ 26% → 0.25. Antes 0.30. Fabricación: 72% del celular (EEB
-  // 2019), 80% en iPhone 16 (Apple, parte interesada).
-  electronica:{e:"📱",t:"Alarga un año más la vida de tu celular y tu compu (funda, mica, batería nueva): fabricarlos es la mayor parte de su huella, ~3/4 en un celular.",f:0.25},
-  // hogar: aparatos 50% / muebles 17% / otros 33% de las emisiones del rubro
-  // (MIP 2018). Muebles de segunda mano o que duren el doble ~−40% × 0.17-0.20 +
-  // reparar aparatos ~−10-15% × 0.5 + otros ~2% ≈ 15%. Antes 0.25. Aparatos viejos
-  // de segunda mano no convienen: suben "electricidad".
-  hogar:{e:"🛋️",t:"Muebles de segunda mano o hechos para durar, y repara antes de reemplazar: la misma huella repartida en más años de uso.",f:0.15},
+  // ropa: 1 de cada 4 prendas de segunda mano × ~60% de desplazamiento (cada
+  // usada no evita una nueva: Farrant et al. 2010, 60-85%; WRAP, ~28%) → −15% de
+  // compras nuevas; ÷1.10 por reparar (WRAP: +3 meses de uso ≈ −5-10%) ≈ 23% →
+  // 0.20. "Comprar menos" no se cuenta. Antes 0.30, que suponía desplazamiento del
+  // 100%. Producción ≈ 80% de la huella de los textiles (EEA 2022).
+  ropa:{e:"👕",t:"Segunda mano, reparar y comprar menos-pero-mejor: el fast fashion emite la mayor parte antes de llegar a ti.",f:0.20},
+  // electrónica (solo la compra; la luz va en "electricidad"): el texto toca
+  // celular y compu. Celular 26 meses (The CIU 2026) → 0.5 × (1 − 26/38) = 15.8% +
+  // laptop 4.5 años (EEB 2019) → 0.3 × 18% = 5.5% ≈ 21%, menos la batería, funda y
+  // mica que suben el mismo rubro → 0.20. Antes 0.30 y luego 0.25 (contaba "otros
+  // aparatos" que el texto no pide). Fabricación: 72% del celular (EEB 2019), 80%
+  // en iPhone 16 (Apple, parte interesada).
+  electronica:{e:"📱",t:"Alarga un año más la vida de tu celular y tu compu (funda, mica, batería nueva): fabricarlos es la mayor parte de su huella, ~3/4 en un celular.",f:0.20},
+  // hogar: aparatos 49.9% / otros 33.3% / muebles 16.8% de las emisiones del rubro
+  // (MIP 2018). Muebles de segunda mano o que duren el doble −40% × 0.17 = 6.8% +
+  // reparar aparatos −10% × 0.50 × 0.8 (la reparación suma en "otros") = 4% + otros
+  // ~1% ≈ 12%. Antes 0.25 y luego 0.15. Refris y climas de más de 10 años conviene
+  // cambiarlos: CONUEE 2025 (los usados gastan "hasta tres veces" más).
+  hogar:{e:"🛋️",t:"Muebles de segunda mano o hechos para durar, y repara antes de reemplazar: la huella de fabricarlos se reparte en más años. Excepción: un refri o clima de más de 10 años conviene cambiarlo.",f:0.12},
   // hoteles: "certificación" sin evidencia de menos emisiones por noche (Cornell,
   // LEED 2017) y "mejores" suele subir la huella por noche. 1/3 de las noches en
   // hospedaje sencillo con ~30% menos ≈ 10%. Llegar por tierra ahorra en "vuelos".
@@ -579,26 +602,33 @@ function calcular(){
     ahorroTotal += ahorro;
     cards.push(`<div class="consejo">
       <div class="enc"><b>${a.e} ${c.nombre}</b>
-        <span class="stats">${fmt(kg,0)} kg/mes · ${fmt(pct,0)}% de tu huella · ${comp}</span></div>
+        <span class="stats">${fmt(kg,0)} kg/mes${PERSONAS>1 ? " del hogar" : ""} · ${fmt(pct,0)}% de tu huella · ${comp}</span></div>
       <div class="txt">${a.t}</div>
-      ${ahorro >= 10 ? `<div class="ahorro">→ ahorro estimado: ~${fmt(ahorro,0)} kg CO₂e al año</div>` : ""}
+      ${ahorro >= 10 ? `<div class="ahorro">→ ahorro estimado: ~${fmt(ahorro,0)} kg CO₂e al año${PERSONAS>1 ? " (todo el hogar)" : ""}</div>` : ""}
     </div>`);
   }
   document.getElementById("consejos").innerHTML = cards.join("");
   const at = document.getElementById("ahorro-total");
-  at.textContent = ahorroTotal >= 50
-    ? `Con estas acciones juntas podrías bajar ~${fmt(ahorroTotal/1000, ahorroTotal>=995?1:2)} t CO₂e al año (${fmt(ahorroTotal/(tot*12)*100,0)}% de tu huella). 🌱`
-    : "";
+  // en modo hogar las tarjetas y el ahorro son del HOGAR, pero el número grande
+  // es por persona: decirlo para no leer el ahorro del hogar contra la huella
+  // de una persona
+  const tAhorro = t => fmt(t/1000, t>=995?1:2);
+  const pctAhorro = fmt(ahorroTotal/(tot*12)*100,0);
+  at.textContent = ahorroTotal < 50 ? ""
+    : PERSONAS > 1
+      ? `Con estas acciones juntas tu hogar podría bajar ~${tAhorro(ahorroTotal)} t CO₂e al año (~${tAhorro(ahorroTotal/PERSONAS)} t por persona, ${pctAhorro}% de su huella). 🌱`
+      : `Con estas acciones juntas podrías bajar ~${tAhorro(ahorroTotal)} t CO₂e al año (${pctAhorro}% de tu huella). 🌱`;
 
-  // estado para el envío por correo
+  // estado para el envío por correo: todo POR PERSONA, como el número grande
+  // (antes mezclaba t/año por persona con kg/mes del hogar)
   ULTIMO = {
     anual_t: fmt(anual, anual<10?1:0),
-    mensual_kg: fmt(tot,0),
+    mensual_kg: fmt(totPP,0),
     vs_promedio_pct: Math.round((anual/PROMEDIO_MX - 1)*100),
-    top: porCat.filter(([,kg])=>kg>0.5).slice(0,3)
-      .map(([k,kg])=>({nombre: DATOS.categorias[k].nombre, kg: Math.round(kg)})),
+    top: porCat.filter(([,kg])=>kg/PERSONAS>0.5).slice(0,3)
+      .map(([k,kg])=>({nombre: DATOS.categorias[k].nombre, kg: Math.round(kg/PERSONAS)})),
     consejos: porCat.filter(([k,kg])=>ACCIONES[k] && kg>=5).slice(0,3)
-      .map(([k,kg])=>({titulo: ACCIONES[k].t, ahorro: Math.round(kg*ACCIONES[k].f)}))
+      .map(([k,kg])=>({titulo: ACCIONES[k].t, ahorro: Math.round(kg*ACCIONES[k].f/PERSONAS)}))
   };
 }
 

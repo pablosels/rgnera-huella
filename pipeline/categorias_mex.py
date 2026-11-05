@@ -38,8 +38,9 @@ FISICOS = {
                "precio_default_mxn": 12.0},
     "vuelo": {"factor": 90.0, "unidad": "kg CO2e por hora de vuelo",
               "fuente": "Clase económica: ~0.11 kg CO2e/pasajero-km × "
-                        "~800 km/h de crucero; solo combustión (sin efectos "
-                        "no-CO2 de altura, que podrían duplicarlo)",
+                        "~800 km/h de crucero; coincide con DESNZ 2025 CON "
+                        "efectos no-CO2 de altura (multiplicador 1.7); solo "
+                        "CO2 serían ~55 kg/h",
               "precio_default_mxn": 1300.0},  # MXN por hora de vuelo aprox
     "carne_roja": {"factor": 21.0, "unidad": "kg CO2e por kg de carne",
                    "fuente": "Mezcla res/cerdo del consumo MX (~15 kg res, "
