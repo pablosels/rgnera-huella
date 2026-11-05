@@ -41,26 +41,57 @@ FISICOS = {
                         "~800 km/h de crucero; solo combustión (sin efectos "
                         "no-CO2 de altura, que podrían duplicarlo)",
               "precio_default_mxn": 1300.0},  # MXN por hora de vuelo aprox
-    "carne_roja": {"factor": 21.0, "unidad": "kg CO2e por kg de carne",
-                   "fuente": "Mezcla res/cerdo del consumo MX (~15 kg res, "
-                             "~20 kg cerdo per cápita/año): res ~40 kg CO2e/kg "
-                             "(bovino INECC 89 Mt), cerdo ~6.5 kg CO2e/kg",
-                   "precio_default_mxn": 170.0},  # MXN por kg mezcla aprox
+    # Antes (hasta nov-2026) era un solo rubro "carne roja" a 21 kg CO2e/kg:
+    # mezcla res/cerdo del consumo MX (~15 kg res, ~20 kg cerdo per cápita/
+    # año), con modo $ a 170 MXN/kg. Se separó para que pasar de res a cerdo
+    # se vea en el resultado.
+    "res": {"factor": 40.0, "unidad": "kg CO2e por kg de carne de res",
+            "fuente": "Bovino INECC 2018 (3A1+3B1 = 89 Mt, ~65% a carne) "
+                      "÷ 1.98 Mt canal ÷ 0.75 rendimiento menudeo ≈ 39-40 "
+                      "kg CO2e/kg; extremo bajo frente a OWID (hato de carne "
+                      "99.5, lechero 33.3)",
+            # Profeco 2026: promedio nacional de la res 164.85 MXN/kg (may),
+            # bistec ~170-175; BM Editores ago-2026 ~174
+            "precio_default_mxn": 170.0},
+    "cerdo": {"factor": 6.5, "unidad": "kg CO2e por kg de carne de cerdo",
+              "fuente": "~6.5 kg CO2e/kg (valor del modelo de mezcla previo)",
+              # Profeco jul-2026: pierna 98-126, chuleta 111-135 MXN/kg
+              "precio_default_mxn": 120.0},
 }
+
+# Default de carne en KILOS: los mismos 2.35 kg/mes de res + cerdo del modelo
+# de mezcla (400 MXN ÷ 170 MXN/kg), con la res en la proporción que da la
+# mezcla de 21 kg CO2e/kg: (21 − 6.5) / (40 − 6.5) = 43% de los kilos (≈ los
+# ~15 de ~35 kg per cápita al año). Así el perfil promedio no cambia:
+# 1.02 kg × 40 + 1.33 kg × 6.5 = 49.4 kg CO2e/mes, igual que 2.35 × 21.
+KG_CARNE_ROJA_MES = 400.0 / 170.0
+PARTE_RES = (21.0 - 6.5) / (40.0 - 6.5)
+# Lo que se descuenta del súper por la carne que se captura aparte: los mismos
+# 400 MXN/mes de antes, para que el súper (y el perfil) no cambien. A precios
+# de 2026 esos kilos cuestan ~333 MXN (173 + 160); la diferencia, 67 MXN de
+# súper, serían ~2 kg CO2e/mes: dentro del error del modelo.
+GASTO_CARNE_ROJA_DESCUENTO_SUPER = 400.0
 
 CATEGORIAS = {
     "super": {
-        "nombre": "Súper y comida en casa (sin carne roja)",
+        "nombre": "Súper y comida en casa (sin res ni cerdo)",
         "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa, "
-                    "sin contar la carne roja?",
+                    "sin contar la res ni el cerdo?",
         "sectores": ["311", "312", "111", "112", "114"],
     },
-    "carne": {
-        "nombre": "Carne roja (res y cerdo)",
-        "pregunta": "¿Cuántos kilos de res y cerdo comes al mes? "
+    "res": {
+        "nombre": "Carne de res",
+        "pregunta": "¿Cuántos kilos de res comes al mes? (borrego y cabrito "
+                    "también van aquí; cambia a $ si no los sabes)",
+        "sectores": ["112", "311"],
+        "fisico": "res",
+    },
+    "cerdo": {
+        "nombre": "Carne de cerdo",
+        "pregunta": "¿Cuántos kilos de cerdo comes al mes? "
                     "(cambia a $ si no los sabes)",
         "sectores": ["112", "311"],
-        "fisico": "carne_roja",
+        "fisico": "cerdo",
     },
     "restaurantes": {
         "nombre": "Restaurantes, cafés y bares",
@@ -232,15 +263,20 @@ def main():
         elif clave == "gas":
             precio_l_2018 = 10.0
             kg_por_mxn = (FISICOS["gas_lp"]["factor"] * 1.10) / precio_l_2018
-        elif clave == "carne":
+        elif clave in ("res", "cerdo"):
             # Bottom-up del propio inventario INECC 2018:
             #  res: bovino 3A1+3B1 = 89 Mt, ~65% asignado a carne (vs leche)
             #       ÷ 1.98 Mt canal ÷ 0.75 rendimiento menudeo ≈ 39 kg CO2e/kg
-            #       ÷ ~150 MXN/kg (2018) ≈ 0.26 kg/MXN
-            #  cerdo: ~6.5 kg CO2e/kg ÷ ~90 MXN/kg ≈ 0.07 kg/MXN
-            #  mezcla de gasto res/cerdo ~55/45 => ~0.17 kg CO2e/MXN de 2018
-            kg_por_mxn = 0.17
-            default_mes = 400.0
+            #  cerdo: ~6.5 kg CO2e/kg
+            # (antes, mezcla de gasto res/cerdo ~55/45 => 0.17 kg CO2e/MXN de
+            # 2018). En la web manda el factor físico; aquí kg/MXN de 2018 se
+            # deja consistente con él: factor ÷ (precio 2026 ÷ inflación).
+            fis = FISICOS[clave]
+            kg_por_mxn = (fis["factor"] * INFLACION_2018_2026
+                          / fis["precio_default_mxn"])
+            kilos = KG_CARNE_ROJA_MES * (PARTE_RES if clave == "res"
+                                         else 1 - PARTE_RES)
+            default_mes = kilos * fis["precio_default_mxn"]
         elif clave == "apps_comida":
             # pedido a domicilio ≈ 80% preparación de alimentos (722) +
             # 20% logística de entrega (492 mensajería)
@@ -268,9 +304,9 @@ def main():
         print(f"{nom:36s} {kg_por_mxn*1000:7.1f} g/peso | "
               f"default {default_mes:8,.0f} MXN/mes | {len(sel)} sectores")
 
-    # la carne roja se captura aparte: se descuenta del default del súper
+    # la res y el cerdo se capturan aparte: se descuentan del default del súper
     salida["categorias"]["super"]["gasto_default_mxn"] -= \
-        salida["categorias"]["carne"]["gasto_default_mxn"]
+        GASTO_CARNE_ROJA_DESCUENTO_SUPER
 
     out = ROOT / "web" / "intensidades_MEX.json"
     out.write_text(json.dumps(salida, ensure_ascii=False, indent=1),
