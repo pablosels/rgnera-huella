@@ -79,17 +79,24 @@ CATEGORIAS = {
                     "sin contar la res ni el cerdo?",
         "sectores": ["311", "312", "111", "112", "114"],
     },
+    # Res y cerdo = lo que se COMPRA para comer en casa: su default sale del
+    # súper (se le descuenta) y la carne de restaurantes y apps ya está en la
+    # intensidad del 722 (~16% de ese rubro); preguntar "cuánto comes" la
+    # contaría dos veces.
     "res": {
         "nombre": "Carne de res",
-        "pregunta": "¿Cuántos kilos de res comes al mes? (borrego y cabrito "
-                    "también van aquí; cambia a $ si no los sabes)",
+        "pregunta": "¿Cuántos kilos de res compras al mes para comer en "
+                    "casa? Borrego y cabrito también van aquí; lo que comes "
+                    "fuera ya cuenta en restaurantes y apps. (Cambia a $ si "
+                    "no los sabes)",
         "sectores": ["112", "311"],
         "fisico": "res",
     },
     "cerdo": {
         "nombre": "Carne de cerdo",
-        "pregunta": "¿Cuántos kilos de cerdo comes al mes? "
-                    "(cambia a $ si no los sabes)",
+        "pregunta": "¿Cuántos kilos de cerdo compras al mes para comer en "
+                    "casa? Lo que comes fuera ya cuenta en restaurantes y "
+                    "apps. (Cambia a $ si no los sabes)",
         "sectores": ["112", "311"],
         "fisico": "cerdo",
     },
