@@ -301,7 +301,9 @@
       sector — no distingue marcas ni hábitos específicos (100 pesos de pollo y 100
       de res pesan igual dentro de "súper"). Los resultados son orientativos y
       sirven para ver órdenes de magnitud y prioridades, no para contabilidad
-      oficial. Metodología abierta:
+      oficial. Los ahorros de cada consejo son supuestos conservadores (qué parte
+      del rubro toca la acción × cuánto la reduce); sus cuentas y fuentes están en
+      el código. Metodología abierta:
       <a href="https://github.com/pablosels/rgnera-huella" rel="noopener">github.com/pablosels/rgnera-huella</a>.</p>
     </details>
   </section>
@@ -349,12 +351,25 @@ const FIS = {
 const INFL = DATOS.inflacion_a_hoy;
 const PROMEDIO_MX = 5.1, META = 2.0;
 
-// Acciones concretas por categoría: fracción típica de reducción de ESA
-// categoría si aplicas la acción (estimaciones conservadoras)
+// Acciones concretas por categoría: fracción en que baja ESA categoría si
+// aplicas la acción. Cada f = parte del rubro que toca la acción × cuánto la
+// reduce, neto de lo que se suma en otro rubro, en el extremo conservador.
+// Auditadas el 5-nov-2026 (cuentas y fuentes en los comentarios).
 const ACCIONES = {
-  vuelos:{e:"✈️",t:"Junta viajes y prefiere rutas directas; un vuelo evitado al año es de las decisiones individuales más grandes que existen.",f:0.25},
-  gasolina:{e:"⛽",t:"Comparte auto 2 días a la semana, mantén las llantas infladas y agrupa vueltas: cada litro no quemado son 2.3 kg de CO₂.",f:0.20},
-  electricidad:{e:"💡",t:"LED en toda la casa, matar el consumo fantasma con multicontactos y lavar con agua fría.",f:0.20},
+  // vuelos: juntar o evitar 1 de cada 5 viajes (20%) + directo en vez de escala
+  // en ~1/3 de itinerarios con ~15% menos (conexiones: hasta +32%, Fernández
+  // Astudillo 2018) ≈ 25%. Redondo transatlántico = 1.6 t CO2e (Wynes y Nicholas
+  // 2017); CDMX–Europa ~22 h × 90 kg/h ≈ 2 t con los factores de esta calculadora.
+  vuelos:{e:"✈️",t:"Junta viajes y elige vuelos directos: cada escala suma un despegue extra. Un viaje redondo a Europa son casi 2 t de CO₂e; evitarlo es de las decisiones individuales más grandes que existen.",f:0.25},
+  // gasolina: ~50% de los km son ir y volver del trabajo (EOD 2017, supuesto en
+  // km) × 2/5 días × 1/2 = 10% + llantas 0.6% (fueleconomy.gov) + agrupar vueltas
+  // ~1.5% ≈ 12%. Antes 0.20. 2.3 kg CO2/L de combustión (IPCC; EPA 2.35).
+  gasolina:{e:"⛽",t:"Comparte auto 2 días a la semana, mantén las llantas infladas y agrupa vueltas: cada litro no quemado son 2.3 kg de CO₂.",f:0.12},
+  // electricidad: iluminación ~6-7% del recibo (ENCEVI 2018: 72% LFC, 12% LED)
+  // × ~45% al pasar a LED lo que falta ≈ 3% + espera ~8% (LBNL: 3-12%) × 1/2 que
+  // se puede cortar ≈ 4% + empaque del refri ~1% ≈ 8%. Antes 0.20 con "lavar con
+  // agua fría", que casi no ahorra luz: las lavadoras en México no calientan agua.
+  electricidad:{e:"💡",t:"Cambia a LED los focos que te falten, apaga con multicontacto la tele, el decodificador y la consola (en espera gastan las 24 horas) y revisa que el empaque del refri selle bien.",f:0.08},
   // gas: ~54% del gas de los hogares calienta agua (GIZ 2011, p. 85, citado por
   // FAMERAC en gob.mx: gob.mx/cms/uploads/attachment/file/103194/Aportaci_n_FAMERAC.pdf)
   // × ~65% del agua caliente que cubre el sol (extremo bajo del 60-80% usual)
@@ -362,16 +377,55 @@ const ACCIONES = {
   // Antes era 0.55: imposible, porque cocinar también gasta gas. Recuperación de
   // 2 a 4 años según FAMERAC (fabricantes). Piloto 113 kg LP/año: CONUEE 2025.
   gas:{e:"🔥",t:"Un calentador solar de agua hace con el sol la mayor parte del agua caliente y deja tu boiler de respaldo (se paga solo en 2 a 4 años). Y si tu boiler tiene piloto, la pura flamita quema ~113 kg de gas LP al año.",f:0.35},
-  carne:{e:"🥩",t:"La res emite ~40 kg de CO₂e por kilo (rumia metano + estiércol). Un día a la semana sin carne roja, cortes de cerdo o pollo el resto, y res solo de ocasión.",f:0.30},
-  super:{e:"🛒",t:"Planea tus compras para no desperdiciar (en México se pierde ~un tercio de la comida) y prefiere producto local y de temporada.",f:0.10},
-  restaurantes:{e:"🍽️",t:"Al comer fuera, los platillos de res pesan hasta 5× más que los de pollo o vegetales: elige distinto, no menos.",f:0.20},
-  apps_comida:{e:"📦",t:"Agrupa pedidos (una entrega, no tres) o recoge tú mismo cuando esté cerca.",f:0.25},
-  taxi_apps:{e:"🚕",t:"Cambia los trayectos cortos de app a metro, camión o bici: mismo destino, fracción del costo y de la huella.",f:0.35},
+  // carne: en la mezcla de 21 kg/kg la res es 43% de los kilos y 82% de las
+  // emisiones. Un día sin carne roja (−1/7, menos el pollo que sube en "súper")
+  // ≈ −9% + res de 43% a 25% de los kilos (a cerdo/pollo) ≈ −24% → ~33%; se deja
+  // 0.30. ~40 kg/kg es el extremo bajo: OWID hato de carne 99.5, lechero 33.3;
+  // FAO GLEAM: entérico 43%, pastos y alimento ~36%, deforestación ~1/3 (LatAm).
+  carne:{e:"🥩",t:"La res emite ~40 kg de CO₂e por kilo o más (metano de su digestión, pastos y deforestación). Un día a la semana sin carne roja, cerdo o pollo el resto, y res solo de ocasión.",f:0.30},
+  // súper: hogares en México tiran ~105 kg/persona/año con partes no comestibles
+  // (FWI 2024, base ODS de la ONU); ~50 kg evitables de ~365 kg comprados ≈ 14%,
+  // planear recorta ~1/3 → 3-4% + local ~1-2% (transporte ≈ 6% de la huella de la
+  // comida, OWID) ≈ 5%. Antes 0.10. El "un tercio" (Banco Mundial 2017) es de toda
+  // la cadena, no del hogar.
+  super:{e:"🛒",t:"Planea tus compras y usa las sobras: en casa, cada persona en México tira ~100 kg de comida al año (con cáscaras). Comprar local ayuda menos de lo que parece: el transporte es ~6% de la huella de la comida.",f:0.05},
+  // restaurantes: por platillo (120 g de carne + guarnición) la res ≈ 3× pollo y
+  // ≈ 7× frijol con los factores de la calculadora (más con OWID). La res es una
+  // parte del rubro (~10-40% según cuánto la pidas) → ~10%. Antes 0.20 con un
+  // "hasta 5×" sin fuente por platillo.
+  restaurantes:{e:"🍽️",t:"Al comer fuera, un platillo de res emite 3 o más veces lo de uno de pollo, y aún más que uno de frijol o verdura: elige distinto, no menos.",f:0.10},
+  // apps de comida: la entrega es ~1/10 del pedido (DiDi ~5 km por pedido, moto
+  // ~0.07-0.11 kg/km); agrupar y recoger ≈ 5%. Elegir distinto, como en
+  // restaurantes, ≈ 0.10 × 0.9 → total ~14%; se deja 0.10. Antes 0.25 solo con
+  // agrupar, que suponía que la moto era más de 1/3 del pedido.
+  apps_comida:{e:"📦",t:"Lo que pides pesa más que la moto (~1/10 del pedido): elige pollo, frijol o verdura antes que res, y agrupa pedidos o recoge tú si está cerca.",f:0.10},
+  // taxi y apps: ~1/3 del gasto son trayectos cortos con alternativa (supuesto)
+  // × ~80% menos huella por trayecto (auto de app ~380 g/pasajero-km con km en
+  // vacío, UCS 2020; camión/BRT 12-28 g a capacidad, CEMDA 2021) ≈ 27% → 0.25,
+  // neto de lo que sube "transporte público". Antes 0.35.
+  taxi_apps:{e:"🚕",t:"Cambia los trayectos cortos de app a metro, camión o bici: mismo destino, fracción del costo y de la huella.",f:0.25},
+  // ropa: 1 de cada 4 prendas de segunda mano y ~10% más vida por reparar →
+  // compras nuevas × 0.75/1.10 ≈ −30%. Producción ≈ 80% de la huella de los
+  // textiles (EEA 2022).
   ropa:{e:"👕",t:"Segunda mano, reparar y comprar menos-pero-mejor: el fast fashion emite la mayor parte antes de llegar a ti.",f:0.30},
-  electronica:{e:"📱",t:"Alarga un año más la vida de tus aparatos: casi toda su huella se emitió al fabricarlos.",f:0.30},
-  hogar:{e:"🛋️",t:"Muebles duraderos o de segunda mano: la misma huella dividida entre muchos más años de uso.",f:0.25},
-  hoteles:{e:"🏨",t:"Menos noches pero mejores, hospedajes con certificación ambiental, y destinos cercanos de vez en cuando.",f:0.15},
-  otros:{e:"🛒",t:"Lo difuso también suma: menos compras impulsivas y más experiencias de bajo impacto.",f:0.10},
+  // electrónica (solo la compra; la luz va en "electricidad"): celular 26 meses
+  // (The CIU 2026) → 1 − 2.17/3.17 = 32%; laptop 4.5 años → 18%; otros 3 → 25%;
+  // mezcla 50/30/20 ≈ 26% → 0.25. Antes 0.30. Fabricación: 72% del celular (EEB
+  // 2019), 80% en iPhone 16 (Apple, parte interesada).
+  electronica:{e:"📱",t:"Alarga un año más la vida de tu celular y tu compu (funda, mica, batería nueva): fabricarlos es la mayor parte de su huella, ~3/4 en un celular.",f:0.25},
+  // hogar: aparatos 50% / muebles 17% / otros 33% de las emisiones del rubro
+  // (MIP 2018). Muebles de segunda mano o que duren el doble ~−40% × 0.17-0.20 +
+  // reparar aparatos ~−10-15% × 0.5 + otros ~2% ≈ 15%. Antes 0.25. Aparatos viejos
+  // de segunda mano no convienen: suben "electricidad".
+  hogar:{e:"🛋️",t:"Muebles de segunda mano o hechos para durar, y repara antes de reemplazar: la misma huella repartida en más años de uso.",f:0.15},
+  // hoteles: "certificación" sin evidencia de menos emisiones por noche (Cornell,
+  // LEED 2017) y "mejores" suele subir la huella por noche. 1/3 de las noches en
+  // hospedaje sencillo con ~30% menos ≈ 10%. Llegar por tierra ahorra en "vuelos".
+  hoteles:{e:"🏨",t:"Hospedajes sencillos o compartidos y, de vez en cuando, destinos a los que llegues por tierra: en tu huella el vuelo suele pesar más que el hotel.",f:0.10},
+  // otros: la mitad de las emisiones del rubro son márgenes y flete, y 21% compra
+  // de autos; menos compras impulsivas toca ~1/3 del gasto × 30%, y la mitad del
+  // dinero se va a experiencias (80% de la intensidad) → ~6% → 0.05. Antes 0.10.
+  otros:{e:"🛒",t:"Lo difuso también suma: menos compras impulsivas y más experiencias de bajo impacto.",f:0.05},
   transporte_publico:{e:"🚌",t:"Ya te mueves en transporte público: es de lo más eficiente que hay. Sigue así.",f:0},
 };
 // perfil del mexicano promedio (kg/mes por categoría, con los defaults)
