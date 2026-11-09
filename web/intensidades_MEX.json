@@ -32,17 +32,23 @@
    "fuente": "Clase económica: ~0.11 kg CO2e/pasajero-km × ~800 km/h de crucero; coincide con DESNZ 2025 CON efectos no-CO2 de altura (multiplicador 1.7); solo CO2 serían ~55 kg/h",
    "precio_default_mxn": 1300.0
   },
-  "carne_roja": {
-   "factor": 21.0,
-   "unidad": "kg CO2e por kg de carne",
-   "fuente": "Mezcla res/cerdo del consumo MX (~15 kg res, ~20 kg cerdo per cápita/año): res ~40 kg CO2e/kg (bovino INECC 89 Mt), cerdo ~6.5 kg CO2e/kg",
+  "res": {
+   "factor": 40.0,
+   "unidad": "kg CO2e por kg de carne de res",
+   "fuente": "Bovino INECC 2018 (3A1+3B1 = 89 Mt, ~65% a carne) ÷ 1.98 Mt canal ÷ 0.75 rendimiento menudeo ≈ 39-40 kg CO2e/kg; extremo bajo frente a OWID (hato de carne 99.5, lechero 33.3)",
    "precio_default_mxn": 170.0
+  },
+  "cerdo": {
+   "factor": 6.5,
+   "unidad": "kg CO2e por kg de carne de cerdo",
+   "fuente": "~6.5 kg CO2e/kg (valor del modelo de mezcla previo)",
+   "precio_default_mxn": 120.0
   }
  },
  "categorias": {
   "super": {
-   "nombre": "Súper y comida en casa (sin carne roja)",
-   "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa, sin contar la carne roja?",
+   "nombre": "Súper y comida en casa (sin res ni cerdo)",
+   "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa, sin contar la res ni el cerdo?",
    "kg_co2e_por_mxn": 0.0517,
    "fisico": null,
    "periodo": "mensual",
@@ -55,17 +61,29 @@
    ],
    "gasto_default_mxn": 2009.0
   },
-  "carne": {
-   "nombre": "Carne roja (res y cerdo)",
-   "pregunta": "¿Cuántos kilos de res y cerdo comes al mes? (cambia a $ si no los sabes)",
-   "kg_co2e_por_mxn": 0.17,
-   "fisico": "carne_roja",
+  "res": {
+   "nombre": "Carne de res",
+   "pregunta": "¿Cuántos kilos de res compras al mes para comer en casa? Borrego y cabrito también van aquí; lo que comes fuera ya cuenta en restaurantes y apps. (Cambia a $ si no los sabes)",
+   "kg_co2e_por_mxn": 0.34588,
+   "fisico": "res",
    "periodo": "mensual",
    "sectores_scian": [
     "112",
     "311"
    ],
-   "gasto_default_mxn": 400.0
+   "gasto_default_mxn": 173.0
+  },
+  "cerdo": {
+   "nombre": "Carne de cerdo",
+   "pregunta": "¿Cuántos kilos de cerdo compras al mes para comer en casa? Lo que comes fuera ya cuenta en restaurantes y apps. (Cambia a $ si no los sabes)",
+   "kg_co2e_por_mxn": 0.07963,
+   "fisico": "cerdo",
+   "periodo": "mensual",
+   "sectores_scian": [
+    "112",
+    "311"
+   ],
+   "gasto_default_mxn": 160.0
   },
   "restaurantes": {
    "nombre": "Restaurantes, cafés y bares",
