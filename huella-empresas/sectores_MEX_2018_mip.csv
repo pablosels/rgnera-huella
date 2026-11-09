@@ -1,0 +1,79 @@
+﻿scian,sector,q_gCO2e_peso,m_gCO2e_peso,x_MMXN,consumo_privado_MMXN
+111,Agricultura,46.054,60.735,678398.0,178661.0
+112,Cría y explotación de animales,243.021,281.553,442776.0,53880.0
+113,Aprovechamiento forestal,10.037,16.468,28845.0,3242.0
+114,"Pesca, caza y captura",10.037,34.938,22772.0,12343.0
+115,Servicios relacionados con las actividades agropecuarias y forestales,10.037,27.654,10807.0,866.0
+211,Extracción de petróleo y gas,51.598,62.889,885428.0,0.0
+212,"Minería de minerales metálicos y no metálicos, excepto petróleo y gas",23.507,42.941,420304.0,0.0
+213,Servicios relacionados con la minería,0.319,31.825,152870.0,0.0
+221,"Generación, transmisión, distribución y comercialización de energía eléctrica, suministro de agua y de gas natural por ductos al consumidor final",234.328,253.715,746292.0,290420.0
+236,Edificación,0.47,23.755,2153401.0,0.0
+237,Construcción de obras de ingeniería civil,0.47,31.697,548982.0,0.0
+238,Trabajos especializados para la construcción,0.47,18.161,302787.0,0.0
+311,Industria alimentaria,1.572,68.705,2380775.0,1909594.0
+312,Industria de las bebidas y del tabaco,2.925,30.983,448764.0,309779.0
+313,Fabricación de insumos textiles y acabado de textiles,8.032,46.342,102224.0,23275.0
+314,"Fabricación de productos textiles, excepto prendas de vestir",8.032,33.56,63678.0,30852.0
+315,Fabricación de prendas de vestir,8.032,35.79,184411.0,138602.0
+316,"Curtido y acabado de cuero y piel, y fabricación de productos de cuero, piel y materiales sucedáneos",8.032,35.754,85215.0,76812.0
+321,Industria de la madera,8.032,26.53,90927.0,5007.0
+322,Industria del papel,10.663,37.745,292267.0,80856.0
+323,Impresión e industrias conexas,8.032,35.36,79224.0,13670.0
+324,Fabricación de productos derivados del petróleo y del carbón,11.813,52.241,1007318.0,456152.0
+325,Industria química,12.746,44.109,1093496.0,556877.0
+326,Industria del plástico y del hule,2.587,33.107,540691.0,122210.0
+327,Fabricación de productos a base de minerales no metálicos,86.272,122.59,395874.0,20955.0
+331,Industrias metálicas básicas,33.05,74.787,848072.0,2307.0
+332,Fabricación de productos metálicos,8.032,41.342,522885.0,100526.0
+333,Fabricación de maquinaria y equipo,8.032,38.039,701398.0,11253.0
+334,"Fabricación de equipo de computación, comunicación, medición y de otros equipos, componentes y accesorios electrónicos",8.048,40.013,1932562.0,271415.0
+335,"Fabricación de accesorios, aparatos eléctricos y equipo de generación de energía eléctrica",8.404,42.077,744120.0,150565.0
+336,Fabricación de equipo de transporte,1.682,29.105,3814528.0,806702.0
+337,"Fabricación de muebles, colchones y persianas",8.032,32.589,136977.0,65454.0
+339,Otras industrias manufactureras,8.032,37.628,341550.0,112316.0
+431,"Comercio al por mayor de abarrotes, alimentos, bebidas, hielo y tabaco",0.61,6.045,2975676.0,1397696.0
+461,"Comercio al por menor de abarrotes, alimentos, bebidas, hielo y tabaco",0.61,10.125,2858983.0,1342884.0
+481,Transporte aéreo,67.436,91.117,228009.0,187765.0
+482,Transporte por ferrocarril,35.511,55.152,68682.0,34297.0
+483,Transporte por agua,69.228,84.689,31917.0,11693.0
+484,Autotransporte de carga,48.294,59.376,1246250.0,575173.0
+485,"Transporte terrestre de pasajeros, excepto por ferrocarril",58.603,76.082,727879.0,708226.0
+486,Transporte por ductos,0.319,30.685,25677.0,25669.0
+487,Transporte turístico,58.603,76.574,4843.0,4843.0
+488,Servicios relacionados con el transporte,0.319,14.724,234255.0,40639.0
+491,Servicios postales,0.61,7.633,4898.0,362.0
+492,Servicios de mensajería y paquetería,0.61,20.206,46102.0,28285.0
+493,Servicios de almacenamiento,0.61,27.493,65240.0,0.0
+511,"Edición de periódicos, revistas, libros, software y otros materiales, y edición de estas publicaciones integrada con la impresión",0.61,16.345,52838.0,12639.0
+512,"Industria fílmica y del video, e industria del sonido",0.61,16.46,70469.0,52704.0
+515,Radio y televisión,0.61,24.67,89280.0,56955.0
+517,Telecomunicaciones,0.61,22.006,452466.0,328786.0
+518,"Procesamiento electrónico de información, hospedaje y otros servicios relacionados",0.61,15.12,18865.0,1329.0
+519,Otros servicios de información,0.61,53.005,2913.0,505.0
+521,Banca central,0.61,3.995,43137.0,0.0
+522,Instituciones de intermediación crediticia y financiera no bursátil,0.61,5.196,940460.0,811868.0
+523,"Actividades bursátiles, cambiarias y de inversión financiera",0.61,6.675,37495.0,9378.0
+524,"Compañías de seguros, fianzas, y administración de fondos para el retiro",0.61,11.113,350699.0,205261.0
+531,Servicios inmobiliarios,0.61,5.744,2284189.0,1832545.0
+532,Servicios de alquiler de bienes muebles,0.61,16.699,80786.0,7769.0
+533,"Servicios de alquiler de marcas registradas, patentes y franquicias",0.61,1.685,52873.0,0.0
+541,"Servicios profesionales, científicos y técnicos",0.61,9.476,620109.0,46837.0
+551,Corporativos,0.61,7.042,213549.0,0.0
+561,Servicios de apoyo a los negocios,0.61,8.408,1004767.0,60937.0
+562,Manejo de residuos y servicios de remediación,1107.585,1123.992,25556.0,60.0
+611,Servicios educativos,0.61,6.859,1019070.0,251203.0
+621,Servicios médicos de consulta externa y servicios relacionados,0.61,12.876,355230.0,122650.0
+622,Hospitales,0.61,14.768,458718.0,78197.0
+623,Residencias de asistencia social y para el cuidado de la salud,0.61,23.165,4568.0,3459.0
+624,Otros servicios de asistencia social,0.61,18.464,33931.0,13105.0
+711,"Servicios artísticos, culturales y deportivos, y otros servicios relacionados",0.61,8.156,66546.0,62632.0
+712,"Museos, sitios históricos, zoológicos y similares",0.61,13.151,12774.0,4860.0
+713,Servicios de entretenimiento en instalaciones recreativas y otros servicios recreativos,0.61,17.94,99690.0,98204.0
+721,Servicios de alojamiento temporal,0.61,14.725,405557.0,383383.0
+722,Servicios de preparación de alimentos y bebidas,0.61,17.564,524177.0,492212.0
+811,Servicios de reparación y mantenimiento,0.61,17.181,207074.0,81148.0
+812,Servicios personales,0.61,10.261,223442.0,213386.0
+813,Asociaciones y organizaciones,0.61,13.539,82980.0,70418.0
+814,Hogares con empleados domésticos,0.61,0.61,100065.0,100065.0
+931,"Actividades legislativas, gubernamentales y de impartición de justicia",0.61,10.075,1305939.0,6950.0
