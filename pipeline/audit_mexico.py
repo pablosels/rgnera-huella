@@ -141,8 +141,15 @@ sec = pd.read_csv(ROOT / "pipeline" / "sectores_MEX_2018_mip.csv", dtype={"scian
 js = json.loads((ROOT / "web" / "intensidades_MEX.json").read_text(encoding="utf-8"))
 POB, INFL = js["poblacion"], js["inflacion_a_hoy"]
 peor = 0
+def default_mes(cat):
+    """gasto_default_mxn es anual en los rubros con periodo 'anual'."""
+    g = cat["gasto_default_mxn"]
+    return g / 12 if cat.get("periodo") == "anual" else g
+
+# defaults fijados a mano (no salen del CP de su sector): físicos o supuestos
+MANUALES = ("gasolina", "gas", "electricidad", "res", "cerdo", "apps_comida")
 for clave, cat in js["categorias"].items():
-    if clave in ("gasolina", "gas"):
+    if clave in MANUALES:
         continue
     ss = cat["sectores_scian"]
     sel = sec.loc[[s for s in ss if s in sec.index]]
@@ -152,15 +159,15 @@ for clave, cat in js["categorias"].items():
     inten = float((sel["m_gCO2e_peso"] * w).sum() / w.sum()) / 1000
     dflt = float(sel["consumo_privado_MMXN"].clip(lower=0).sum()) * 1e6 / POB / 12 * INFL
     d1 = abs(inten - cat["kg_co2e_por_mxn"])
-    d2 = abs(dflt - cat["gasto_default_mxn_mes"])
+    d2 = abs(dflt - default_mes(cat))
     if d1 > 1e-5 or d2 > 1:
         print(f"  !! {clave}: inten {inten:.5f} vs {cat['kg_co2e_por_mxn']} | "
-              f"default {dflt:.0f} vs {cat['gasto_default_mxn_mes']}")
+              f"default {dflt:.0f} vs {default_mes(cat):.0f}")
         peor += 1
 print(f"categorías con discrepancia: {peor}")
 
 # defaults totales vs ENIGH: gasto corriente monetario promedio/persona
-tot_def = sum(c["gasto_default_mxn_mes"] for c in js["categorias"].values())
+tot_def = sum(default_mes(c) for c in js["categorias"].values())
 print(f"suma de defaults: {tot_def:,.0f} MXN/mes por persona "
       f"(ENIGH 2022: gasto corriente ~4,200 MXN/pers/mes monetario; "
       f"CP nacional per cápita es mayor por renta imputada y no-monetario)")

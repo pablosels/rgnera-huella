@@ -353,7 +353,7 @@ const PRECIO_TARIFA = Object.assign({}, ...Object.values(TARIFAS_CFE));
 const FIS = {
   electricidad: {unidad:"kWh", kgU:0.444, precio:1.6},    // precio = tarifa 1
   gasolina:     {unidad:"L",   kgU:2.93,  precio:24.0},   // 2.31 combustión + cadena
-  gas:          {unidad:"L",   kgU:1.83,  precio:12.0},   // GLP 1.66 + cadena
+  gas:          {unidad:"L",   kgU:1.83,  precio:11.2},   // GLP 1.66 + cadena; CNE oct-2026 $20.73/kg × 0.54
   vuelos:       {unidad:"h",   kgU:90,    precio:1300, pref:"fis"},
   // 90 kg CO2e por hora volada (económica): la emisión depende de las horas
   // en el aire, no del precio del boleto (low-cost emite igual que premium)
@@ -414,7 +414,7 @@ const ACCIONES = {
   // $1,900-3,400, gas LP $20.73/kg (CNE, oct-2026): una familia con ~$600/mes de gas
   // lo paga en ~4-5 años (1-2 personas con ~$300/mes: ~8-10). FAMERAC (fabricantes)
   // decía 2-4 años. Antes 0.55: imposible, porque cocinar también gasta gas.
-  gas:{e:"🔥",t:"Un calentador solar hace con el sol la mayor parte del agua caliente; deja de respaldo un boiler sin piloto o apágale la flamita, que sola quema ~113 kg de gas LP al año. En familia se paga en ~4 a 5 años.",f:0.35},
+  gas:{e:"🔥",t:"Un calentador solar hace con el sol la mayor parte del agua caliente; deja de respaldo un boiler sin piloto o apágale la flamita, que sola quema ~113 kg de gas LP al año. Con unos $600 al mes de gas se paga en ~4 a 5 años.",f:0.35},
   // res: cambiar la mitad de los kilos de res por cerdo, pollo o frijol. Neto
   // con el sustituto de más huella de los tres (el cerdo: 6.5 kg/kg aquí; OWID
   // también lo pone arriba del pollo y el frijol): 0.5 × (1 − 6.5/40) = 42% del
@@ -733,7 +733,7 @@ function setQuien(){
   q.style.display = "";
   q.innerHTML = (PERSONAS > 1
       ? `Cálculo para <b>mi hogar (${PERSONAS} personas)</b> — captura los gastos de toda la casa · `
-      : `Cálculo para <b>una persona</b> · `)
+      : `Cálculo para <b>una persona</b> — si compartes casa, en luz, gas y renta pon solo tu parte · `)
     + `<a id="cambiar-pers">cambiar</a>`;
   document.getElementById("cambiar-pers").onclick = () => {
     selHogar(PERSONAS > 1);
