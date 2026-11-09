@@ -49,13 +49,16 @@ FISICOS = {
     "res": {"factor": 40.0, "unidad": "kg CO2e por kg de carne de res",
             "fuente": "Bovino INECC 2018 (3A1+3B1 = 89 Mt, ~65% a carne) "
                       "÷ 1.98 Mt canal ÷ 0.75 rendimiento menudeo ≈ 39-40 "
-                      "kg CO2e/kg; extremo bajo frente a OWID (hato de carne "
-                      "99.5, lechero 33.3)",
+                      "kg CO2e/kg; es un piso: sin alimento, potreros (3D1) ni "
+                      "cambio de uso de suelo (UTCUTS); OWID: hato de carne "
+                      "99.5, lechero 33.3",
             # Profeco 2026: promedio nacional de la res 164.85 MXN/kg (may),
             # bistec ~170-175; BM Editores ago-2026 ~174
             "precio_default_mxn": 170.0},
     "cerdo": {"factor": 6.5, "unidad": "kg CO2e por kg de carne de cerdo",
-              "fuente": "~6.5 kg CO2e/kg (valor del modelo de mezcla previo)",
+              "fuente": "Porcinos INECC 2018 (3A3+3B3 = 6.6 Mt) ÷ ~1.3-1.5 "
+                        "Mt canal (SIAP, por verificar) ÷ 0.75 ≈ 6-7 kg "
+                        "CO2e/kg; mismo límite que la res (piso); OWID 12.3",
               # Profeco jul-2026: pierna 98-126, chuleta 111-135 MXN/kg
               "precio_default_mxn": 120.0},
 }

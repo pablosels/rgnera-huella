@@ -82,8 +82,7 @@
   /* desglose */
   .fila-des{display:grid; grid-template-columns:11.5rem 1fr 4.4rem; gap:.5rem;
             align-items:center; margin:.4rem 0; font-size:.83rem}
-  .fila-des .nom{text-align:right; color:#5c6553; overflow:hidden;
-                 text-overflow:ellipsis; white-space:nowrap}
+  .fila-des .nom{text-align:right; color:#5c6553; line-height:1.25}
   .fila-des .barra{background:var(--olive); height:12px}
   .fila-des .val{font-variant-numeric:tabular-nums; color:#5c6553}
   .fila-des.top .nom, .fila-des.top .val{font-weight:700; color:var(--ink)}
@@ -300,14 +299,20 @@
       ya incluye los efectos no-CO₂ de volar a gran altura, como las estelas, con
       su multiplicador central de 1.7; contando solo el CO₂ serían ~55 kg por hora.
       La carne que compras para casa se captura en <b>kilos</b> y por separado:
-      res ~40 kg CO₂e por kilo (del inventario del INECC: metano de la
-      digestión, pastos y deforestación) y cerdo ~6.5, así que pasar de res a
-      cerdo se nota en tu resultado. La carne que comes fuera ya va dentro de
-      restaurantes y apps de comida.</p>
+      res ~40 kg CO₂e por kilo y cerdo ~6.5, así que pasar de res a cerdo se nota
+      en tu resultado. Los ~40 de la res salen del inventario del INECC: el
+      metano de la digestión y el manejo del estiércol del ganado bovino (89 Mt en
+      2018), con ~65% asignado a la carne y no a la leche. No incluyen el
+      alimento, los potreros ni la deforestación (el inventario cuenta el cambio de
+      uso de suelo aparte), así que son un piso: estudios internacionales que sí
+      los cuentan dan de ~33 a ~100 kg por kilo (Poore y Nemecek 2018). El cerdo
+      se calcula igual. La carne que comes fuera ya va dentro de restaurantes y
+      apps de comida.</p>
       <p><b>Limitaciones:</b> es un estimado educativo con intensidades promedio por
       sector — no distingue marcas ni hábitos específicos (100 pesos de pollo y 100
       de frijol pesan igual en "súper", y un platillo de res y uno de verdura,
-      igual en "restaurantes"). Los resultados son orientativos y
+      igual en "restaurantes"; por eso "elige distinto" al comer fuera baja tu
+      huella real, pero no se ve aquí al volver a medirte). Los resultados son orientativos y
       sirven para ver órdenes de magnitud y prioridades, no para contabilidad
       oficial. Los ahorros de cada consejo son estimados prudentes: qué parte del
       rubro toca la acción × cuánto la reduce, menos lo que sube en otro rubro. Sus
@@ -377,7 +382,8 @@ const PROMEDIO_MX = 5.1, META = 2.0;
 // aplicas la acción. Cada f = parte del rubro que toca la acción × cuánto la
 // reduce, neto de lo que se suma en otro rubro, sin redondear hacia arriba.
 // Auditadas el 5-nov-2026 y revisadas el mismo día por escépticos que trataron de
-// refutar cada cifra (cuentas y fuentes en los comentarios).
+// refutar cada cifra; res y cerdo (rubros nuevos) se revisaron igual el
+// 9-nov-2026 (cuentas y fuentes en los comentarios).
 const ACCIONES = {
   // vuelos: juntar o evitar 1 de cada 5 viajes (20%) + directo en vez de escala
   // en ~1/3 de itinerarios con ~15% menos horas (conexiones: hasta +32%, máximo
@@ -413,20 +419,27 @@ const ACCIONES = {
   // con el sustituto de más huella de los tres (el cerdo: 6.5 kg/kg aquí; OWID
   // también lo pone arriba del pollo y el frijol): 0.5 × (1 − 6.5/40) = 42% del
   // rubro → se deja 0.40. Es lo que la calculadora muestra al volver a medirse
-  // (la res baja y el cerdo sube). ~40 kg/kg es el extremo bajo: OWID hato de
-  // carne 99.5, lechero 33.3; FAO GLEAM: entérico 43%, pastos y alimento ~36%,
-  // deforestación ~1/3 (LatAm). Antes (5-nov-2026) era un solo rubro "carne
+  // (la res baja y el cerdo sube); con pollo o frijol (van a "súper" a ~0.035
+  // kg/MXN) ahorra más. ~40 kg/kg = INEGyCEI 2018 bovino [3A1] entérico 71.9 Mt
+  // + [3B1] estiércol 17.1 Mt = 89 Mt × 0.65 a carne ÷ 1.98 Mt en canal ÷ 0.75
+  // ≈ 39: SIN alimento, potreros ([3D1]) ni cambio de uso de suelo (UTCUTS [4],
+  // que el pipeline excluye), así que es un piso. OWID (Poore y Nemecek 2018):
+  // hato lechero 33.3, hato de carne 99.5. FAO GLEAM (global): entérico 43% de la
+  // cadena de res; en América Latina el cambio de uso de suelo es ~1/3 aparte.
+  // Antes (5-nov-2026) era un solo rubro "carne
   // roja" con f 0.30: en la mezcla de 21 kg/kg la res es 43% de los kilos y
   // 82% de las emisiones; un día sin carne roja ≈ −9% + res de 43% a 25% de los
   // kilos ≈ −24% → ~33%. Con el default (1.02 kg de res) el ahorro queda en
   // ~16 kg CO2e/mes, contra ~15 del rubro mezcla (49.4 × 0.30).
-  res:{e:"🥩",t:"La res emite ~40 kg de CO₂e por kilo o más (metano de su digestión, pastos y deforestación); el cerdo, ~6.5. Cambia la mitad de tu res por cerdo, pollo o frijol y, cuando vuelvas a medirte, lo verás en tu resultado.",f:0.40},
-  // cerdo: ya es ~6× menos que la res. Cambiar 1 de cada 4 comidas de cerdo por
-  // frijol, lenteja o huevo: con OWID por kg (Poore y Nemecek 2018) cerdo 12.3,
-  // huevo 4.7, legumbres 1.8 → el huevo, el peor de los tres, corta 62% →
-  // 0.25 × 0.62 ≈ 15%. El pollo (9.9) casi no ahorra frente al cerdo: no se
-  // recomienda aquí.
-  cerdo:{e:"🐖",t:"El cerdo emite ~6.5 kg de CO₂e por kilo, unas 6 veces menos que la res: si lo eliges en vez de res, ya vas bien. Para bajar más, cambia 1 de cada 4 comidas de cerdo por frijol, lenteja o huevo.",f:0.15},
+  res:{e:"🥩",t:"La res emite ~40 kg de CO₂e por kilo solo por el metano de su digestión y su estiércol; con alimento, potreros y deforestación, más. Cambia la mitad de tu res por pollo o frijol (o cerdo) y lo verás al volver a medirte.",f:0.40},
+  // cerdo: ~6× menos que la res por kilo. Cambiar 1 de cada 4 comidas de cerdo
+  // por frijol, lenteja o huevo: en la calculadora, −25% de los kilos a 6.5 y lo
+  // que sube "súper" (~2 kg CO2e/kg de huevo o frijol, a ~0.035 kg/MXN) ≈ 0.15.
+  // OWID (Poore y Nemecek 2018) solo como orden de magnitud: cerdo 12.3, huevo
+  // 4.7, legumbres 1.8 por kg (por proteína el huevo daría ~11%). El pollo (9.9)
+  // casi no ahorra frente al cerdo: no se recomienda aquí. El texto no dice "ya
+  // vas bien": la tarjeta solo sale cuando el cerdo es de lo que más pesa.
+  cerdo:{e:"🐖",t:"El cerdo emite ~6.5 kg de CO₂e por kilo, unas 6 veces menos que la res, pero si comes mucho también suma. Cambia 1 de cada 4 comidas de cerdo por frijol, lenteja o huevo.",f:0.15},
   // súper: hogares en México tiran ~105 kg/persona/año con partes no comestibles
   // (FWI 2024, base ODS de la ONU). Comestible ~1/3 en países de ingreso medio
   // alto (FWI 2024, tabla 19: Brasil 31%, Indonesia 34%) → ~35 kg de ~365 kg
