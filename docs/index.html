@@ -71,6 +71,7 @@
   .contexto{font-size:.9rem; margin:.9rem 0 0; color:#5c6553; text-align:center}
   /* comparativa */
   .comp{margin:1.5rem 0}
+  .nota-comp{font-size:.78rem; color:#5c6553; text-align:center; margin:.6rem 0 0}
   .fila-comp{display:grid; grid-template-columns:7.2rem 1fr 3.4rem; gap:.55rem;
              align-items:center; margin:.5rem 0; font-size:.85rem}
   .fila-comp .nom{text-align:right; color:#5c6553}
@@ -210,8 +211,9 @@
     <img class="logo" src="data:image/png;base64,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" alt="RGNERA" width="76" height="76">
     <div class="marca">R G N E R A</div>
     <h1>¿Cuál es tu huella ambiental?</h1>
-    <p class="sub">Escribe cuánto gastas al mes en cada rubro (ya pusimos el promedio
-    nacional de arranque) y calcula las toneladas de CO₂e que genera tu estilo de vida.
+    <p class="sub">Escribe cuánto gastas al mes en cada rubro (de arranque pusimos lo
+    que gasta en promedio una persona en México) y calcula las toneladas de CO₂e que
+    genera tu estilo de vida.
     Hecha con datos oficiales de México: INEGI e INECC.</p>
   </header>
 
@@ -232,12 +234,14 @@
       <div class="fila-comp"><span class="nom">Tú</span>
         <div class="pista"><div class="barra tu" id="b-tu"></div></div>
         <span class="val" id="v-tu"></span></div>
-      <div class="fila-comp"><span class="nom">Promedio México</span>
+      <div class="fila-comp"><span class="nom" title="Lo que da esta calculadora con los valores de arranque: la huella de una persona promedio en México">Promedio en México</span>
         <div class="pista"><div class="barra" id="b-mx"></div></div>
-        <span class="val">5.1 t</span></div>
+        <span class="val" id="v-mx">–</span></div>
       <div class="fila-comp"><span class="nom">Meta climática</span>
         <div class="pista"><div class="barra" id="b-meta"></div></div>
         <span class="val">2.0 t</span></div>
+      <p class="nota-comp">Promedio en México: lo que da esta calculadora con los
+      valores de arranque (detalles en Metodología, abajo).</p>
     </div>
 
     <h2><span class="em">🌱</span> Tu desglose<span id="des-suf"></span></h2>
@@ -285,8 +289,10 @@
       producción completa, y las emisiones de toda esa cadena se atribuyen a tu
       consumo. Intensidades calculadas con la <b>Matriz de Insumo-Producto 2018 de
       INEGI</b> (78 subsectores SCIAN, precios básicos) y el <b>Inventario Nacional
-      de Emisiones de Gases y Compuestos de Efecto Invernadero (INECC)</b>, con
-      ajuste por márgenes de comercio e inflación. La energía directa usa factores
+      de Emisiones de Gases y Compuestos de Efecto Invernadero (INECC)</b>, llevadas
+      a precio de tienda (lo que pagas: el producto más el comercio, el flete y los
+      impuestos, que la propia MIP registra aparte) y ajustadas por inflación. La
+      energía directa usa factores
       físicos: electricidad 0.444 kg CO₂e/kWh (Aviso FESEN 2024, CRE/SEMARNAT),
       gasolina 2.31 kg CO₂/L de combustión más su cadena de producción, y gas LP.
       Los precios por kWh según tarifa CFE (1, 1A–1F, DAC) son promedios
@@ -308,6 +314,29 @@
       los cuentan dan de ~33 a ~100 kg por kilo (Poore y Nemecek 2018). El cerdo
       se calcula igual. La carne que comes fuera ya va dentro de restaurantes y
       apps de comida.</p>
+      <p><b>El promedio en México</b> (<span class="m-mx">4.7</span> t de CO₂e al año)
+      es lo que da esta calculadora con los valores de arranque: la huella de lo que
+      consume en un año una persona promedio en México. Esos valores salen del consumo
+      de los hogares en la Matriz de Insumo-Producto 2018 del INEGI, repartido entre
+      125.3 millones de habitantes, a precio de tienda y llevado a pesos de hoy; la luz,
+      el gas y la gasolina, en kWh y litros (CFE, Balance Nacional de Energía 2023 e
+      inventario del INECC). No son
+      las ~6.1 t que salen de dividir todas las emisiones del país entre sus habitantes
+      (inventario del INECC, 2018): esa cuenta también incluye lo que emiten el
+      gobierno, la construcción de carreteras, casas y fábricas, y lo que se produce
+      aquí para vender afuera. Son promedios de las cuentas nacionales, más altos que
+      lo que reportan los hogares en la ENIGH (una encuesta que no capta todo el gasto,
+      sobre todo el de mayores ingresos): con tu gasto real es normal quedar abajo en
+      algunos rubros, como el súper. Antes mostrábamos 5.1 t, de una cuenta aparte (y con
+      los valores de arranque de entonces la calculadora daba casi lo mismo, porque
+      contaba algunos gastos dos veces). Ahora el promedio sale de la misma calculadora
+      que tu resultado, para comparar parejo: quitamos esos dobles conteos (taxis y
+      transporte público, gas y farmacia, carne y súper, restaurantes y apps de comida)
+      y pusimos el súper, la ropa, la electrónica, los muebles y la farmacia a precio de
+      tienda, que es lo que tú pagas. Aún no incluye el agua y el drenaje ni las fugas
+      de gas de refrigeradores y climas (juntos, unas 0.1 t al año), y la res y el
+      cerdo de arranque quedan algo arriba de lo que les asigna la MIP (también unas
+      0.1 t): casi se compensan.</p>
       <p><b>Limitaciones:</b> es un estimado educativo con intensidades promedio por
       sector — no distingue marcas ni hábitos específicos (100 pesos de pollo y 100
       de frijol pesan igual en "súper", y un platillo de res y uno de verdura,
@@ -332,7 +361,7 @@
 </div>
 
 <script>
-const DATOS = {"pais": "México", "iso3": "MEX", "moneda": "MXN", "anio_base": 2018, "poblacion": 125327797, "inflacion_a_hoy": 1.47, "fuente": "MIP 2018 INEGI (78 subsectores SCIAN, precios básicos) + INEGyCEI 2018 INECC (tCO2e). Metodología Leontief EEIO; véase pipeline/.", "unidad_intensidad": "kg CO2e por MXN (de 2018)", "fisicos": {"electricidad": {"factor": 0.444, "unidad": "kg CO2e por kWh", "fuente": "Aviso FESEN 2024, CRE/SEMARNAT (0.444 tCO2e/MWh)", "precio_default_mxn": 1.6}, "gasolina": {"factor": 2.31, "unidad": "kg CO2 por litro", "fuente": "IPCC 2006 gasolina automotriz", "precio_default_mxn": 24.0}, "gas_lp": {"factor": 1.66, "unidad": "kg CO2 por litro", "fuente": "IPCC 2006 GLP (2.98 kg/kg, densidad 0.54)", "precio_default_mxn": 11.2}, "vuelo": {"factor": 90.0, "unidad": "kg CO2e por hora de vuelo", "fuente": "Clase económica: ~0.11 kg CO2e/pasajero-km × ~800 km/h de crucero; coincide con DESNZ 2025 CON efectos no-CO2 de altura (multiplicador 1.7); solo CO2 serían ~55 kg/h", "precio_default_mxn": 1300.0}, "res": {"factor": 40.0, "unidad": "kg CO2e por kg de carne de res", "fuente": "Bovino INECC 2018 (3A1+3B1 = 89 Mt, ~65% a carne) ÷ 1.98 Mt canal ÷ 0.75 rendimiento menudeo ≈ 39-40 kg CO2e/kg; es un piso: sin alimento, potreros (3D1) ni cambio de uso de suelo (UTCUTS); OWID: hato de carne 99.5, lechero 33.3", "precio_default_mxn": 170.0}, "cerdo": {"factor": 6.5, "unidad": "kg CO2e por kg de carne de cerdo", "fuente": "Porcinos INECC 2018 (3A3+3B3 = 6.6 Mt) ÷ ~1.3-1.5 Mt canal (SIAP, por verificar) ÷ 0.75 ≈ 6-7 kg CO2e/kg; mismo límite que la res (piso); OWID 12.3", "precio_default_mxn": 120.0}}, "categorias": {"super": {"nombre": "Súper y comida en casa (sin res ni cerdo)", "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa, sin contar la res ni el cerdo?", "kg_co2e_por_mxn": 0.0517, "fisico": null, "periodo": "mensual", "sectores_scian": ["311", "312", "111", "112", "114"], "gasto_default_mxn": 2009.0}, "res": {"nombre": "Carne de res", "pregunta": "¿Cuántos kilos de res compras al mes para comer en casa? Borrego y cabrito también van aquí; lo que comes fuera ya cuenta en restaurantes y apps. (Cambia a $ si no los sabes)", "kg_co2e_por_mxn": 0.34588, "fisico": "res", "periodo": "mensual", "sectores_scian": ["112", "311"], "gasto_default_mxn": 173.0}, "cerdo": {"nombre": "Carne de cerdo", "pregunta": "¿Cuántos kilos de cerdo compras al mes para comer en casa? Lo que comes fuera ya cuenta en restaurantes y apps. (Cambia a $ si no los sabes)", "kg_co2e_por_mxn": 0.07963, "fisico": "cerdo", "periodo": "mensual", "sectores_scian": ["112", "311"], "gasto_default_mxn": 160.0}, "restaurantes": {"nombre": "Restaurantes, cafés y bares", "pregunta": "¿Cuánto gastas al mes en comer y beber fuera?", "kg_co2e_por_mxn": 0.01756, "fisico": null, "periodo": "mensual", "sectores_scian": ["722"], "gasto_default_mxn": 481.0}, "apps_comida": {"nombre": "Apps de comida (Uber Eats, DiDi Food, Rappi)", "pregunta": "¿Cuánto gastas al mes en pedidos a domicilio?", "kg_co2e_por_mxn": 0.01809, "fisico": null, "periodo": "mensual", "sectores_scian": ["722", "492"], "gasto_default_mxn": 200.0}, "renta": {"nombre": "Renta o vivienda", "pregunta": "¿Cuánto pagas de renta al mes (o valor equivalente)?", "kg_co2e_por_mxn": 0.00574, "fisico": null, "periodo": "mensual", "sectores_scian": ["531"], "gasto_default_mxn": 1791.0}, "electricidad": {"nombre": "Electricidad (recibo CFE)", "pregunta": "¿Cuánto pagas de luz al mes? El recibo de CFE suele ser bimestral: divídelo entre 2 (igual los kWh).", "kg_co2e_por_mxn": 0.25372, "fisico": "electricidad", "periodo": "mensual", "sectores_scian": ["221"], "gasto_default_mxn": 80.0}, "gasolina": {"nombre": "Gasolina", "pregunta": "¿Cuánto gastas de gasolina al mes?", "kg_co2e_por_mxn": 0.14907, "fisico": "gasolina", "periodo": "mensual", "sectores_scian": ["324"], "gasto_default_mxn": 446.0}, "gas": {"nombre": "Gas LP / natural", "pregunta": "¿Cuánto gastas de gas al mes? (cilindro, estacionario o natural)", "kg_co2e_por_mxn": 0.1826, "fisico": "gas_lp", "periodo": "mensual", "sectores_scian": ["221"], "gasto_default_mxn": 70.0}, "transporte_publico": {"nombre": "Transporte público", "pregunta": "¿Cuánto gastas al mes en metro, camión, combi?", "kg_co2e_por_mxn": 0.07608, "fisico": null, "periodo": "mensual", "sectores_scian": ["485"], "gasto_default_mxn": 692.0}, "taxi_apps": {"nombre": "Taxi y apps (Uber, Didi)", "pregunta": "¿Cuánto gastas al mes en taxis o apps de transporte?", "kg_co2e_por_mxn": 0.07608, "fisico": null, "periodo": "mensual", "sectores_scian": ["485"], "gasto_default_mxn": 692.0}, "vuelos": {"nombre": "Vuelos", "pregunta": "¿Cuántas horas de vuelo haces al año? (cada tramo cuenta; puedes cambiar a $ si no las sabes)", "kg_co2e_por_mxn": 0.09112, "fisico": "vuelo", "periodo": "anual", "sectores_scian": ["481"], "gasto_default_mxn": 2202.0}, "ropa": {"nombre": "Ropa y calzado", "pregunta": "¿Cuánto gastas al mes en ropa y zapatos?", "kg_co2e_por_mxn": 0.0246, "fisico": null, "periodo": "mensual", "sectores_scian": ["315", "316", "313", "314"], "gasto_default_mxn": 263.0}, "electronica": {"nombre": "Electrónica y tecnología", "pregunta": "¿Cuánto gastas al mes en celular, cómputo, gadgets?", "kg_co2e_por_mxn": 0.02806, "fisico": null, "periodo": "mensual", "sectores_scian": ["334"], "gasto_default_mxn": 265.0}, "hogar": {"nombre": "Muebles y artículos del hogar", "pregunta": "¿Cuánto gastas AL AÑO en muebles, electrodomésticos, hogar?", "kg_co2e_por_mxn": 0.02725, "fisico": null, "periodo": "anual", "sectores_scian": ["337", "335", "339"], "gasto_default_mxn": 3851.0}, "salud": {"nombre": "Salud y médicos (sin farmacia)", "pregunta": "¿Cuánto gastas AL AÑO en médicos, dentista, hospital?", "kg_co2e_por_mxn": 0.01406, "fisico": null, "periodo": "anual", "sectores_scian": ["621", "622", "623", "624"], "gasto_default_mxn": 2550.0}, "farmacia": {"nombre": "Farmacia y medicinas", "pregunta": "¿Cuánto gastas al mes en farmacia?", "kg_co2e_por_mxn": 0.04411, "fisico": null, "periodo": "mensual", "sectores_scian": ["325"], "gasto_default_mxn": 544.0}, "educacion": {"nombre": "Educación", "pregunta": "¿Cuánto gastas al mes en colegiaturas y cursos?", "kg_co2e_por_mxn": 0.00686, "fisico": null, "periodo": "mensual", "sectores_scian": ["611"], "gasto_default_mxn": 246.0}, "telecom": {"nombre": "Teléfono, internet y streaming", "pregunta": "¿Cuánto gastas al mes en celular, internet y plataformas?", "kg_co2e_por_mxn": 0.02241, "fisico": null, "periodo": "mensual", "sectores_scian": ["517", "518", "515", "519"], "gasto_default_mxn": 379.0}, "entretenimiento": {"nombre": "Entretenimiento y deporte", "pregunta": "¿Cuánto gastas al mes en cine, conciertos, gym, deporte?", "kg_co2e_por_mxn": 0.01467, "fisico": null, "periodo": "mensual", "sectores_scian": ["711", "712", "713", "512"], "gasto_default_mxn": 213.0}, "hoteles": {"nombre": "Hoteles y viajes", "pregunta": "¿Cuánto gastas AL AÑO en hospedaje y tours?", "kg_co2e_por_mxn": 0.0155, "fisico": null, "periodo": "anual", "sectores_scian": ["721", "487"], "gasto_default_mxn": 4554.0}, "personales": {"nombre": "Servicios personales", "pregunta": "¿Cuánto gastas al mes en estética, tintorería, etc.?", "kg_co2e_por_mxn": 0.01026, "fisico": null, "periodo": "mensual", "sectores_scian": ["812"], "gasto_default_mxn": 209.0}, "otros": {"nombre": "Otros gastos", "pregunta": "Auto o moto (compra y mantenimiento), bancos y seguros, envíos y paquetería, trabajadores del hogar, cuotas y donativos, regalos, papelería y demás compras del mes", "kg_co2e_por_mxn": 0.01822, "fisico": null, "periodo": "mensual", "sectores_scian": ["113", "115", "211", "212", "213", "236", "237", "238", "321", "322", "323", "326", "327", "331", "332", "333", "336", "431", "461", "482", "483", "484", "486", "488", "491", "493", "511", "521", "522", "523", "524", "532", "533", "541", "551", "561", "562", "811", "813", "814", "931"], "gasto_default_mxn": 5874.0}}};
+const DATOS = {"pais": "México", "iso3": "MEX", "moneda": "MXN", "anio_base": 2018, "poblacion": 125327797, "inflacion_a_hoy": 1.47, "fuente": "MIP 2018 INEGI (78 subsectores SCIAN, precios básicos) + INEGyCEI 2018 INECC (tCO2e). Metodología Leontief EEIO; véase pipeline/.", "unidad_intensidad": "kg CO2e por MXN (de 2018)", "fisicos": {"electricidad": {"factor": 0.444, "unidad": "kg CO2e por kWh", "fuente": "Aviso FESEN 2024, CRE/SEMARNAT (0.444 tCO2e/MWh)", "precio_default_mxn": 1.6}, "gasolina": {"factor": 2.31, "unidad": "kg CO2 por litro", "fuente": "IPCC 2006 gasolina automotriz", "precio_default_mxn": 24.0}, "gas_lp": {"factor": 1.66, "unidad": "kg CO2 por litro", "fuente": "IPCC 2006 GLP (2.98 kg/kg, densidad 0.54)", "precio_default_mxn": 11.2}, "vuelo": {"factor": 90.0, "unidad": "kg CO2e por hora de vuelo", "fuente": "Clase económica: ~0.11 kg CO2e/pasajero-km × ~800 km/h de crucero; coincide con DESNZ 2025 CON efectos no-CO2 de altura (multiplicador 1.7); solo CO2 serían ~55 kg/h", "precio_default_mxn": 1300.0}, "res": {"factor": 40.0, "unidad": "kg CO2e por kg de carne de res", "fuente": "Bovino INECC 2018 (3A1+3B1 = 89 Mt, ~65% a carne) ÷ 1.98 Mt canal ÷ 0.75 rendimiento menudeo ≈ 39-40 kg CO2e/kg; es un piso: sin alimento, potreros (3D1) ni cambio de uso de suelo (UTCUTS); OWID: hato de carne 99.5, lechero 33.3", "precio_default_mxn": 170.0}, "cerdo": {"factor": 6.5, "unidad": "kg CO2e por kg de carne de cerdo", "fuente": "Porcinos INECC 2018 (3A3+3B3 = 6.6 Mt) ÷ ~1.3-1.5 Mt canal (SIAP, por verificar) ÷ 0.75 ≈ 6-7 kg CO2e/kg; mismo límite que la res (piso); OWID 12.3", "precio_default_mxn": 120.0}}, "categorias": {"super": {"nombre": "Súper y comida en casa (sin res ni cerdo)", "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa, sin contar la res ni el cerdo? (Jabón, detergente y shampoo van en farmacia.)", "kg_co2e_por_mxn": 0.03748, "fisico": null, "periodo": "mensual", "sectores_scian": ["311", "312", "111", "112", "114"], "gasto_default_mxn": 3744.0}, "res": {"nombre": "Carne de res", "pregunta": "¿Cuántos kilos de res compras al mes para comer en casa? Borrego y cabrito también van aquí; lo que comes fuera ya cuenta en restaurantes y apps. (Cambia a $ si no los sabes)", "kg_co2e_por_mxn": 0.34588, "fisico": "res", "periodo": "mensual", "sectores_scian": ["112", "311"], "gasto_default_mxn": 173.0}, "cerdo": {"nombre": "Carne de cerdo", "pregunta": "¿Cuántos kilos de cerdo compras al mes para comer en casa? Lo que comes fuera ya cuenta en restaurantes y apps. (Cambia a $ si no los sabes)", "kg_co2e_por_mxn": 0.07963, "fisico": "cerdo", "periodo": "mensual", "sectores_scian": ["112", "311"], "gasto_default_mxn": 160.0}, "restaurantes": {"nombre": "Restaurantes, cafés y bares", "pregunta": "¿Cuánto gastas al mes en comer y beber fuera?", "kg_co2e_por_mxn": 0.016, "fisico": null, "periodo": "mensual", "sectores_scian": ["722"], "gasto_default_mxn": 328.0}, "apps_comida": {"nombre": "Apps de comida (Uber Eats, DiDi Food, Rappi)", "pregunta": "¿Cuánto gastas al mes en pedidos a domicilio?", "kg_co2e_por_mxn": 0.01648, "fisico": null, "periodo": "mensual", "sectores_scian": ["722", "492"], "gasto_default_mxn": 200.0}, "renta": {"nombre": "Renta o vivienda", "pregunta": "¿Cuánto pagas de renta al mes (o valor equivalente)?", "kg_co2e_por_mxn": 0.00574, "fisico": null, "periodo": "mensual", "sectores_scian": ["531"], "gasto_default_mxn": 1791.0}, "electricidad": {"nombre": "Electricidad (recibo CFE)", "pregunta": "¿Cuánto pagas de luz al mes? El recibo de CFE suele ser bimestral: divídelo entre 2 (igual los kWh).", "kg_co2e_por_mxn": 0.25372, "fisico": "electricidad", "periodo": "mensual", "sectores_scian": ["221"], "gasto_default_mxn": 80.0}, "gasolina": {"nombre": "Gasolina", "pregunta": "¿Cuánto gastas de gasolina al mes?", "kg_co2e_por_mxn": 0.14907, "fisico": "gasolina", "periodo": "mensual", "sectores_scian": ["324"], "gasto_default_mxn": 472.0}, "gas": {"nombre": "Gas LP / natural", "pregunta": "¿Cuánto gastas de gas al mes? (cilindro, estacionario o natural)", "kg_co2e_por_mxn": 0.1826, "fisico": "gas_lp", "periodo": "mensual", "sectores_scian": ["221"], "gasto_default_mxn": 70.0}, "transporte_publico": {"nombre": "Transporte público", "pregunta": "¿Cuánto gastas al mes en metro, camión, combi?", "kg_co2e_por_mxn": 0.07608, "fisico": null, "periodo": "mensual", "sectores_scian": ["485"], "gasto_default_mxn": 455.0}, "taxi_apps": {"nombre": "Taxi y apps (Uber, Didi)", "pregunta": "¿Cuánto gastas al mes en taxis o apps de transporte?", "kg_co2e_por_mxn": 0.07608, "fisico": null, "periodo": "mensual", "sectores_scian": ["485"], "gasto_default_mxn": 237.0}, "vuelos": {"nombre": "Vuelos", "pregunta": "¿Cuántas horas de vuelo haces al año? (cada tramo cuenta; puedes cambiar a $ si no las sabes)", "kg_co2e_por_mxn": 0.09112, "fisico": "vuelo", "periodo": "anual", "sectores_scian": ["481"], "gasto_default_mxn": 2202.0}, "ropa": {"nombre": "Ropa y calzado", "pregunta": "¿Cuánto gastas al mes en ropa y zapatos?", "kg_co2e_por_mxn": 0.02169, "fisico": null, "periodo": "mensual", "sectores_scian": ["315", "316", "313", "314"], "gasto_default_mxn": 565.0}, "electronica": {"nombre": "Electrónica y tecnología", "pregunta": "¿Cuánto gastas al mes en celular, cómputo, gadgets?", "kg_co2e_por_mxn": 0.02495, "fisico": null, "periodo": "mensual", "sectores_scian": ["334"], "gasto_default_mxn": 505.0}, "hogar": {"nombre": "Muebles y artículos del hogar", "pregunta": "¿Cuánto gastas AL AÑO en muebles, electrodomésticos, hogar?", "kg_co2e_por_mxn": 0.02598, "fisico": null, "periodo": "anual", "sectores_scian": ["337", "335", "339"], "gasto_default_mxn": 7312.0}, "salud": {"nombre": "Salud y médicos (sin farmacia)", "pregunta": "¿Cuánto gastas AL AÑO en médicos, dentista, hospital?", "kg_co2e_por_mxn": 0.01366, "fisico": null, "periodo": "anual", "sectores_scian": ["621", "622", "623", "624"], "gasto_default_mxn": 2624.0}, "farmacia": {"nombre": "Farmacia, limpieza y cuidado personal", "pregunta": "¿Cuánto gastas al mes en medicinas y en artículos de limpieza y cuidado personal (jabón, detergente, shampoo, cosméticos)?", "kg_co2e_por_mxn": 0.02734, "fisico": null, "periodo": "mensual", "sectores_scian": ["325"], "gasto_default_mxn": 567.0}, "educacion": {"nombre": "Educación", "pregunta": "¿Cuánto gastas al mes en colegiaturas y cursos?", "kg_co2e_por_mxn": 0.00686, "fisico": null, "periodo": "mensual", "sectores_scian": ["611"], "gasto_default_mxn": 246.0}, "telecom": {"nombre": "Teléfono, internet y streaming", "pregunta": "¿Cuánto gastas al mes en celular, internet y plataformas?", "kg_co2e_por_mxn": 0.01991, "fisico": null, "periodo": "mensual", "sectores_scian": ["517", "518", "515", "519"], "gasto_default_mxn": 427.0}, "entretenimiento": {"nombre": "Entretenimiento y deporte", "pregunta": "¿Cuánto gastas al mes en cine, conciertos, gym, deporte?", "kg_co2e_por_mxn": 0.01336, "fisico": null, "periodo": "mensual", "sectores_scian": ["711", "712", "713", "512"], "gasto_default_mxn": 234.0}, "hoteles": {"nombre": "Hoteles y viajes", "pregunta": "¿Cuánto gastas AL AÑO en hospedaje y tours?", "kg_co2e_por_mxn": 0.01371, "fisico": null, "periodo": "anual", "sectores_scian": ["721", "487"], "gasto_default_mxn": 5146.0}, "personales": {"nombre": "Servicios personales", "pregunta": "¿Cuánto gastas al mes en estética, tintorería, etc.?", "kg_co2e_por_mxn": 0.00935, "fisico": null, "periodo": "mensual", "sectores_scian": ["812"], "gasto_default_mxn": 229.0}, "otros": {"nombre": "Otros gastos", "pregunta": "Auto o moto (compra y mantenimiento), bancos y seguros, envíos y paquetería, trabajadores del hogar, cuotas y donativos, regalos, papelería y demás compras del mes", "kg_co2e_por_mxn": 0.01658, "fisico": null, "periodo": "mensual", "sectores_scian": ["113", "115", "211", "212", "213", "236", "237", "238", "321", "322", "323", "326", "327", "331", "332", "333", "336", "431", "461", "482", "483", "484", "486", "488", "491", "493", "511", "521", "522", "523", "524", "532", "533", "541", "551", "561", "562", "811", "813", "814", "931"], "gasto_default_mxn": 3643.0}}};
 
 const GRUPOS = [
   ["🏠 Tu hogar", ["renta","electricidad","gas","hogar"]],
@@ -376,7 +405,13 @@ function paso(k, enFis){
   return enFis ? (FIS[k].unidad === "kg" ? 0.1 : 1) : 10;
 }
 const INFL = DATOS.inflacion_a_hoy;
-const PROMEDIO_MX = 5.1, META = 2.0;
+const META = 2.0;
+// promedio en México (t/año por persona) = lo que da esta calculadora con los
+// valores de arranque (suma de PERFIL); se calcula al arrancar, abajo. Con los
+// datos de nov-2026 da 4.72 t (393.3 kg/mes). PENDIENTE: carne de arranque ×0.81,
+// agua y drenaje y refrigerantes van JUNTOS (ver categorias_mex.py): juntos no
+// mueven el 4.7; la carne sola lo baja a 4.6.
+let PROMEDIO_MX = 0;
 
 // Acciones concretas por categoría: fracción en que baja ESA categoría si
 // aplicas la acción. Cada f = parte del rubro que toca la acción × cuánto la
@@ -419,8 +454,8 @@ const ACCIONES = {
   // con el sustituto de más huella de los tres (el cerdo: 6.5 kg/kg aquí; OWID
   // también lo pone arriba del pollo y el frijol): 0.5 × (1 − 6.5/40) = 42% del
   // rubro → se deja 0.40. Es lo que la calculadora muestra al volver a medirse
-  // (la res baja y el cerdo sube); con pollo o frijol (van a "súper" a ~0.035
-  // kg/MXN) ahorra más. ~40 kg/kg = INEGyCEI 2018 bovino [3A1] entérico 71.9 Mt
+  // (la res baja y el cerdo sube); con pollo o frijol (van a "súper" a ~0.026
+  // kg/MXN de hoy, precio de tienda) ahorra más. ~40 kg/kg = INEGyCEI 2018 bovino [3A1] entérico 71.9 Mt
   // + [3B1] estiércol 17.1 Mt = 89 Mt × 0.65 a carne ÷ 1.98 Mt en canal ÷ 0.75
   // ≈ 39: SIN alimento, potreros ([3D1]) ni cambio de uso de suelo (UTCUTS [4],
   // que el pipeline excluye), así que es un piso. OWID (Poore y Nemecek 2018):
@@ -434,7 +469,7 @@ const ACCIONES = {
   res:{e:"🥩",t:"La res emite ~40 kg de CO₂e por kilo solo por el metano de su digestión y su estiércol; con alimento, potreros y deforestación, más. Cambia la mitad de tu res por pollo o frijol (o cerdo) y lo verás al volver a medirte.",f:0.40},
   // cerdo: ~6× menos que la res por kilo. Cambiar 1 de cada 4 comidas de cerdo
   // por frijol, lenteja o huevo: en la calculadora, −25% de los kilos a 6.5 y lo
-  // que sube "súper" (~2 kg CO2e/kg de huevo o frijol, a ~0.035 kg/MXN) ≈ 0.15.
+  // que sube "súper" (~1.5 kg CO2e/kg de huevo o frijol, a ~0.026 kg/MXN) ≈ 0.15-0.19.
   // OWID (Poore y Nemecek 2018) solo como orden de magnitud: cerdo 12.3, huevo
   // 4.7, legumbres 1.8 por kg (por proteína el huevo daría ~11%). El pollo (9.9)
   // casi no ahorra frente al cerdo: no se recomienda aquí. El texto no dice "ya
@@ -446,9 +481,14 @@ const ACCIONES = {
   // comprados ≈ 10% en masa, ~7% en emisiones (lo que se tira es fruta, verdura y
   // tortilla, supuesto ×0.7) × ~1/3 que recorta planear (supuesto; Jobson et al.
   // 2024: efecto inconsistente) ≈ 2%. "Comprar local" no se cuenta: la tarjeta no
-  // lo pide (transporte ≈ 6% de la huella de la comida, OWID). Antes 0.10. El "un
+  // lo pide. En esta calculadora el flete que paga la comida (márgenes de
+  // transporte de la MIP: 484, 482, 483) es ~12-19% del súper según cómo se
+  // repartan entre bienes (~19% con el reparto de categorias_mex.py); OWID da ~6%
+  // global, pero aquí la res y el cerdo van aparte y el súper lleva refrescos y
+  // agua, que pesan mucho y emiten poco al producirse. "Local" no quita ese flete
+  // (el camión al súper sigue). Antes el texto decía "~6%". Antes 0.10. El "un
   // tercio" (Banco Mundial 2017) es de toda la cadena, no del hogar.
-  super:{e:"🛒",t:"Planea tus compras y usa las sobras: en casa, cada persona en México tira ~100 kg de comida al año (con cáscaras). Comprar local ayuda menos de lo que parece: el transporte es ~6% de la huella de la comida.",f:0.02},
+  super:{e:"🛒",t:"Planea tus compras y usa las sobras: en casa, cada persona en México tira ~100 kg de comida al año (con cáscaras). Comprar local ayuda menos de lo que parece: pesa más qué compras que de dónde viene.",f:0.02},
   // restaurantes: por platillo (120 g de carne + guarnición) la res ≈ 2.6-8× pollo
   // según sea de hato lechero o de carne (OWID), ≈ 3× con los factores de la
   // calculadora; un menú publicado (Wahaca, Reino Unido) da 1.3-2.6×, así que "3 o
@@ -489,10 +529,16 @@ const ACCIONES = {
   // LEED 2017) y "mejores" suele subir la huella por noche. 1/3 de las noches en
   // hospedaje sencillo con ~30% menos ≈ 10%. Llegar por tierra ahorra en "vuelos".
   hoteles:{e:"🏨",t:"Hospedajes sencillos o compartidos y, de vez en cuando, destinos a los que llegues por tierra: en tu huella el vuelo suele pesar más que el hotel.",f:0.10},
-  // otros: la mitad de las emisiones del rubro son márgenes y flete, y 21% compra
-  // de autos; menos compras impulsivas toca ~1/3 del gasto × 30%, y la mitad del
-  // dinero se va a experiencias (80% de la intensidad) → ~6% → 0.05. Antes 0.10.
-  otros:{e:"🛒",t:"Lo difuso también suma: menos compras impulsivas y más experiencias de bajo impacto.",f:0.05},
+  // otros (10-nov-2026, ya sin los márgenes del súper, ropa, electrónica, hogar y
+  // farmacia, que van con su rubro): autos y refacciones 38% de las emisiones del
+  // rubro, otros bienes (papel, plástico, metal, cemento, leña) 24% y sus márgenes
+  // ~5%, los demás márgenes y flete que quedan (autos, gasolina, gas LP) ~14%,
+  // bancos y seguros 11%. "Menos compras impulsivas" toca esos otros bienes con sus
+  // márgenes (~30%), de los que 1/3 a 1/2 es compra discrecional (supuesto): × 30%
+  // menos = 3-4.5%; la mitad del dinero va a experiencias, a ~la mitad de
+  // intensidad (entretenimiento ~13 vs ~29 g/peso) → × 0.77 ≈ 2.3-3.5% → 0.03.
+  // Antes 0.05 (cuando márgenes y flete de todo eran la mitad del rubro) y 0.10.
+  otros:{e:"🛒",t:"Lo difuso también suma: menos compras impulsivas y más experiencias de bajo impacto.",f:0.03},
   transporte_publico:{e:"🚌",t:"Ya te mueves en transporte público: es de lo más eficiente que hay. Sigue así.",f:0},
 };
 // perfil del mexicano promedio (kg/mes por categoría, con los defaults)
@@ -610,9 +656,17 @@ function calcular(){
   document.getElementById("b-meta").style.width= (META/maxb*100)+"%";
 
   const ctx = document.getElementById("r-contexto");
-  if (anual < META*1.1) ctx.textContent = "Increíble: estás en zona de meta climática mundial. 🌍";
-  else if (anual < PROMEDIO_MX) ctx.textContent = `Estás ${fmt((1-anual/PROMEDIO_MX)*100,0)}% abajo del promedio nacional — y la meta climática es ~2 t por persona.`;
-  else ctx.textContent = `Estás ${fmt((anual/PROMEDIO_MX-1)*100,0)}% arriba del promedio nacional (5.1 t). La buena noticia: tu desglose te dice exactamente dónde recortar.`;
+  // ±5% del promedio = "como el promedio" (quien deja los valores de arranque cae aquí)
+  const banda = anual < META*1.1 ? "meta"
+    : Math.abs(anual/PROMEDIO_MX - 1) < 0.05 ? "promedio"
+    : anual < PROMEDIO_MX ? "abajo" : "arriba";
+  const pm = fmt(PROMEDIO_MX, 1);
+  ctx.textContent = {
+    meta: "Increíble: estás en zona de meta climática mundial. 🌍",
+    promedio: `Tu huella es como la de una persona promedio en México (${pm} t al año), y la meta climática es de ~2 t por persona.`,
+    abajo: `Estás ${fmt((1-anual/PROMEDIO_MX)*100,0)}% abajo del promedio en México (${pm} t por persona al año), y la meta climática es de ~2 t por persona.`,
+    arriba: `Estás ${fmt((anual/PROMEDIO_MX-1)*100,0)}% arriba del promedio en México (${pm} t por persona al año). La buena noticia: tu desglose te dice exactamente dónde recortar.`,
+  }[banda];
 
   // desglose
   porCat.sort((a,b)=>b[1]-a[1]);
@@ -640,8 +694,8 @@ function calcular(){
     const pct = kg/tot*100;
     const ref = PERFIL[k] || 0;
     const ratio = ref > 1 ? (kg/PERSONAS)/ref : 1;   // vs promedio per cápita
-    let comp = "como el promedio nacional";
-    if (ratio >= 1.3) comp = `<span class="alto">${fmt(ratio,1)}× el promedio nacional</span>`;
+    let comp = "como el promedio en México";
+    if (ratio >= 1.3) comp = `<span class="alto">${fmt(ratio,1)}× el promedio en México</span>`;
     else if (ratio <= 0.7) comp = `${fmt(ratio,1)}× el promedio (bien 👏)`;
     const ahorro = kg * a.f * 12;
     ahorroTotal += ahorro;
@@ -670,6 +724,8 @@ function calcular(){
     anual_t: fmt(anual, anual<10?1:0),
     mensual_kg: fmt(totPP,0),
     vs_promedio_pct: Math.round((anual/PROMEDIO_MX - 1)*100),
+    promedio_t: fmt(PROMEDIO_MX, 1),   // referencia del % (antes 5.1 fijo)
+    banda: banda,                      // la misma frase en el correo
     top: porCat.filter(([,kg])=>kg/PERSONAS>0.5).slice(0,3)
       .map(([k,kg])=>({nombre: DATOS.categorias[k].nombre, kg: Math.round(kg/PERSONAS)})),
     consejos: porCat.filter(([k,kg])=>ACCIONES[k] && kg>=5).slice(0,3)
@@ -712,6 +768,9 @@ for (const k in DATOS.categorias){
   if (FIS[k]) PERFIL[k] = d / FIS[k].precio * FIS[k].kgU;
   else PERFIL[k] = d / INFL * c.kg_co2e_por_mxn;
 }
+PROMEDIO_MX = Object.values(PERFIL).reduce((a, b) => a + b, 0) * 12 / 1000;
+document.getElementById("v-mx").textContent = fmt(PROMEDIO_MX, 1) + " t";
+document.querySelectorAll(".m-mx").forEach(e => e.textContent = fmt(PROMEDIO_MX, 1));
 // ---- bienvenida y tamaño del hogar ----
 let hogarSel = false;
 function selHogar(h){

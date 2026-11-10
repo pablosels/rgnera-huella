@@ -182,10 +182,24 @@ A[:, x <= 0] = 0.0
 L = np.linalg.inv(np.eye(78) - A)
 m = q @ L                                  # g CO2e por peso (Scope 3)
 
+# Res y cerdo van aparte con factor físico (categorias_mex.FISICOS: 40 y 6.5
+# kg CO2e/kg), cuyo límite es: res = 65% del bovino 3A1+3B1 (el 35% es leche
+# y se queda en el súper) y cerdo = 3A3+3B3. Esta m las excluye; el súper la
+# usa para no contarlas dos veces (pollo, huevo, leche y queso se quedan).
+PARTE_CARNE_BOVINO = 0.65
+E_RES_CERDO = (PARTE_CARNE_BOVINO * (E("[3A1] Bovino") + E("[3B1] Bovino"))
+               + E("[3A3] Porcinos") + E("[3B3] Porcinos"))      # 64.45 Mt
+Q_sin = Q.copy()
+Q_sin[idx["112"]] -= E_RES_CERDO
+assert Q_sin[idx["112"]] > 0
+m_sin_res_cerdo = np.where(x > 0, Q_sin / xs, 0.0) @ L
+print(f"[res/cerdo] {E_RES_CERDO/1e6:.2f} Mt fuera de m_sin_res_cerdo")
+
 out = pd.DataFrame({
     "scian": codigos, "sector": nombres,
     "q_gCO2e_peso": np.round(q, 3), "m_gCO2e_peso": np.round(m, 3),
     "x_MMXN": np.round(x, 0), "consumo_privado_MMXN": np.round(cp, 0),
+    "m_sin_res_cerdo_gCO2e_peso": np.round(m_sin_res_cerdo, 3),
 })
 ruta = ROOT / "pipeline" / "sectores_MEX_2018_mip.csv"
 out.to_csv(ruta, index=False, encoding="utf-8-sig")

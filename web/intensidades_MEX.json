@@ -48,8 +48,8 @@
  "categorias": {
   "super": {
    "nombre": "Súper y comida en casa (sin res ni cerdo)",
-   "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa, sin contar la res ni el cerdo?",
-   "kg_co2e_por_mxn": 0.0517,
+   "pregunta": "¿Cuánto gastas al mes en súper, mercado y despensa, sin contar la res ni el cerdo? (Jabón, detergente y shampoo van en farmacia.)",
+   "kg_co2e_por_mxn": 0.03748,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
@@ -59,7 +59,7 @@
     "112",
     "114"
    ],
-   "gasto_default_mxn": 2009.0
+   "gasto_default_mxn": 3744.0
   },
   "res": {
    "nombre": "Carne de res",
@@ -88,18 +88,18 @@
   "restaurantes": {
    "nombre": "Restaurantes, cafés y bares",
    "pregunta": "¿Cuánto gastas al mes en comer y beber fuera?",
-   "kg_co2e_por_mxn": 0.01756,
+   "kg_co2e_por_mxn": 0.016,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
     "722"
    ],
-   "gasto_default_mxn": 481.0
+   "gasto_default_mxn": 328.0
   },
   "apps_comida": {
    "nombre": "Apps de comida (Uber Eats, DiDi Food, Rappi)",
    "pregunta": "¿Cuánto gastas al mes en pedidos a domicilio?",
-   "kg_co2e_por_mxn": 0.01809,
+   "kg_co2e_por_mxn": 0.01648,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
@@ -139,7 +139,7 @@
    "sectores_scian": [
     "324"
    ],
-   "gasto_default_mxn": 446.0
+   "gasto_default_mxn": 472.0
   },
   "gas": {
    "nombre": "Gas LP / natural",
@@ -161,7 +161,7 @@
    "sectores_scian": [
     "485"
    ],
-   "gasto_default_mxn": 692.0
+   "gasto_default_mxn": 455.0
   },
   "taxi_apps": {
    "nombre": "Taxi y apps (Uber, Didi)",
@@ -172,7 +172,7 @@
    "sectores_scian": [
     "485"
    ],
-   "gasto_default_mxn": 692.0
+   "gasto_default_mxn": 237.0
   },
   "vuelos": {
    "nombre": "Vuelos",
@@ -188,7 +188,7 @@
   "ropa": {
    "nombre": "Ropa y calzado",
    "pregunta": "¿Cuánto gastas al mes en ropa y zapatos?",
-   "kg_co2e_por_mxn": 0.0246,
+   "kg_co2e_por_mxn": 0.02169,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
@@ -197,23 +197,23 @@
     "313",
     "314"
    ],
-   "gasto_default_mxn": 263.0
+   "gasto_default_mxn": 565.0
   },
   "electronica": {
    "nombre": "Electrónica y tecnología",
    "pregunta": "¿Cuánto gastas al mes en celular, cómputo, gadgets?",
-   "kg_co2e_por_mxn": 0.02806,
+   "kg_co2e_por_mxn": 0.02495,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
     "334"
    ],
-   "gasto_default_mxn": 265.0
+   "gasto_default_mxn": 505.0
   },
   "hogar": {
    "nombre": "Muebles y artículos del hogar",
    "pregunta": "¿Cuánto gastas AL AÑO en muebles, electrodomésticos, hogar?",
-   "kg_co2e_por_mxn": 0.02725,
+   "kg_co2e_por_mxn": 0.02598,
    "fisico": null,
    "periodo": "anual",
    "sectores_scian": [
@@ -221,12 +221,12 @@
     "335",
     "339"
    ],
-   "gasto_default_mxn": 3851.0
+   "gasto_default_mxn": 7312.0
   },
   "salud": {
    "nombre": "Salud y médicos (sin farmacia)",
    "pregunta": "¿Cuánto gastas AL AÑO en médicos, dentista, hospital?",
-   "kg_co2e_por_mxn": 0.01406,
+   "kg_co2e_por_mxn": 0.01366,
    "fisico": null,
    "periodo": "anual",
    "sectores_scian": [
@@ -235,18 +235,18 @@
     "623",
     "624"
    ],
-   "gasto_default_mxn": 2550.0
+   "gasto_default_mxn": 2624.0
   },
   "farmacia": {
-   "nombre": "Farmacia y medicinas",
-   "pregunta": "¿Cuánto gastas al mes en farmacia?",
-   "kg_co2e_por_mxn": 0.04411,
+   "nombre": "Farmacia, limpieza y cuidado personal",
+   "pregunta": "¿Cuánto gastas al mes en medicinas y en artículos de limpieza y cuidado personal (jabón, detergente, shampoo, cosméticos)?",
+   "kg_co2e_por_mxn": 0.02734,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
     "325"
    ],
-   "gasto_default_mxn": 544.0
+   "gasto_default_mxn": 567.0
   },
   "educacion": {
    "nombre": "Educación",
@@ -262,7 +262,7 @@
   "telecom": {
    "nombre": "Teléfono, internet y streaming",
    "pregunta": "¿Cuánto gastas al mes en celular, internet y plataformas?",
-   "kg_co2e_por_mxn": 0.02241,
+   "kg_co2e_por_mxn": 0.01991,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
@@ -271,12 +271,12 @@
     "515",
     "519"
    ],
-   "gasto_default_mxn": 379.0
+   "gasto_default_mxn": 427.0
   },
   "entretenimiento": {
    "nombre": "Entretenimiento y deporte",
    "pregunta": "¿Cuánto gastas al mes en cine, conciertos, gym, deporte?",
-   "kg_co2e_por_mxn": 0.01467,
+   "kg_co2e_por_mxn": 0.01336,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
@@ -285,35 +285,35 @@
     "713",
     "512"
    ],
-   "gasto_default_mxn": 213.0
+   "gasto_default_mxn": 234.0
   },
   "hoteles": {
    "nombre": "Hoteles y viajes",
    "pregunta": "¿Cuánto gastas AL AÑO en hospedaje y tours?",
-   "kg_co2e_por_mxn": 0.0155,
+   "kg_co2e_por_mxn": 0.01371,
    "fisico": null,
    "periodo": "anual",
    "sectores_scian": [
     "721",
     "487"
    ],
-   "gasto_default_mxn": 4554.0
+   "gasto_default_mxn": 5146.0
   },
   "personales": {
    "nombre": "Servicios personales",
    "pregunta": "¿Cuánto gastas al mes en estética, tintorería, etc.?",
-   "kg_co2e_por_mxn": 0.01026,
+   "kg_co2e_por_mxn": 0.00935,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
     "812"
    ],
-   "gasto_default_mxn": 209.0
+   "gasto_default_mxn": 229.0
   },
   "otros": {
    "nombre": "Otros gastos",
    "pregunta": "Auto o moto (compra y mantenimiento), bancos y seguros, envíos y paquetería, trabajadores del hogar, cuotas y donativos, regalos, papelería y demás compras del mes",
-   "kg_co2e_por_mxn": 0.01822,
+   "kg_co2e_por_mxn": 0.01658,
    "fisico": null,
    "periodo": "mensual",
    "sectores_scian": [
@@ -359,7 +359,7 @@
     "814",
     "931"
    ],
-   "gasto_default_mxn": 5874.0
+   "gasto_default_mxn": 3643.0
   }
  }
 }
