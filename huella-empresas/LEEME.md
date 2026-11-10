@@ -8,7 +8,11 @@
 | `factores.py` | Factores de emisión y tablas de clasificación, con sus fuentes. |
 | `sectores_MEX_2018_mip.csv` | Intensidades por sector (MIP 2018 del INEGI + INECC). Es copia del motor de la calculadora (`rgnera-huella/pipeline`). |
 | `sin_factura_ejemplo.json` | Plantilla para las compras que no tienen factura. |
-| `piloto.py` | El cálculo del piloto de Rosso y Pavorosso, hecho desde los P&L y la pestaña Insumos. |
+
+`piloto.py` (el cálculo del piloto de Rosso y Pavorosso desde sus P&L) y sus
+resultados (`resultados_*.json`) tienen datos privados de los negocios: viven en
+`Dropbox\RGNERA\Empresas\Herramienta huella\` y **nunca** se suben a este repo,
+que es público (están en `.gitignore`).
 
 ## Cómo se usa
 
