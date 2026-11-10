@@ -9,7 +9,7 @@
 | `sectores_MEX_2018_mip.csv` | Intensidades por sector (MIP 2018 del INEGI + INECC). Es copia del motor de la calculadora (`rgnera-huella/pipeline`). |
 | `sin_factura_ejemplo.json` | Plantilla para las compras que no tienen factura. |
 
-`piloto.py` (el cálculo del piloto de Rosso y Pavorosso desde sus P&L) y sus
+`piloto.py` (el cálculo del piloto con dos negocios reales, desde sus P&L) y sus
 resultados (`resultados_*.json`) tienen datos privados de los negocios: viven en
 `Dropbox\RGNERA\Empresas\Herramienta huella\` y **nunca** se suben a este repo,
 que es público (están en `.gitignore`).
@@ -20,7 +20,7 @@ que es público (están en `.gitignore`).
 2. Corres:
 
    ```
-   python huella_xml.py cliente.zip --rfc RFC_DEL_CLIENTE --desde 2025-10-01 --hasta 2026-09-30 --ventas 7000000 --salida "Huella Cliente.xlsx"
+   python huella_xml.py cliente.zip --rfc RFC_DEL_CLIENTE --desde 2025-10-01 --hasta 2026-09-30 --ventas 2500000 --salida "Huella Cliente.xlsx"
    ```
 
    - `--rfc` es obligatorio: solo cuenta las facturas donde el cliente es el receptor.
@@ -42,7 +42,7 @@ Requisitos: Python 3 con `openpyxl`.
 
 ## Probado
 
-- **28 de octubre de 2026**, con los 63 CFDI que había en la PC (30 de Rosso y 22 de Sel Foods): lee el XML, filtra por RFC, saca los litros de gas LP de Flama Gas, estima la luz de los recibos de CFE y corrige las rentas mal codificadas. Esa muestra no es el trimestre completo, así que no se compara contra las 131 t del piloto. Para eso hace falta bajar del SAT todos los XML de julio a septiembre.
+- **28 de octubre de 2026**, con 63 CFDI reales de dos clientes del piloto: lee el XML, filtra por RFC, saca los litros de gas LP del proveedor de gas, estima la luz de los recibos de CFE y corrige las rentas mal codificadas. Esa muestra no es el trimestre completo, así que no se compara contra el resultado del piloto. Para eso hace falta bajar del SAT todos los XML de julio a septiembre.
 - **9 de noviembre de 2026**, con 25 CFDI sintéticos (`pruebas/gen_cfdi.py`) que cubren los casos difíciles: los tres modos de CFE, gas LP en litros y kilos, gasolina/diésel, gas natural, alimentos por kilo y por pieza, notas de crédito, claves 01010101 y 90101501, descuentos, dólares y los seis tipos de descarte. La lectura y los cálculos salieron bien; se corrigieron cinco fallas de clasificación:
   1. "Filete de salmón" salía como **res** (99 kg/kg en vez de 13.6) y "lomo de atún" y "costilla de res" como **cerdo**: ahora las especies nombradas (res, pescados) mandan sobre las palabras genéricas (filete, lomo, costilla, carne).
   2. Un concepto "COMBUSTIBLE" sin palabra clave caía en gas LP aunque la clave fuera de gasolina (1510): ahora el tipo por defecto sale de la clave.

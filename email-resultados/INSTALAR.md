@@ -1,6 +1,6 @@
 # Instalar el envío de resultados por correo (5 minutos)
 
-Mismo patrón que el bot de Pavorosso: un Apps Script pegado a un Google Sheet.
+Un Apps Script pegado a un Google Sheet.
 El Sheet es la base de datos de leads; el script manda el correo personalizado.
 
 ## Pasos (los haces tú porque piden autorizar tu cuenta)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""Genera CFDI 4.0 sintéticos (cliente ROS190101AB1) para probar huella_xml.py.
+"""Genera CFDI 4.0 sintéticos (cliente EKU9003173C9, RFC genérico de pruebas del SAT)
+para probar huella_xml.py.
 
 Cubre: CFE con "1 KWH" y el cargo en el importe, CFE con kWh reales, CFE sin kWh, gas LP en
 litros y en kilos, gasolina/diésel/"COMBUSTIBLE", gas natural en m3, alimentos por kilo y por
@@ -8,14 +9,14 @@ descartes (pago, nómina, emitida por el cliente, duplicada, fuera de periodo, X
 
 Uso (desde huella-empresas):
   python pruebas/gen_cfdi.py pruebas/cfdi
-  python huella_xml.py pruebas/cfdi --rfc ROS190101AB1 --desde 2026-07-01 --hasta 2026-09-30 --extra sin_factura_ejemplo.json --salida pruebas/prueba.xlsx
+  python huella_xml.py pruebas/cfdi --rfc EKU9003173C9 --desde 2026-07-01 --hasta 2026-09-30 --extra sin_factura_ejemplo.json --salida pruebas/prueba.xlsx
 Valores esperados en el Detalle: salmón 5 kg = 68.15 kg CO2e, costilla de res 4 kg = 397.92,
 COMBUSTIBLE 10 L = 25.46 (gasolina), gas natural 150 m3 = 282.6, Energía "1 KWH" $4,600 = 1,000 kWh = 444.
 """
 import sys, zipfile
 from pathlib import Path
 out = Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=True)
-CLI = "ROS190101AB1"   # el cliente
+CLI = "EKU9003173C9"   # el cliente (RFC de pruebas del SAT)
 n = [0]
 def cfdi(emisor_rfc, emisor, conceptos, tipo="I", fecha="2026-08-15T10:00:00", receptor=CLI,
          moneda="MXN", tc=None, uuid=None, nombre=None):
@@ -42,13 +43,13 @@ def cfdi(emisor_rfc, emisor, conceptos, tipo="I", fecha="2026-08-15T10:00:00", r
 cfdi("CSS160330CP7", "CFE SUMINISTRADOR DE SERVICIOS BASICOS",
      [("83101801", "Energía", 1, "KWH", 4600.0), ("83101800", "DAP alumbrado", 1, "E48", 120.0)])
 # B: CFE con kWh reales
-cfdi("CSS160330CP7", "CFE SUMINISTRADOR DE SERVICIOS BASICOS", [("83101801", "Energía", 2400, "KWH", 7680.0)])
+cfdi("CSS160330CP7", "CFE SUMINISTRADOR DE SERVICIOS BASICOS", [("83101801", "Energía", 2000, "KWH", 6400.0)])
 # C: CFE sin ningún KWH (recibo viejo): un solo estimado con el total
 cfdi("CFE370814QI0", "COMISION FEDERAL DE ELECTRICIDAD", [("83101800", "Suministro", 1, "E48", 2300.0), ("83101800", "Cargo fijo", 1, "E48", 100.0)])
 # D: gas LP en litros
-cfdi("FGA900101XX1", "FLAMA GAS", [("15111509", "GAS LP", 300, "LTR", 2850.0)])
+cfdi("FGA900101XX1", "GASERA EJEMPLO", [("15111509", "GAS LP", 300, "LTR", 2850.0)])
 # E: gas LP en kilos
-cfdi("FGA900101XX1", "FLAMA GAS", [("15111509", "GAS L.P. CILINDRO", 100, "KGM", 1750.0)])
+cfdi("FGA900101XX1", "GASERA EJEMPLO", [("15111509", "GAS L.P. CILINDRO", 100, "KGM", 1750.0)])
 # F: gasolina con palabra clave, diésel, y "COMBUSTIBLE" sin palabra clave con clave de gasolina
 cfdi("PEM000101XX1", "GASOLINERA", [("15101514", "GASOLINA MAGNA", 50, "LTR", 1050.0),
                                     ("15101505", "DIESEL", 20, "LTR", 440.0),
@@ -71,7 +72,7 @@ cfdi("CAR000101XX1", "CARNES FINAS", [("50111513", "ARRACHERA DE RES", 2, "KGM",
 cfdi("INM000101XX1", "INMOBILIARIA", [("01010101", "RENTA LOCAL AGOSTO", 1, "E48", 60000.0)])
 cfdi("EMP000101XX1", "EMPAQUES", [("01010101", "BOLSAS DE PLASTICO", 1000, "H87", 1500.0),
                                   ("01010101", "WIDGET MISTERIOSO", 1, "H87", 900.0)])
-cfdi("INM000101XX1", "INMOBILIARIA", [("90101501", "ARRENDAMIENTO BODEGA", 1, "E48", 12000.0)])
+cfdi("INM000101XX1", "INMOBILIARIA", [("90101501", "ARRENDAMIENTO LOCAL", 1, "E48", 12000.0)])
 # K: servicios con clave normal; descuento
 cfdi("CON000101XX1", "CONTADORES", [("80111600", "HONORARIOS CONTABLES", 1, "E48", 5000.0, 500.0)])
 cfdi("SEG000101XX1", "SEGUROS", [("84131500", "SEGURO DE LOCAL", 1, "E48", 3000.0)])
@@ -81,8 +82,8 @@ cfdi("USA000101XX1", "PROVEEDOR USD", [("43211500", "LAPTOP", 1, "H87", 1000.0)]
 cfdi("CON000101XX1", "CONTADORES", [("84111506", "PAGO", 1, "ACT", 0)], tipo="P")
 cfdi("CLI", "CLIENTE", [("84111505", "NOMINA", 1, "ACT", 10000)], tipo="N", receptor="EMP800101AAA")
 cfdi(CLI, "CLIENTE", [("90101501", "VENTA RESTAURANTE", 1, "E48", 5000)], receptor="OTR000101XX1")   # emitida por el cliente
-cfdi("FGA900101XX1", "FLAMA GAS", [("15111509", "GAS LP", 300, "LTR", 2850.0)], uuid="00000000-0000-0000-0000-000000000004", nombre="dup.xml")  # duplicado de D
-cfdi("FGA900101XX1", "FLAMA GAS", [("15111509", "GAS LP", 100, "LTR", 950.0)], fecha="2026-05-01T10:00:00")  # fuera de periodo
+cfdi("FGA900101XX1", "GASERA EJEMPLO", [("15111509", "GAS LP", 300, "LTR", 2850.0)], uuid="00000000-0000-0000-0000-000000000004", nombre="dup.xml")  # duplicado de D
+cfdi("FGA900101XX1", "GASERA EJEMPLO", [("15111509", "GAS LP", 100, "LTR", 950.0)], fecha="2026-05-01T10:00:00")  # fuera de periodo
 (out / "basura.xml").write_text("<esto no es xml", encoding="utf-8")
 # un zip anidado con una factura más
 with zipfile.ZipFile(out / "lote.zip", "w") as z:

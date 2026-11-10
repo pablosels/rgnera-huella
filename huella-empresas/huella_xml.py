@@ -14,14 +14,14 @@ Excel con el resumen por alcance, el detalle por concepto y lo que hay que revis
 
 Uso:
   python huella_xml.py <carpeta_o_zip> [...] --rfc RFC_DEL_CLIENTE --salida reporte.xlsx
-         [--desde 2026-01-01] [--hasta 2026-12-31] [--anualizar] [--ventas 7000000]
+         [--desde 2026-01-01] [--hasta 2026-12-31] [--anualizar] [--ventas 2500000]
          [--extra sin_factura.json]
 
 sin_factura.json (compras sin CFDI), una lista de renglones como:
-  {"concepto": "Pechuga de pavo", "grupo": "ave", "kg": 1500}
-  {"concepto": "Recibo CFE bodega", "kwh": 2400}
+  {"concepto": "Pollo de un proveedor sin factura", "grupo": "ave", "kg": 200}
+  {"concepto": "Recibo de luz sin XML", "kwh": 800}
   {"concepto": "Gas LP en efectivo", "fisico": "gas_lp", "cantidad": 300}
-  {"concepto": "Recolección de basura", "scian": "562", "pesos": 13200}
+  {"concepto": "Recolección de basura", "scian": "562", "pesos": 2000}
 """
 import argparse
 import io
