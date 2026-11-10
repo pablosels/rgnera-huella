@@ -24,18 +24,31 @@ ROOT = Path(__file__).resolve().parent.parent
 POB_2018 = 125_327_797
 INFLACION_2018_2026 = 1.47      # INPC aprox jul-2018 -> jul-2026; ajustable
 
+# Defaults de luz y gas en PESOS DE HOY por persona al mes, desde datos físicos
+# (antes ambos salían del consumo privado del SCIAN 221 = 284 MXN cada uno: luz +
+# agua + gas por ductos a precios básicos, con subsidio; el gas LP ni está en el
+# 221). Cuadran con la ENIGH 2024 (luz y combustibles ≈ 189 MXN/persona-mes de
+# 2026, cuadro 15: 1,762 $/trimestre/hogar ÷ 3 ÷ 3.354; el resto es leña, carbón).
+# Luz: CFE Suministro Básico 2023 (Tabla 30), doméstico 75,143 GWh ÷ ~130 M hab
+# ÷ 12 ≈ 48 kWh → 50 kWh × 1.6 $/kWh (tarifa 1 a 147 kWh/mes con IVA) = 80.
+# Gas: ~6.25 L LP-eq/persona-mes (Balance Nacional de Energía 2023 ≈ 6.2: 224.6 PJ
+# LP + 26 PJ gas natural, 26.12 MJ/L; INEGyCEI 2024 1A4b ≈ 6.6) × 11.2 $/L = 70.
+GASTO_LUZ_MES = 80.0
+GASTO_GAS_MES = 70.0
+
 # Factores físicos de combustión directa (verificar en auditoría)
 FISICOS = {
     "electricidad": {"factor": 0.444, "unidad": "kg CO2e por kWh",
                      "fuente": "Aviso FESEN 2024, CRE/SEMARNAT (0.444 "
                                "tCO2e/MWh)",
-                     "precio_default_mxn": 1.8},
+                     "precio_default_mxn": 1.6},   # = la web (tarifa 1)
     "gasolina": {"factor": 2.31, "unidad": "kg CO2 por litro",
                  "fuente": "IPCC 2006 gasolina automotriz",
                  "precio_default_mxn": 24.0},
     "gas_lp": {"factor": 1.66, "unidad": "kg CO2 por litro",
                "fuente": "IPCC 2006 GLP (2.98 kg/kg, densidad 0.54)",
-               "precio_default_mxn": 12.0},
+               # CNE oct-2026: $20.73/kg (CDMX) × 0.54 kg/L ≈ 11.2 $/L
+               "precio_default_mxn": 11.2},
     "vuelo": {"factor": 90.0, "unidad": "kg CO2e por hora de vuelo",
               "fuente": "Clase económica: ~0.11 kg CO2e/pasajero-km × "
                         "~800 km/h de crucero; coincide con DESNZ 2025 CON "
@@ -121,7 +134,8 @@ CATEGORIAS = {
     },
     "electricidad": {
         "nombre": "Electricidad (recibo CFE)",
-        "pregunta": "¿De cuánto es tu recibo de luz mensual (o kWh)?",
+        "pregunta": "¿Cuánto pagas de luz al mes? El recibo de CFE suele ser "
+                    "bimestral: divídelo entre 2 (igual los kWh).",
         "fisico": "electricidad",
         "sectores": ["221"],
     },
@@ -133,7 +147,8 @@ CATEGORIAS = {
     },
     "gas": {
         "nombre": "Gas LP / natural",
-        "pregunta": "¿Cuánto gastas de gas al mes?",
+        "pregunta": "¿Cuánto gastas de gas al mes? (cilindro, estacionario o "
+                    "natural)",
         "fisico": "gas_lp",
         "sectores": ["221"],
     },
@@ -274,6 +289,9 @@ def main():
         elif clave == "gas":
             precio_l_2018 = 10.0
             kg_por_mxn = (FISICOS["gas_lp"]["factor"] * 1.10) / precio_l_2018
+            default_mes = GASTO_GAS_MES        # físico, no el CP del 221
+        if clave == "electricidad":
+            default_mes = GASTO_LUZ_MES        # físico, no el CP del 221
         elif clave in ("res", "cerdo"):
             # Bottom-up del propio inventario INECC 2018:
             #  res: bovino 3A1+3B1 = 89 Mt, ~65% asignado a carne (vs leche)

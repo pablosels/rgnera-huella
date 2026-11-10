@@ -12,7 +12,7 @@
    "factor": 0.444,
    "unidad": "kg CO2e por kWh",
    "fuente": "Aviso FESEN 2024, CRE/SEMARNAT (0.444 tCO2e/MWh)",
-   "precio_default_mxn": 1.8
+   "precio_default_mxn": 1.6
   },
   "gasolina": {
    "factor": 2.31,
@@ -24,7 +24,7 @@
    "factor": 1.66,
    "unidad": "kg CO2 por litro",
    "fuente": "IPCC 2006 GLP (2.98 kg/kg, densidad 0.54)",
-   "precio_default_mxn": 12.0
+   "precio_default_mxn": 11.2
   },
   "vuelo": {
    "factor": 90.0,
@@ -121,14 +121,14 @@
   },
   "electricidad": {
    "nombre": "Electricidad (recibo CFE)",
-   "pregunta": "¿De cuánto es tu recibo de luz mensual (o kWh)?",
+   "pregunta": "¿Cuánto pagas de luz al mes? El recibo de CFE suele ser bimestral: divídelo entre 2 (igual los kWh).",
    "kg_co2e_por_mxn": 0.25372,
    "fisico": "electricidad",
    "periodo": "mensual",
    "sectores_scian": [
     "221"
    ],
-   "gasto_default_mxn": 284.0
+   "gasto_default_mxn": 80.0
   },
   "gasolina": {
    "nombre": "Gasolina",
@@ -143,14 +143,14 @@
   },
   "gas": {
    "nombre": "Gas LP / natural",
-   "pregunta": "¿Cuánto gastas de gas al mes?",
+   "pregunta": "¿Cuánto gastas de gas al mes? (cilindro, estacionario o natural)",
    "kg_co2e_por_mxn": 0.1826,
    "fisico": "gas_lp",
    "periodo": "mensual",
    "sectores_scian": [
     "221"
    ],
-   "gasto_default_mxn": 284.0
+   "gasto_default_mxn": 70.0
   },
   "transporte_publico": {
    "nombre": "Transporte público",
