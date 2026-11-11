@@ -82,10 +82,20 @@ cods_usados = []
 for p in PATRONES[:-1]:
     c = codigo(inv[inv["cat"].str.contains(p, regex=False)]["cat"].iloc[0])
     cods_usados.append(c)
-# doble conteo: ningún código usado debe ser prefijo de otro usado
+# doble conteo: ningún código usado debe ser PADRE de otro usado ([1A2] y
+# [1A2a]). Ojo: en el INECC los hermanos llevan numeración romana (1A2ei,
+# 1A2eii, 1A2eiii…), así que "1A2ei" es prefijo de "1A2eii" sin ser su padre:
+# eso no es doble conteo (cada patrón casa con UNA sola fila, ver arriba).
+def es_padre(a, b):
+    if not (a and b and b.startswith(a) and len(b) > len(a)):
+        return False
+    resto = b[len(a):]
+    hermano_romano = a[-1] in "ivx" and set(resto) <= set("ivx")
+    return not hermano_romano
+
 for i, a in enumerate(cods_usados):
     for j, b in enumerate(cods_usados):
-        if i != j and a and b and b.startswith(a) and len(b) > len(a):
+        if i != j and es_padre(a, b):
             print(f"  !! POSIBLE DOBLE CONTEO: '{a}' ({PATRONES[i][:40]}) es "
                   f"prefijo de '{b}' ({PATRONES[j][:40]})")
 
@@ -122,9 +132,15 @@ L_tot = np.linalg.inv(np.eye(78) - A)
 print(f"radio espectral A: {np.max(np.abs(np.linalg.eigvals(A))):.4f} (<1 ok)")
 print(f"L sin negativos: {(L_tot < -1e-9).sum()} entradas negativas")
 
-# L doméstica oficial de INEGI (MIP_27) vs nuestra L total
+# L doméstica oficial de INEGI (MIP_27) vs nuestra L total. MIP_27 tiene otro
+# acomodo que MIP_6: encabezado en la fila 4 y datos desde la columna 1 (78×78).
+# Antes se leía como MIP_6 (filas 6:84, columnas 3:81) y salían 76 columnas
+# corridas, así que np.corrcoef tronaba y la sección C nunca corría.
 df27 = pd.ExcelFile(DATA / "mip2018" / "MIP_27.xlsx").parse("Tabulado", header=None)
-L_ineg = df27.iloc[6:84, 3:81].apply(pd.to_numeric, errors="coerce").fillna(0).to_numpy()
+cods27_col = [str(df27.iloc[4, c]).split(" - ")[0].strip() for c in range(1, 79)]
+cods27_fil = [str(df27.iloc[r, 0]).split(" - ")[0].strip() for r in range(5, 83)]
+assert cods27_col == codigos and cods27_fil == codigos, "MIP_27 no trae los mismos 78 sectores en el mismo orden"
+L_ineg = df27.iloc[5:83, 1:79].apply(pd.to_numeric, errors="coerce").fillna(0).to_numpy()
 mult_tot = L_tot.sum(axis=0)      # multiplicador de producción total
 mult_dom = L_ineg.sum(axis=0)
 corr = np.corrcoef(mult_tot, mult_dom)[0, 1]
@@ -138,33 +154,39 @@ print("=" * 70)
 print("C. CATEGORÍAS: recomputar intensidades y defaults vs JSON")
 print("=" * 70)
 sec = pd.read_csv(ROOT / "pipeline" / "sectores_MEX_2018_mip.csv", dtype={"scian": str}).set_index("scian")
-js = json.loads((ROOT / "web" / "intensidades_MEX.json").read_text(encoding="utf-8"))
-POB, INFL = js["poblacion"], js["inflacion_a_hoy"]
-peor = 0
+ruta_json = ROOT / "web" / "intensidades_MEX.json"
+publicado = ruta_json.read_bytes()
+
+# C1. El JSON publicado debe ser EXACTAMENTE el que genera categorias_mex.py.
+# (Desde nov-2026 los defaults llevan márgenes de comercio y flete, impuestos,
+# separaciones por clase SCIAN y valores físicos, así que recalcularlos aquí a
+# mano duplicaría toda esa lógica; lo que importa es que nadie edite el JSON
+# a mano ni olvide regenerarlo.) Se regenera, se compara y se restaura.
+import subprocess
+r = subprocess.run([sys.executable, str(ROOT / "pipeline" / "categorias_mex.py")],
+                   capture_output=True, text=True, encoding="utf-8")
+regenerado = ruta_json.read_bytes()
+ruta_json.write_bytes(publicado)          # la auditoría no cambia nada
+if r.returncode != 0:
+    print(f"  !! categorias_mex.py falló:\n{r.stderr[-800:]}")
+elif regenerado == publicado:
+    print("  ok: web/intensidades_MEX.json es idéntico al que genera categorias_mex.py")
+else:
+    print("  !! web/intensidades_MEX.json NO coincide con lo que genera categorias_mex.py: "
+          "regenéralo (python pipeline/categorias_mex.py) y vuelve a construir la web")
+
+# C2. Valores de arranque por rubro (para revisarlos a ojo)
+js = json.loads(publicado.decode("utf-8"))
 def default_mes(cat):
     """gasto_default_mxn es anual en los rubros con periodo 'anual'."""
     g = cat["gasto_default_mxn"]
     return g / 12 if cat.get("periodo") == "anual" else g
-
-# defaults fijados a mano (no salen del CP de su sector): físicos o supuestos
-MANUALES = ("gasolina", "gas", "electricidad", "res", "cerdo", "apps_comida")
+print(f"  {'rubro':<20}{'arranque $/mes':>15}{'kg CO2e/$':>11}{'kg/mes por $':>14}")
 for clave, cat in js["categorias"].items():
-    if clave in MANUALES:
-        continue
-    ss = cat["sectores_scian"]
-    sel = sec.loc[[s for s in ss if s in sec.index]]
-    w = sel["consumo_privado_MMXN"].clip(lower=0)
-    if w.sum() <= 0:
-        w = sel["x_MMXN"]
-    inten = float((sel["m_gCO2e_peso"] * w).sum() / w.sum()) / 1000
-    dflt = float(sel["consumo_privado_MMXN"].clip(lower=0).sum()) * 1e6 / POB / 12 * INFL
-    d1 = abs(inten - cat["kg_co2e_por_mxn"])
-    d2 = abs(dflt - default_mes(cat))
-    if d1 > 1e-5 or d2 > 1:
-        print(f"  !! {clave}: inten {inten:.5f} vs {cat['kg_co2e_por_mxn']} | "
-              f"default {dflt:.0f} vs {default_mes(cat):.0f}")
-        peor += 1
-print(f"categorías con discrepancia: {peor}")
+    print(f"  {clave:<20}{default_mes(cat):>15,.0f}{cat['kg_co2e_por_mxn']:>11.5f}"
+          f"{default_mes(cat) * cat['kg_co2e_por_mxn']:>14.1f}")
+print("  (rubros con factor físico —luz, gasolina, gas, vuelos, res, cerdo— se convierten"
+      " en la página con FIS; ahí también se calcula PROMEDIO_MX = suma del perfil)")
 
 # defaults totales vs ENIGH: gasto corriente monetario promedio/persona
 tot_def = sum(default_mes(c) for c in js["categorias"].values())
@@ -175,4 +197,4 @@ print(f"suma de defaults: {tot_def:,.0f} MXN/mes por persona "
 # per cápita nacional recalculado
 cp = sec["consumo_privado_MMXN"].clip(lower=0).to_numpy()
 m = sec["m_gCO2e_peso"].to_numpy()
-print(f"huella CP nacional: {(m*cp).sum()/1e6:,.1f} Mt (script reportó 547.0)")
+print(f"huella CP nacional: {(m*cp).sum()/1e6:,.1f} Mt (debe coincidir con lo que imprime mexico_mip.py)")
